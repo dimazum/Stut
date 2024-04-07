@@ -30,7 +30,11 @@ namespace stutvds
 			services.AddDbContext<ApplicationDbContext>(options =>
 				options.UseSqlServer(
 					Configuration.GetConnectionString("Database")));
-			services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+			services.AddDefaultIdentity<IdentityUser>(options =>    {
+					options.SignIn.RequireConfirmedAccount = false;
+					options.SignIn.RequireConfirmedEmail = false;
+					options.SignIn.RequireConfirmedPhoneNumber = false;
+				})
 				.AddEntityFrameworkStores<ApplicationDbContext>();
 			services.AddControllersWithViews();
 			services.AddRazorPages();
