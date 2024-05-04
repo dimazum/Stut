@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using StopStatAuth_6_0.Entities;
 using StopStatAuth_6_0.Entities.Enums;
 using stutvds.DAL.Contracts;
+using stutvds.DAL.Entities;
 using stutvds.DAL.Repositories;
 using stutvds.DAL.Repositories.Contracts;
 using stutvds.Data;

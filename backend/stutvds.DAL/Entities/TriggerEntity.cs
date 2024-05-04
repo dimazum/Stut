@@ -2,7 +2,7 @@
 using StopStatAuth_6_0.Entities.Base;
 using StopStatAuth_6_0.Entities.Enums;
 
-namespace StopStatAuth_6_0.Entities
+namespace stutvds.DAL.Entities
 {
     public class TriggerEntity : Entity
     {

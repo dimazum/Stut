@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using StopStatAuth_6_0.Entities;
+using stutvds.DAL.Entities;
 using stutvds.Logic.DTOs;
 
 namespace stutvds.Logic

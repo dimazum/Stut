@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using StopStatAuth_6_0.Entities;
 using StopStatAuth_6_0.Entities.Enums;
 using stutvds.DAL.Contracts;
+using stutvds.DAL.Entities;
 
 namespace stutvds.DAL.Repositories.Contracts
 {

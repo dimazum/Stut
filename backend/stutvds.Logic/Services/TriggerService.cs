@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using StopStatAuth_6_0.Entities;
 using StopStatAuth_6_0.Entities.Enums;
+using stutvds.DAL.Entities;
 using stutvds.DAL.Repositories.Contracts;
 using stutvds.Logic.DTOs;
 using stutvds.Logic.Services.Contracts;

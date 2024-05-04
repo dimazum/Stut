@@ -20,4 +20,8 @@
     <ProjectReference Include="..\stutvds.Logic\stutvds.Logic.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Topics\ru\Countries\" />
+  </ItemGroup>
+
 </Project>
