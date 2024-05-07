@@ -4,6 +4,8 @@ services:
     build: backend
     environment:
     - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+    - 5000:80
     
   proxy:
     image: nginx:1.21-alpine
