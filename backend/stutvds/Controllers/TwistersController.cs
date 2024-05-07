@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using stutvds.Controllers.Base;
+using stutvds.Logic.Services.Contracts;
 
 namespace stutvds.Controllers
 {
@@ -7,15 +9,17 @@ namespace stutvds.Controllers
     [Route("api/[controller]")]
     public class TwistersController: BaseController
     {
-        public TwistersController()
+        private readonly ITwisterManager _twisterManager;
+
+        public TwistersController(ITwisterManager twisterManager)
         {
-            
+            _twisterManager = twisterManager;
         }
 
         [HttpGet]
         public JsonResult GetTwisters()
         {
-            
+            return new JsonResult(_twisterManager.GetAllTwisters());
         }
     }
 }
