@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class BackendService implements OnInit {
 
-  baseUrl = 'http://localhost:5000'
+  baseUrl = 'http://95.182.122.4:5000'
 
   constructor(private httpClient: HttpClient) { }
 
