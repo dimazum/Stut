@@ -1,0 +1,11 @@
+<div>
+    <div *ngFor="let twister of twisters;index as i">
+        <div *ngFor="let inner of twister;index as y;">     
+       {{y+1}}) <img class="dirImg" src="assets/images/1.jpg" alt=""> {{inner}}, 
+       <img class="dirImg" src="assets/images/2.jpg" alt=""> {{inner}}, 
+       <img class="dirImg" src="assets/images/3.jpg" alt=""> {{inner}}, 
+       <img class="dirImg" src="assets/images/4.jpg" alt=""> {{inner}}
+        </div>
+        <hr>     
+    </div>
+</div>

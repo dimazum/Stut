@@ -1,0 +1,38 @@
+<div class="footer">
+    <div class="timer-container">
+        <app-timer></app-timer>
+    </div>
+    <div class="speech-trigger-container">
+        <div class="start-speech-container"><button [ngClass] = "{'active' : isEnabled}" (click)="startListening()">{{startBtnName}}</button></div>
+        <div class="speech-container">
+            <div class="speech-left-block">
+                <div class="words-qty-container">
+                    <div>Прочитано: <span>{{wordsCounter}}</span>/1000</div>
+                    <button class="speech-container-buttom" title="Сбросить"><div>R</div></button>
+                </div>   
+                <div class="average-words-qty-container">
+                    <div>Скорость: <span>{{speedCounter}}</span> слов/мин</div>
+                    <button class="speech-container-buttom" title="Сбросить"><div>R</div></button>
+                </div>
+            </div>
+            <div class="speech-right-block">{{text}}</div>
+        </div>
+        <div class="trigger-container ">
+            <div class="trigger-top-container">
+                <div>
+                    <select class="form-select dm-select" id="triggerDifficultyId">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                      </select>
+                </div>
+                <div>
+                    <input class="form-control dm-input ms-1" type="text">
+                </div>
+            </div>
+            <div class="trigger-botton-container">
+                <button class="form-control dm-input" type="submit">Создать</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,38 @@
+.language-picker{
+    position: relative;
+    padding: 1px 3px 1px 3px;
+    border: 1px solid;
+}
+
+.language-picker-current
+{ 
+    opacity: 80%;
+    cursor: pointer; 
+}
+
+.language-picker-current:hover
+{
+    opacity: 95%;
+}
+
+.language-picker-items{
+    position: absolute;
+    left: -1px;
+    color: #fff;
+    background-color: #43A047;
+    padding-top: 7px;
+    border: 1px solid;
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+.language-picker-items>div{
+    padding: 2px 3px;
+    opacity: 85%;
+    cursor: pointer; 
+}
+
+.language-picker-items>div:hover
+{
+    opacity: 95%;
+}
+

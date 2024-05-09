@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,8 +12,9 @@ namespace stutvds.Controllers.Base
     {
         private readonly Dictionary<string, Language> _cultureLanguageMap = new Dictionary<string, Language>()
         {
-            { "en-EN", Language.English },
-            { "ru-RU", Language.Russian }
+            { "en-US", Language.English },
+            { "ru-RU", Language.Russian },
+            { "" , Language.Russian}
         };
         
         protected Guid? UserId
@@ -34,6 +36,7 @@ namespace stutvds.Controllers.Base
         {
             get
             {
+                var t = CultureInfo.CurrentCulture.Name;
                 var requestCultureFeature = HttpContext?.Features.Get<IRequestCultureFeature>();
 
                 if (requestCultureFeature != null)

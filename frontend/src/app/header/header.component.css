@@ -1,0 +1,37 @@
+header{
+    position:fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    background-color: #43A047;
+    color: #fff;
+    padding: 0 100px;
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 45px;
+    font-size: 18px;
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+.left-group{
+    display: flex;
+}
+
+.nav-item{
+    padding-right: 10px;
+    opacity: 85%;
+    cursor: pointer;
+}
+
+.left-group > div:first-child{
+    font-weight: 600;
+}
+
+.nav-item:hover{
+    opacity: 95%;
+}
+
+.account{
+    display: flex;
+}

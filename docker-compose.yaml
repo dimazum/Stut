@@ -6,6 +6,13 @@ services:
     - ASPNETCORE_ENVIRONMENT=Development
     ports:
     - 5000:80
+  client:
+    image: angular-client
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+    - 5001:4200
     
   proxy:
     image: nginx:1.21-alpine
