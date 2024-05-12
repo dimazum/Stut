@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
-using StopStatAuth_6_0.Entities;
 using StopStatAuth_6_0.Entities.Enums;
 using stutvds.DAL.Entities;
 using stutvds.DAL.Repositories.Contracts;
@@ -50,9 +49,9 @@ namespace stutvds.Logic.Services
             return mapped;
         }
 
-        public async Task DeleteAsync(TriggerModel triggerModel)
+        public async Task DeleteAsync(string triggerValue)
         {
-            var deletedProduct = await _triggerRepository.GetTriggerByNameAsync(triggerModel.Trigger);
+            var deletedProduct = await _triggerRepository.GetTriggerByNameAsync(triggerValue);
             if (deletedProduct == null)
                 throw new ApplicationException($"Entity could not be loaded.");
 
@@ -83,7 +82,7 @@ namespace stutvds.Logic.Services
 
         public async Task UpdateTriggerAsync(TriggerModel triggerModel)
         {
-            var triggerEntity = await _triggerRepository.GetTriggerByNameAsync(triggerModel.Trigger);
+            var triggerEntity = await _triggerRepository.GetTriggerByNameAsync(triggerModel.Value);
             triggerEntity.Difficulty = triggerModel.Difficulty;
 
             await _triggerRepository.UpdateAsync(triggerEntity);

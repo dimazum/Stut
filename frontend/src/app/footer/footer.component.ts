@@ -3,17 +3,22 @@ import { TimerComponent } from '../common/timer/timer.component';
 import { startLessonSubject } from '../models/events';
 import { NgClass } from '@angular/common';
 import { SpeechRecognitionService } from '../services/speech-recognition.service';
+import { BackendService } from '../services/backend.service';
+import { Trigger } from '../models/models';
+import { TriggerModalComponent } from '../triggers/trigger-modal/trigger-modal.component';
 
 @Component({
   selector: 'app-footer',
   standalone: true,
-  imports: [TimerComponent, NgClass],
+  imports: [TimerComponent, NgClass, TriggerModalComponent],
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.css'
 })
 export class FooterComponent {
 
-constructor(private speechRecognitionService:SpeechRecognitionService) {
+constructor(private speechRecognitionService:SpeechRecognitionService, 
+  private backendService: BackendService
+) {
 }
 
   isEnabled = false;
@@ -45,4 +50,5 @@ constructor(private speechRecognitionService:SpeechRecognitionService) {
     .unsubscribe();
     }
   }
+
 }

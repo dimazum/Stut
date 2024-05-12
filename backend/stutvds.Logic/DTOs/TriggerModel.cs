@@ -6,7 +6,7 @@ namespace stutvds.Logic.DTOs
     public class TriggerModel
     {
         public Guid? UserId;
-        public string Trigger { get; set; }
+        public string Value { get; set; }
         public Language Language { get; set; }
         public bool? IsDefault { get; set; }
         public TriggerType TriggerType { get; set; }

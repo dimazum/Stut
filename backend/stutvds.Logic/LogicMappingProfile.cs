@@ -4,10 +4,10 @@ using stutvds.Logic.DTOs;
 
 namespace stutvds.Logic
 {
-    public class MappingProfile : Profile
+    public class LogicMappingProfile : Profile
     {
         /// <inheritdoc />
-        public MappingProfile()
+        public LogicMappingProfile()
         {
             CreateMap<TriggerModel, TriggerEntity>().ReverseMap();
         }

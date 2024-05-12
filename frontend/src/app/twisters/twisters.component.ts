@@ -11,12 +11,10 @@ import { NgFor } from '@angular/common';
 })
 export class TwistersComponent implements OnInit, OnDestroy {
   twisters?: Array<Array<string>> = [];
-  public counter = 1;
 
 constructor( private backendService:BackendService) {
 }
   ngOnDestroy(): void {
-    //this.counter = 1;
   }
 
   ngOnInit(): void {
@@ -28,13 +26,6 @@ constructor( private backendService:BackendService) {
         
       })
     )
-  }
-
-  public getCounter(): number{
-    this.counter = this.counter + 1;
-    //console.log(this.counter);
-
-    return this.counter;
   }
 }
 

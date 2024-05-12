@@ -19,7 +19,7 @@ namespace stutvds.Logic.Services.Contracts
         List<TriggerModel> GetDefaultTriggers(Language language);
         
         Task<TriggerModel> GetTriggerByName(string name);
-        Task DeleteAsync(TriggerModel triggerModel);
+        Task DeleteAsync(string triggerValue);
         Task<TriggerModel> CreateAsync(TriggerModel triggerModel);
         Task UpdateTriggerAsync(TriggerModel triggerModel);
     }

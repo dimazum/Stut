@@ -1,2 +1,19 @@
-<p>triggers works!</p>
-<p>triggers works!</p>
+<div class="trigger-container">
+    <div (click)="onClickTrigger(trigger.value)" *ngFor="let trigger of triggers">{{trigger.value}} :
+        {{trigger.difficulty}} : {{trigger.createdAt | date}}
+    </div>
+    <hr>
+
+    <div *ngFor="let task of triggerTasks">
+        <div *ngFor="let item of task.values; index as i">
+            <span *ngIf="task.isStretch">{{i+1}})
+                <img class="dirImg" src="assets/images/1.jpg" alt=""> {{item}},
+                <img class="dirImg" src="assets/images/2.jpg" alt=""> {{item}},
+                <img class="dirImg" src="assets/images/3.jpg" alt=""> {{item}},
+                <img class="dirImg" src="assets/images/4.jpg" alt=""> {{item}}
+            </span>
+            <span *ngIf="!task.isStretch">{{i+1}}) {{item}}</span>
+        </div>
+        <hr>
+    </div>
+</div>

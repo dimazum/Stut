@@ -90,9 +90,6 @@
     font-weight: 600;
 }
 
-.trigger-container{
-    margin-left: 15px;
-}
 
 .speech-container-buttom:hover{
     opacity: 85%;
@@ -107,15 +104,4 @@
     margin-left: 10px;
 }
 
-.trigger-top-container{
-    display: flex;
-}
 
-.trigger-botton-container{
-    margin-top: 3px;
-
-}
-
-.trigger-botton-container > button{
-    width: 85px;
-}

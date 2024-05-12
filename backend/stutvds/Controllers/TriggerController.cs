@@ -1,65 +1,66 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using StopStatAuth_6_0.Entities.Enums;
 using stutvds.Controllers.Base;
-using stutvds.DAL.Entities;
 using stutvds.Logic.DTOs;
 using stutvds.Logic.Services.Contracts;
+using stutvds.Logic.Services.Tasks;
 using stutvds.Models.ClientDto;
 
 namespace stutvds.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class TriggerController : BaseController
     {
         private readonly ITriggerService _triggerService;
+        private readonly IMapper _mapper;
+        private readonly TriggerTaskManager _triggerTaskManager;
 
-        public IEnumerable<TriggerEntity> Triggers;
-
-        public TriggerController(ITriggerService triggerService)
+        public TriggerController(
+            ITriggerService triggerService,
+            IMapper mapper,
+            TriggerTaskManager triggerTaskManager )
         {
             ILogger logger;
             _triggerService = triggerService;
+            _mapper = mapper;
+            _triggerTaskManager = triggerTaskManager;
         }
 
         [HttpPost]
-        public async Task<JsonResult> Create(string trigger, int difficulty)
+        [Route("create")]
+        public async Task<JsonResult> Create([FromBody]TriggerClientDto dto)
         {
-            var triggerModel = new TriggerModel()
-            {
-                Trigger = trigger,
-                Difficulty = difficulty
-            };
+            var mapped = _mapper.Map<TriggerModel>(dto);
+            mapped.Language = CurrentLanguage;
 
-            await _triggerService.CreateAsync(triggerModel);
+            await _triggerService.CreateAsync(mapped);
 
             var triggers = _triggerService.GetTriggers(CurrentLanguage, UserId);
 
             return new JsonResult(triggers.Select(t => new
             {
-                t.Trigger,
+                t.Value,
                 t.CreatedAt,
                 t.Difficulty
             }));
         }
 
-        [HttpPost]
-        public async Task<JsonResult> Delete(string trigger)
+        [HttpDelete]
+        [Route("{triggerValue}")]
+        public async Task<JsonResult> Delete(string triggerValue)
         {
-            var triggerModel = new TriggerModel()
-            {
-                Trigger = trigger,
-            };
-
-            await _triggerService.DeleteAsync(triggerModel);
+            await _triggerService.DeleteAsync(triggerValue);
 
             var triggers = _triggerService.GetTriggers(CurrentLanguage, UserId);
 
             return new JsonResult(triggers.Select(t => new
             {
-                t.Trigger,
+                t.Value,
                 CreatedAt = t.CreatedAt,
                 t.Difficulty
             }));
@@ -70,20 +71,18 @@ namespace stutvds.Controllers
         {
             var triggers = _triggerService.GetTriggers(CurrentLanguage, UserId);
 
-            return new JsonResult(triggers.Select(t => new
-            {
-                t.Trigger,
-                CreatedAt = t.CreatedAt,
-                t.Difficulty
-            }));
+            var mapped = _mapper.Map<List<TriggerResultClientDto>>(triggers);
+
+            return new JsonResult(mapped);
         }
 
-        [HttpPost]
+        [HttpPut]
+        [Route("change")]
         public async Task<JsonResult> ChangeDifficulty(string trigger, int difficulty)
         {
             var triggerModel = new TriggerModel()
             {
-                Trigger = trigger,
+                Value = trigger,
                 Difficulty = difficulty
             };
 
@@ -93,10 +92,26 @@ namespace stutvds.Controllers
 
             return new JsonResult(triggers.Select(t => new
             {
-                t.Trigger,
+                t.Value,
                 CreatedAt = t.CreatedAt,
                 t.Difficulty
             }));
         }
+        
+        [HttpGet]
+        [Route("triggertasks/{triggerValue}")]
+        public JsonResult GetTriggerTasks(string triggerValue)
+        {
+            var tasks = _triggerTaskManager.GetTriggerTasks(triggerValue);
+            
+            //кро - кро- кро - кро(5 раз)
+            //лик - лик - лик - лик (5 раз)
+            //кролик - ааз - икук
+            //вде - кролик - ист
+            //сде - кде - иыт - кролик
+            // 101 кролик - 102 кролик - 1
+
+            return new JsonResult(tasks);
+        } 
     }
 }

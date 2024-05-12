@@ -1,0 +1,29 @@
+<div class="trigger-modal" [ngClass]="{'trigger-modal-open': isOpen}">
+    <div class="trigger-modal-toggle-button"><div (click)="onToggle()"></div></div>
+    <div class="triger-container">
+        <div class="triger-content">
+            <span class="trigger-item" *ngFor="let trigger of triggers">{{trigger.value}},
+                <div (click)="onDelete(trigger)" class="trigger-item-delete">
+                </div>
+            </span>
+        </div>
+
+        <form [formGroup]="triggerForm" (ngSubmit)="onCreate()" class="trigger-form">
+            <div class="trigger-top-form">
+                <div>
+                    <select formControlName="difficulty" class="form-select dm-select">
+                        <option ngValue="1" [selected]="true">1</option>
+                        <option ngValue="2">2</option>
+                        <option ngValue="3">3</option>
+                    </select>
+                </div>
+                <div>
+                    <input formControlName="value" class="form-control dm-input ms-1" type="text">
+                </div>
+            </div>
+            <div class="trigger-botton-form">
+                <button class="form-control dm-input" type="submit">Создать</button>
+            </div>
+        </form>
+    </div>
+</div>

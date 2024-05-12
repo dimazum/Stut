@@ -1,6 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { ArticleData } from '../models/models';
+import { BackendService } from '../services/backend.service';
 
 @Component({
   selector: 'app-random-text',
@@ -10,12 +9,10 @@ import { ArticleData } from '../models/models';
   styleUrl: './random-text.component.css'
 })
 export class RandomTextComponent {
-
-  baseUrl = 'http://localhost:5000'
   article = '';
   title = '';
 
-  constructor(private httpClient:HttpClient) {    
+  constructor(private backendServcie:BackendService) {    
   }
 
   ngOnInit(): void {
@@ -24,12 +21,10 @@ export class RandomTextComponent {
 
   private getArticle(): void{
 
-    this.httpClient.get<ArticleData>(`${this.baseUrl}/api/article/random`).subscribe(
+    this.backendServcie.getRandomArticle().subscribe(
       (data) => {
-        console.log(data);
         this.article = data.content;
         this.title = data.title;
       });
-
   }
 }

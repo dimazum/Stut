@@ -15,3 +15,9 @@
     padding-bottom: 0rem !important;
     font-size: .775rem !important;
 }
+
+.dirImg{
+    height: 35px;
+    width: 35px;
+    border-radius: 20%;
+}

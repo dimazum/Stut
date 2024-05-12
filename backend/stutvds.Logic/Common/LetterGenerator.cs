@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using stutvds.Logic.Enums;
 
-namespace stutvds.Logic.Twisters
+namespace stutvds.Logic.Common
 {
     public class LetterGenerator
     {

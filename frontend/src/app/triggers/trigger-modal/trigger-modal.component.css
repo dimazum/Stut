@@ -1,0 +1,75 @@
+.trigger-modal{
+    position: fixed;
+    top: 45px;
+    right: -250px;
+   
+    height: 35rem;
+
+    display: flex;
+    transition: transform 0.3s ease;
+}
+
+.triger-container{
+    background-color: #3e4449;
+}
+
+.trigger-form{
+    margin: 10px;
+}
+
+.trigger-top-form{
+    display: flex;
+}
+
+.trigger-botton-form{
+    margin-top: 3px;
+}
+
+.trigger-botton-form> button{
+    width: 85px;
+}
+
+.triger-content{
+    background-color: white;
+    margin: 10px;
+    padding: 3px;
+    height: 27rem;
+    width: 230px;
+}
+
+.trigger-item{
+    cursor: pointer;
+    position: relative;
+}
+
+.trigger-item-delete{
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: .5rem;
+    height: .5rem;
+    background-color: red;
+}
+
+.trigger-item:hover .trigger-item-delete {
+    display: block;
+}
+
+.trigger-modal-toggle-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.trigger-modal-toggle-button>div{
+    width: 15px;
+    height: 40px;
+    background-color: #3e4449;
+    border-radius: 5%;
+    cursor: pointer;
+}
+
+.trigger-modal-open{
+    transform: translateX(-250px);
+}

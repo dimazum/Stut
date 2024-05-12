@@ -1,18 +1,23 @@
 ﻿using System.Collections.Generic;
 using stutvds.Logic.Common;
+using stutvds.Logic.DTOs;
 using stutvds.Logic.Enums;
 
-namespace stutvds.Logic.Twisters
+namespace stutvds.Logic.Services.Tasks
 {
-    public class Twister2 : ITwister
+    public class TriggerTask2 : ITriggerTask
     {
-        public string Template => "ээц - апип, ээц - апип, ээц - апип, ээц - апип";
+        public string Name => "ээц - апип - кролик, ээц - апип - кролик, ээц - апип - кролик";
+        public TriggerTaskType Type => TriggerTaskType.Type2;
+        public bool IsStretch => false;
 
-        public IEnumerable<string> GetTwister(int rows = 40, int columns = 4)
+        public TriggerTaskResult GetTask(string triggerValue, int rows = 40, int columns = 4)
         {
             var consonantGenerator = new LetterGenerator(LetterVariant.Consonants);
             var vowelGenerator = new LetterGenerator(LetterVariant.AllVowels);
             var vowelGenerator1 = new LetterGenerator(LetterVariant.Vowels1);
+
+            var triggerValues = new List<string>();
 
             for (int i = 0; i < rows; i++)
             {
@@ -25,11 +30,18 @@ namespace stutvds.Logic.Twisters
                 var word = string.Empty;
                 for (int j = 0; j < columns; j++)
                 {
-                    word += $"{v0}{v0}{c0} - {v1}{c1}{v2}{c1}, ";
+                    word += $"{v0}{v0}{c0} - {v1}{c1}{v2}{c1} - {triggerValue}, ";
                 }
 
-                yield return word;
+                triggerValues.Add(word);
             }
+
+            return new TriggerTaskResult()
+            {
+                Values = triggerValues,
+                Description = $"Прочитайте эти {rows} строк",
+                IsStretch = IsStretch
+            };
         }
     }
 }
