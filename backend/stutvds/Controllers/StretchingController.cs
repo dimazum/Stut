@@ -18,7 +18,8 @@ namespace stutvds.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-            return new JsonResult(_stretchingService.GetAll());
+            var content = _stretchingService.GetAll();
+            return new JsonResult(content);
         }
     }
 }

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Trigger, TriggerResult } from '../../models/models';
 import { BackendService } from '../../services/backend.service';
 import { DatePipe, NgClass, NgFor } from '@angular/common';
+import { EMPTY, catchError, of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-trigger-modal',
@@ -33,9 +34,14 @@ export class TriggerModalComponent implements OnInit {
           value: this.triggerForm.value.value,
           difficulty: this.triggerForm.value.difficulty
         }
-        this.backendService.createTrigger(trigger).subscribe(()=>{
-          this.backendService.getTriggers().subscribe(data => this.triggers = data)
-        })
+
+        this.backendService.createTrigger(trigger)
+        .pipe(
+          switchMap((t:TriggerResult) => this.backendService.getTriggers()),
+          switchMap((triggers:Array<TriggerResult>) => this.triggers = triggers ),
+          catchError(x => {console.log(x); return of(EMPTY)})
+        ).subscribe()
+        
       }
   }
 

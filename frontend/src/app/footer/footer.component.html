@@ -1,7 +1,5 @@
 <div class="footer">
-    <div class="timer-container">
-        <app-timer></app-timer>
-    </div>
+
     <div class="speech-trigger-container">
         <div class="start-speech-container"><button [ngClass] = "{'active' : isEnabled}" (click)="startListening()">{{startBtnName}}</button></div>
         <div class="speech-container">
@@ -16,7 +14,10 @@
                 </div>
             </div>
             <div class="speech-right-block">{{text}}</div>
-        </div>        
+        </div>
+        <div class="timer-container">
+            <app-timer></app-timer>
+        </div>      
     </div>
 </div>
 

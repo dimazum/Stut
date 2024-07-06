@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using stutvds.Logic.Common;
 using stutvds.Logic.DTOs;
 using stutvds.Logic.Enums;
@@ -7,32 +8,23 @@ namespace stutvds.Logic.Services.Tasks
 {
     public class TriggerTask4 : ITriggerTask
     {
-        public string Name => "сде - кде - иыт - кролик";
+        public string Name => "101 - кролик, 102 - кролик, 103 - кролик, 104 - кролик,";
         public TriggerTaskType Type => TriggerTaskType.Type4;
         public bool IsStretch => false;
 
-        public TriggerTaskResult GetTask(string triggerValue, int rows = 40, int columns = 4)
+        public TriggerTaskResult GetTask(string triggerValue, int rows = 20, int columns = 4)
         {
-            var consonantGenerator = new LetterGenerator(LetterVariant.Consonants);
-            var vowelGenerator = new LetterGenerator(LetterVariant.AllVowels);
-
             var triggerValues = new List<string>();
+
+            var random = new Random();
+
+            var val = random.Next(100, 900);
 
             for (int i = 0; i < rows; i++)
             {
-                var v0 = vowelGenerator.GetRandomUnique();
-                var v1 = vowelGenerator.GetRandomUnique();
-                var v2 = vowelGenerator.GetRandomUnique();
-                var c0 = consonantGenerator.GetRandomUnique();
-                var c1 = consonantGenerator.GetRandomUnique();
-                var c2 = consonantGenerator.GetRandomUnique();
-                var c3 = consonantGenerator.GetRandomUnique();
-
                 var word = string.Empty;
-                for (int j = 0; j < columns; j++)
-                {
-                    word += $"c{c1}{v0} - {c0}{c1}{v0} - {v1}{v2}{c3} - {triggerValue}, ";
-                }
+    
+                word += $"{val++} {triggerValue}, {val++} {triggerValue}, {val++} {triggerValue}, {val++} {triggerValue}";
 
                 triggerValues.Add(word);
             }

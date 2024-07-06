@@ -28,8 +28,8 @@ export class BackendService implements OnInit {
     return  this.httpClient.get<ArticleData>(`${this.baseUrl}/api/article/random`);
   }
 
-  createTrigger(trigger:Trigger):Observable<any>{
-    return this.httpClient.post(`${this.baseUrl}/api/trigger/create`, trigger);
+  createTrigger(trigger:Trigger):Observable<TriggerResult>{
+    return this.httpClient.post<TriggerResult>(`${this.baseUrl}/api/trigger/create`, trigger);
   }
 
   getTriggers():Observable<Array<TriggerResult>>{
