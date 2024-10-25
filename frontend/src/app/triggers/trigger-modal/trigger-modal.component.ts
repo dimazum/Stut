@@ -4,6 +4,7 @@ import { Trigger, TriggerResult } from '../../models/models';
 import { BackendService } from '../../services/backend.service';
 import { DatePipe, NgClass, NgFor } from '@angular/common';
 import { EMPTY, catchError, of, switchMap } from 'rxjs';
+import { StutEventSystem } from '../../services/stut-event-system';
 
 @Component({
   selector: 'app-trigger-modal',
@@ -17,7 +18,11 @@ export class TriggerModalComponent implements OnInit {
   triggers?: Array<TriggerResult>;
   isOpen: boolean = false;
 
-  constructor(private fb: FormBuilder, private readonly backendService: BackendService) {
+  constructor(
+    private fb: FormBuilder,
+    private readonly backendService: BackendService,
+    private readonly eventSystem: StutEventSystem 
+  ) {
       this.triggerForm = this.fb.group({
           value: ['', Validators.required],
           difficulty: ['1', [Validators.required]]
@@ -44,6 +49,11 @@ export class TriggerModalComponent implements OnInit {
         
       }
   }
+
+  public onClickTrigger(trigger: Trigger): void{
+    this.eventSystem.trigger$.next(trigger)
+  }
+
 
   onDelete(trigger: Trigger){
     this.backendService

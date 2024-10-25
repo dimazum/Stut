@@ -1,0 +1,8 @@
+<div>
+    <div *ngFor="let exercise of exercises;index as i;">
+        <div *ngFor="let child of exercise;index as y">
+            {{y}})  <span class="breath">микровдох</span> - {{child}} - <span class="breath">выдох</span>
+        </div>
+        <hr>     
+    </div>
+</div>

@@ -2,7 +2,7 @@
     <div class="trigger-modal-toggle-button"><div (click)="onToggle()"></div></div>
     <div class="triger-container">
         <div class="triger-content">
-            <span class="trigger-item" *ngFor="let trigger of triggers">{{trigger.value}},
+            <span class="trigger-item" *ngFor="let trigger of triggers" (click)="onClickTrigger(trigger)">{{trigger.value}},
                 <div (click)="onDelete(trigger)" class="trigger-item-delete">
                 </div>
             </span>

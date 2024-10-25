@@ -3,6 +3,7 @@ import { TriggersComponent } from './triggers/triggers.component';
 import { RandomTextComponent } from './random-text/random-text.component';
 import { TwistersComponent } from './twisters/twisters.component';
 import { ExercisesComponent } from './exercises/exercises.component';
+import { DiaphragmComponent } from './diaphragm/diaphragm.component';
 
 export const routes: Routes = [
     { 
@@ -20,5 +21,9 @@ export const routes: Routes = [
     { 
         path: 'exercises',
         component: ExercisesComponent
+    },
+    { 
+        path: 'diaphragm',
+        component: DiaphragmComponent
     }
 ];

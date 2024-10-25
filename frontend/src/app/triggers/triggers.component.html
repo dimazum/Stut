@@ -1,7 +1,4 @@
 <div class="trigger-container">
-    <div (click)="onClickTrigger(trigger.value)" *ngFor="let trigger of triggers">{{trigger.value}} :
-        {{trigger.difficulty}} : {{trigger.createdAt | date}}
-    </div>
     <hr>
 
     <div *ngFor="let task of triggerTasks">
