@@ -1,0 +1,28 @@
+<div class="calendar-container">
+  <h2>{{ currentMonthName }} {{ currentYear }}</h2>
+  <table class="calendar-table">
+    <thead>
+      <tr>
+        <th>Пн</th>
+        <th>Вт</th>
+        <th>Ср</th>
+        <th>Чт</th>
+        <th>Пт</th>
+        <th>Сб</th>
+        <th>Вс</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let week of calendarGrid">
+        <td *ngFor="let day of week" [class.empty]="!day.date" [class.today]="day.isToday" [class.done]="day.done">
+          <div *ngIf="day.date" class="day-info">
+            <input type="checkbox" [checked]="day.done" readonly>
+            <span class="words-read">{{ day.wordsRead }}</span>
+            <div class="day-number">{{ day.date.getDate() }}</div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <button class="start-lesson">Начать урок</button>
+</div>

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ArticleData, Trigger, TriggerResult, TriggerTaskResult } from '../models/models';
+import { ArticleData, CalendarData, Trigger, TriggerResult, TriggerTaskResult } from '../models/models';
 
 @Injectable({
   providedIn: 'root'
@@ -42,5 +42,9 @@ export class BackendService implements OnInit {
 
   getTriggerTasks(triggerValue: string):Observable<Array<TriggerTaskResult>>{
     return this.httpClient.get<Array<TriggerTaskResult>>(`${this.baseUrl}/trigger/triggertasks/${triggerValue}`);
+  }
+
+  getCalendar(): Observable<CalendarData> {
+    return this.httpClient.get<CalendarData>(`${this.baseUrl}/calendar/get`);
   }
 }

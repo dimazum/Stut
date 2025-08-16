@@ -4,6 +4,7 @@ import { RandomTextComponent } from './random-text/random-text.component';
 import { TwistersComponent } from './twisters/twisters.component';
 import { ExercisesComponent } from './exercises/exercises.component';
 import { DiaphragmComponent } from './diaphragm/diaphragm.component';
+import { CalendarPageComponent } from './calendar-page/calendar-page.component';
 
 export const routes: Routes = [
     { 
@@ -25,5 +26,9 @@ export const routes: Routes = [
     { 
         path: 'diaphragm',
         component: DiaphragmComponent
+    },
+    { 
+        path: 'calendar-page',
+        component: CalendarPageComponent
     }
 ];
