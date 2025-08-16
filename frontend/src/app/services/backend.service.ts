@@ -8,7 +8,7 @@ import { ArticleData, Trigger, TriggerResult, TriggerTaskResult } from '../model
 })
 export class BackendService implements OnInit {
 
-  baseUrl = 'http://95.182.122.4:5000'
+  baseUrl = '/api';
 
   constructor(private httpClient: HttpClient) { }
 
