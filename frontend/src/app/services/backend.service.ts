@@ -17,30 +17,30 @@ export class BackendService implements OnInit {
   }
 
   getTwisters():Observable<Array<Array<string>>>{
-    return this.httpClient.get<Array<Array<string>>>(`${this.baseUrl}/api/twisters`);
+    return this.httpClient.get<Array<Array<string>>>(`${this.baseUrl}/twisters`);
   }
 
   getExercises():Observable<Array<Array<string>>>{
-    return this.httpClient.get<Array<Array<string>>>(`${this.baseUrl}/api/stretching`);
+    return this.httpClient.get<Array<Array<string>>>(`${this.baseUrl}/stretching`);
   }
 
   getRandomArticle():Observable<ArticleData>{
-    return  this.httpClient.get<ArticleData>(`${this.baseUrl}/api/article/random`);
+    return  this.httpClient.get<ArticleData>(`${this.baseUrl}/article/random`);
   }
 
   createTrigger(trigger:Trigger):Observable<TriggerResult>{
-    return this.httpClient.post<TriggerResult>(`${this.baseUrl}/api/trigger/create`, trigger);
+    return this.httpClient.post<TriggerResult>(`${this.baseUrl}/trigger/create`, trigger);
   }
 
   getTriggers():Observable<Array<TriggerResult>>{
-    return this.httpClient.get<Array<TriggerResult>>(`${this.baseUrl}/api/trigger`);
+    return this.httpClient.get<Array<TriggerResult>>(`${this.baseUrl}/trigger`);
   }
 
   deleteTrigger(triggerValue:string):Observable<any>{
-    return this.httpClient.delete(`${this.baseUrl}/api/trigger/${triggerValue}`);
+    return this.httpClient.delete(`${this.baseUrl}/trigger/${triggerValue}`);
   }
 
   getTriggerTasks(triggerValue: string):Observable<Array<TriggerTaskResult>>{
-    return this.httpClient.get<Array<TriggerTaskResult>>(`${this.baseUrl}/api/trigger/triggertasks/${triggerValue}`);
+    return this.httpClient.get<Array<TriggerTaskResult>>(`${this.baseUrl}/trigger/triggertasks/${triggerValue}`);
   }
 }
