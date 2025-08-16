@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy, OnInit } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { startLessonSubject } from '../models/events';
 import { Subject, Subscription } from 'rxjs';
 import { RecognitionData } from '../models/models';
@@ -8,7 +8,7 @@ declare var webkitSpeechRecognition: any;
 @Injectable({
   providedIn: 'root'
 })
-export class SpeechRecognitionService implements OnInit, OnDestroy {
+export class SpeechRecognitionService implements OnDestroy {
   private recognition: any;
   private subscription?: Subscription;
   private isRecognitionEnabled = false;
@@ -16,26 +16,20 @@ export class SpeechRecognitionService implements OnInit, OnDestroy {
   public recognitionResult = new Subject<RecognitionData>();
 
   constructor() {
-  }
-
-  public Start(): void{
-    this.isRecognitionEnabled = true;
-
     this.recognition = new webkitSpeechRecognition();
     this.recognition.interimResults = false;
     this.recognition.lang = 'ru-RU';
-    this.recognition.start();
 
-    this.recognition.onresult = (data : any) => {
-      const text = data.results[data.results.length - 1][0].transcript
-      var resultWordsCount = text.trim().split(/\s+/).length;
+    this.recognition.onresult = (event: any) => {
+      const text = event.results[event.results.length - 1][0].transcript;
+      const wordCount = text.trim().split(/\s+/).length;
 
-      let rData = new RecognitionData();
+      const rData = new RecognitionData();
       rData.text = text;
-      rData.wordCount = resultWordsCount;
+      rData.wordCount = wordCount;
 
       this.recognitionResult.next(rData);
-      console.log(text);
+      console.log('Распознанный текст:', text);
     };
 
     this.recognition.onend = () => {
@@ -43,18 +37,40 @@ export class SpeechRecognitionService implements OnInit, OnDestroy {
         this.recognition.start();
       }
     };
+
+    this.recognition.onerror = (event: any) => {
+      console.error('Speech recognition error:', event.error);
+      // Можно перезапустить распознавание, если ошибка recoverable
+      if (this.isRecognitionEnabled && event.error !== 'not-allowed') {
+        this.recognition.start();
+      }
+    };
+
+    this.subscription = startLessonSubject.subscribe((isEnabled) => {
+      if (isEnabled) {
+        this.Start();
+      } else {
+        this.Stop();
+      }
+    });
   }
 
-  public Stop():void{
-    this.isRecognitionEnabled = false;
-    this.recognition.stop();
+  public Start(): void {
+    if (!this.isRecognitionEnabled) {
+      this.isRecognitionEnabled = true;
+      this.recognition.start();
+    }
   }
 
-  ngOnInit(): void {
-    var subscription = startLessonSubject.subscribe((isEnabled) => isEnabled? this.recognition.start() : this.recognition.stop())
+  public Stop(): void {
+    if (this.isRecognitionEnabled) {
+      this.isRecognitionEnabled = false;
+      this.recognition.stop();
+    }
   }
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
+    this.Stop();
   }
 }
