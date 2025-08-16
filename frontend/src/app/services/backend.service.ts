@@ -47,4 +47,8 @@ export class BackendService implements OnInit {
   getCalendar(): Observable<CalendarData> {
     return this.httpClient.get<CalendarData>(`${this.baseUrl}/calendar/get`);
   }
+
+  register(data: any): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/auth/register`, data);
+  }
 }

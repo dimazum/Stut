@@ -4,6 +4,7 @@ import { HeaderComponent } from './header/header.component';
 import { MainContentComponent } from './main-content/main-content.component';
 import { FooterComponent } from './footer/footer.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @Component({
@@ -14,7 +15,8 @@ import { HttpClientModule } from '@angular/common/http';
     HeaderComponent,
     MainContentComponent,
     FooterComponent,
-    HttpClientModule],
+    HttpClientModule,
+    ReactiveFormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

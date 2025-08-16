@@ -5,6 +5,7 @@ import { TwistersComponent } from './twisters/twisters.component';
 import { ExercisesComponent } from './exercises/exercises.component';
 import { DiaphragmComponent } from './diaphragm/diaphragm.component';
 import { CalendarPageComponent } from './calendar-page/calendar-page.component';
+import { RegisterComponent } from './register/register.component';
 
 export const routes: Routes = [
     { 
@@ -30,5 +31,12 @@ export const routes: Routes = [
     { 
         path: 'calendar-page',
         component: CalendarPageComponent
+    },
+    { 
+        path: 'register',
+        component: RegisterComponent
     }
+
+
+    
 ];
