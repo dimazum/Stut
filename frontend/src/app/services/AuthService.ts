@@ -15,7 +15,8 @@ interface JwtPayload {
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = environment.apiUrl + '/auth';
+  //private baseUrl = environment.apiUrl + '/auth';
+  private baseUrl = '/api/auth';
 
   constructor(private httpClient: HttpClient, private router: Router) {}
 

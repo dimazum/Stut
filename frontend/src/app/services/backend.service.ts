@@ -9,7 +9,8 @@ import { environment } from '../../environments/environment';
 })
 export class BackendService implements OnInit {
 
-  baseUrl = environment.apiUrl;
+  //baseUrl = environment.apiUrl;
+  private baseUrl = '/api';
 
   constructor(private httpClient: HttpClient) { }
 
