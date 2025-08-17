@@ -1,27 +1,26 @@
-# --- 1. Сборка Angular ---
-FROM node:18-alpine AS build
-WORKDIR /app
+# --- Build stage ---
+FROM node:18-alpine as build
 
-# Копируем package.json и package-lock.json, чтобы ускорить кэширование
+WORKDIR /app
 COPY package*.json ./
+RUN npm install -g @angular/cli
 RUN npm install
 
-# Копируем весь проект
 COPY . .
 
-# Устанавливаем Angular CLI
-RUN npm install -g @angular/cli
+# Аргументы для продакшн переменных
+ARG API_URL
+ENV API_URL=${API_URL}
 
-# Сборка прод-билда (используется environment.prod.ts)
+# Сборка Angular для продакшн
 RUN ng build --configuration=production
 
-# --- 2. Отдача через Nginx ---
+# --- Serve stage ---
 FROM nginx:alpine
-# Копируем собранный билд в Nginx
-COPY --from=build /app/dist/имя_проекта /usr/share/nginx/html
+COPY --from=build /app/dist/your-app-name /usr/share/nginx/html
 
-# Опционально: свой конфиг Nginx
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Копируем свой конфиг nginx, если нужен
+# COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
