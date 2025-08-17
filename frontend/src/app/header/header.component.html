@@ -10,7 +10,9 @@
     </div>
     <div class="account">
         <div class="nav-item" routerLink="/register">Регистрация</div>
-        <div class="nav-item">Логин</div>
+        <div class="nav-item" routerLink="/login">Логин</div>
         <app-language-picker></app-language-picker>
+        <span *ngIf="username">👋 {{ username }}</span>
+        <span *ngIf="username"><button (click)="logout()">Logout</button></span>
     </div>
 </header>

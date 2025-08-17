@@ -1,8 +1,8 @@
 // register.component.ts
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { BackendService } from '../services/backend.service';
 import { NgIf } from '@angular/common';
+import { AuthService } from '../services/AuthService';
 
 @Component({
   selector: 'app-register',
@@ -15,7 +15,7 @@ export class RegisterComponent {
   registerForm: FormGroup;
   errorMessage: string = '';
 
-  constructor(private fb: FormBuilder, private backendService: BackendService) {
+  constructor(private fb: FormBuilder, private authService: AuthService) {
     this.registerForm = this.fb.group({
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -25,7 +25,7 @@ export class RegisterComponent {
 
   onSubmit() {
     if (this.registerForm.valid) {
-      this.backendService.register(this.registerForm.value).subscribe({
+      this.authService.register(this.registerForm.value).subscribe({
         next: (res) => {
           console.log('Регистрация успешна', res);
         },

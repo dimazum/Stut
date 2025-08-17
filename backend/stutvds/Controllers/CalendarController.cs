@@ -1,32 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using StopStatAuth_6_0.Entities.Enums;
+using stutvds.Controllers.Base;
+using stutvds.DAL.Repositories;
 
 namespace stutvds.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CalendarController : ControllerBase
+    public class CalendarController : BaseController
     {
-        // GET: api/calendar/get
+        private readonly DayLessonRepository _dayLessonRepository;
+
+        public CalendarController(DayLessonRepository dayLessonRepository)
+        {
+            _dayLessonRepository = dayLessonRepository;
+        }
+        
         [HttpGet("get")]
-        public ActionResult<CalendarData> GetCalendar()
+        public async Task<ActionResult<CalendarData>> GetCalendar()
         {
             var today = DateTime.Today;
             int year = today.Year;
             int month = today.Month - 1; // JS/Angular ожидает 0-based месяц
+            
+            if (!UserId.HasValue)
+            {
+                throw new Exception("User is not logged in");
+            }
+
+            var lessons = await _dayLessonRepository.GetAllByUserIdAndMonth(UserId.Value, today);
 
             var days = new List<DayData>();
 
-            // Пример: отметим несколько случайных дней как выполненные
-            for (int day = 1; day <= DateTime.DaysInMonth(year, month + 1); day++)
+            foreach (var lesson in lessons)
             {
-                var date = new DateTime(year, month + 1, day);
                 days.Add(new DayData
                 {
-                    Date = date.ToString("yyyy-MM-dd"),
-                    Done = day % 3 == 0, // пример: каждый 3-й день выполнен
-                    WordsRead = day * 10  // просто пример числа слов
+                    Date = lesson.Date.ToString("yyyy-MM-dd"),
+                    Done = lesson.Status == LessonStatus.Finished,
+                    WordsRead = lesson.WordsSpoken
                 });
             }
 

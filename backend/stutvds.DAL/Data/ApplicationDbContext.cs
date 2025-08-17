@@ -10,6 +10,7 @@ namespace stutvds.Data
     {
         public DbSet<TriggerEntity> Triggers { get; set; }
         public DbSet<ArticleEntity> Articles { get; set; }
+        public DbSet<DayLesson> DayLessons { get; set; }
         // public DbSet<QuestionEntity> Questions { get; set; }
         // public DbSet<TwisterTemplateEntity> TwisterTemplates { get; set; }
         // public DbSet<TriggerTemplateEntity> TriggerTemplates { get; set; }

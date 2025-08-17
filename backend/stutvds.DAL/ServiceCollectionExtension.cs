@@ -10,6 +10,7 @@ namespace stutvds.DAL
         {
             serviceCollection.AddScoped<ITriggerRepository, TriggerRepository>();
             serviceCollection.AddScoped<IArticleRepository, ArticleRepository>();
+            serviceCollection.AddScoped<DayLessonRepository>();
         }
     }
 }

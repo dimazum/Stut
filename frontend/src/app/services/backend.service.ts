@@ -1,14 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { ArticleData, CalendarData, Trigger, TriggerResult, TriggerTaskResult } from '../models/models';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BackendService implements OnInit {
 
-  baseUrl = '/api';
+  baseUrl = environment.apiUrl;
 
   constructor(private httpClient: HttpClient) { }
 
@@ -48,7 +49,6 @@ export class BackendService implements OnInit {
     return this.httpClient.get<CalendarData>(`${this.baseUrl}/calendar/get`);
   }
 
-  register(data: any): Observable<any> {
-    return this.httpClient.post(`${this.baseUrl}/auth/register`, data);
-  }
+
+
 }

@@ -1,3 +1,4 @@
+using System.Text;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -7,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using stutvds.Data;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using stutvds.DAL;
 using stutvds.Logic;
 
@@ -36,7 +39,38 @@ namespace stutvds
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews().AddNewtonsoftJson();
             services.AddRazorPages();
-            services.AddCors();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAngularDev", policy =>
+                {
+                    policy
+                        .WithOrigins("http://localhost:4200")
+                        .AllowAnyMethod()
+                        .WithHeaders("Authorization", "Content-Type") // 👈 Authorization разрешён
+                        .AllowCredentials();
+                });
+            });
+            
+            services.AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = false, // если нужен issuer, указываем true
+                        ValidateAudience = false, // если нужен audience, true
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes("SuperSecretKeyHere123!")) // ключ, которым подписываете JWT
+                    };
+                });
+            
+            services.AddAuthorization();
+            
             services.AddHttpContextAccessor();
             services.AddDataAccessLayer();
             services.AddLogicLayer();
@@ -64,10 +98,7 @@ namespace stutvds
 
             app.UseRouting();
 
-            app.UseCors(x => x
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader());
+            app.UseCors("AllowAngularDev");
 
             app.UseHttpsRedirection();
 
