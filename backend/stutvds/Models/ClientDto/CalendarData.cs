@@ -4,6 +4,7 @@ public class DayData
 {
     public string Date { get; set; } = null!; // формат "YYYY-MM-DD"
     public bool Done { get; set; }
+    public bool Rewarded { get; set; }
     public int WordsRead { get; set; }
 }
 

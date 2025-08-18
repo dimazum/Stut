@@ -16,7 +16,7 @@
             <div class="speech-right-block">{{text}}</div>
         </div>
         <div class="timer-container">
-            <app-timer></app-timer>
+            <app-timer (onFinished)="onTimerFinished()"></app-timer>
         </div>      
     </div>
 </div>

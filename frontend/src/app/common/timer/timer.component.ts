@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { Observable, Subscription, timer } from 'rxjs';
 import { startLessonSubject } from '../../models/events';
 import { DatePipe, DecimalPipe  } from '@angular/common';
@@ -11,10 +11,10 @@ import { DatePipe, DecimalPipe  } from '@angular/common';
   styleUrl: './timer.component.css'
 })
 export class TimerComponent implements OnInit, OnDestroy{
-
-
-  timer? : Observable<number>
+  timer? : Observable<number>;
+  @Output() onFinished = new EventEmitter();
   private subscription?: Subscription;
+  private finished : boolean  = false;
 
   get minutes(): number {
     return Math.floor(this.timeLeft / 60);
@@ -32,11 +32,16 @@ export class TimerComponent implements OnInit, OnDestroy{
 
   timeLeft: number = 1500;
 
+
   startTimer() {
     this.subscription= this.timer?.subscribe(() => {
           if (this.timeLeft > 0) {
               this.timeLeft--;
-          } 
+          }
+          else if (this.timeLeft == 0 && !this.finished){
+            this.finished = true;
+            this.onFinished.next(null);
+          }
       });
   }
 

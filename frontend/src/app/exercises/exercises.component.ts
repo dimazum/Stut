@@ -16,8 +16,7 @@ export class ExercisesComponent implements OnInit {
   ngOnInit(): void {
     this.backendService.getExercises().subscribe(
       (data => {
-        this.twisters = data;
-        console.log(data);     
+        this.twisters = data; 
       })
     )
   }

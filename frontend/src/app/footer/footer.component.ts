@@ -21,6 +21,7 @@ export class FooterComponent {
   wordsCounter? = 0;
   speedCounter? = 0;
   text? = '';
+  lessonId: number = 0;
 
   private recognitionSub?: Subscription; // <-- подписка на результаты распознавания
 
@@ -36,6 +37,11 @@ export class FooterComponent {
     startLessonSubject.next(this.isEnabled);
 
     if (this.isEnabled) {
+
+       this.backendService.startLesson().subscribe( x => {
+        this.lessonId = x
+      })
+
       this.speechRecognitionService.Start();
       this.startBtnName = 'Stop';
 
@@ -55,5 +61,9 @@ export class FooterComponent {
       this.recognitionSub?.unsubscribe();
       this.recognitionSub = undefined;
     }
+  }
+
+  onTimerFinished(){
+    this.backendService.finishLesson(this.lessonId, this.wordsCounter as number, 0).subscribe();
   }
 }

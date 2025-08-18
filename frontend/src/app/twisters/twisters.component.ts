@@ -22,8 +22,6 @@ constructor( private backendService:BackendService) {
     this.backendService.getTwisters().subscribe(
       (data => {
         this.twisters = data;
-        console.log(data);
-        
       })
     )
   }

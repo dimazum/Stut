@@ -5,6 +5,7 @@ using StopStatAuth_6_0.Entities.Enums;
 using stutvds.Controllers.Base;
 using stutvds.DAL.Entities;
 using stutvds.DAL.Repositories;
+using stutvds.Models.ClientDto;
 
 namespace stutvds.Controllers
 {
@@ -27,7 +28,7 @@ namespace stutvds.Controllers
                 throw new Exception("User is not logged in");
             }
 
-            var lesson = await _dayLessonRepository.GetByUserIdAndDay(UserId.Value, DateTime.UtcNow);
+            var lesson = await _dayLessonRepository.GetByUserIdAndDay(UserId.Value, DateTime.Now);
 
             if (lesson != null)
             {
@@ -36,7 +37,7 @@ namespace stutvds.Controllers
 
             var newLesson = new DayLesson()
             {
-                Date = DateTime.UtcNow,
+                Date = DateTime.Now,
                 Status = LessonStatus.Started,
                 UserId = UserId.Value
             };
@@ -48,12 +49,12 @@ namespace stutvds.Controllers
         }
 
         [HttpPut("finish")]
-        public async Task<IActionResult> FinishLesson(int id, int words, int wps)
+        public async Task<IActionResult> FinishLesson([FromBody] FinishLessonRequest request)
         {
-            var lesson = await _dayLessonRepository.GetByIdAsync(id);
+            var lesson = await _dayLessonRepository.GetByIdAsync(request.Id);
 
-            lesson.WordsSpoken = words;
-            lesson.WPS = wps;
+            lesson.WordsSpoken = request.Words;
+            lesson.WPS = request.Wps;
             lesson.Status = LessonStatus.Finished;
             
             await _dayLessonRepository.UpdateAsync(lesson);
