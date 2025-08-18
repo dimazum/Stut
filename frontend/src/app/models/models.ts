@@ -31,6 +31,7 @@ export class RecognitionData{
   }
 
 export interface DayData {
+  lessonId: number;
   date: string;       // ISO формат даты, например "2025-08-16"
   done: boolean;      // выполнено ли задание
   rewarded: boolean;  //получена ли награда

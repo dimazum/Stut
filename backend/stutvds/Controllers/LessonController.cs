@@ -63,11 +63,15 @@ namespace stutvds.Controllers
         }
         
         [HttpPut("reward")]
-        public async Task<IActionResult> AddReward(int id)
+        public async Task<IActionResult> AddReward(RewardLessonRequest request)
         {
-            var lesson = await _dayLessonRepository.GetByIdAsync(id);
+            if (request.Value == false)
+            {
+                return Ok();
+            }
+            var lesson = await _dayLessonRepository.GetByIdAsync(request.Id);
 
-            lesson.Status = LessonStatus.Rewarded;
+            lesson.Status = request.Value ? LessonStatus.Rewarded : LessonStatus.Finished;
             
             await _dayLessonRepository.UpdateAsync(lesson);
 

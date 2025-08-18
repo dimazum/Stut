@@ -39,8 +39,10 @@ namespace stutvds.Controllers
             {
                 days.Add(new DayData
                 {
+                    LessonId = lesson.Id,
                     Date = lesson.Date.ToString("yyyy-MM-dd"),
-                    Done = lesson.Status == LessonStatus.Finished,
+                    Done = lesson.Status == LessonStatus.Finished || lesson.Status == LessonStatus.Rewarded,
+                    Rewarded = lesson.Status == LessonStatus.Rewarded,
                     WordsRead = lesson.WordsSpoken
                 });
             }

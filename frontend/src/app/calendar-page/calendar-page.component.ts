@@ -3,8 +3,10 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { BackendService } from '../services/backend.service';
 import { CalendarData, DayData } from '../models/models';
+import { FormsModule } from '@angular/forms';
 
 interface DayCell {
+  lessonId: number
   date: Date | null;
   done: boolean;
   rewarded: boolean;
@@ -15,7 +17,7 @@ interface DayCell {
 @Component({
   selector: 'app-calendar-page',
   standalone: true,
-  imports: [CommonModule, HttpClientModule],
+  imports: [CommonModule, HttpClientModule, FormsModule],
   templateUrl: './calendar-page.component.html',
   styleUrls: ['./calendar-page.component.css'],
 })
@@ -72,7 +74,7 @@ export class CalendarPageComponent implements OnInit {
     const startOffset = jsDay === 0 ? 6 : jsDay - 1; // воскресенье переносим в конец
 
     for (let i = 0; i < startOffset; i++) {
-      week.push({ date: null, done: false, rewarded: false, wordsRead: 0, isToday: false });
+      week.push({lessonId: 0, date: null, done: false, rewarded: false, wordsRead: 0, isToday: false });
     }
 
     for (let day = 1; day <= lastDayOfMonth.getDate(); day++) {
@@ -85,6 +87,7 @@ export class CalendarPageComponent implements OnInit {
       );
 
       week.push({
+        lessonId: dayData?.lessonId ?? 0,
         date: dateObj,
         done: dayData?.done ?? false,
         rewarded: dayData?.rewarded ?? false,
@@ -100,7 +103,7 @@ export class CalendarPageComponent implements OnInit {
 
     // Дополняем последнюю неделю пустыми днями
     while (week.length < 7 && week.length > 0) {
-      week.push({ date: null, done: false,rewarded: false, wordsRead: 0, isToday: false });
+      week.push({lessonId: 0, date: null, done: false,rewarded: false, wordsRead: 0, isToday: false });
     }
     if (week.length) calendar.push(week);
 
@@ -114,4 +117,13 @@ export class CalendarPageComponent implements OnInit {
       d1.getDate() === d2.getDate()
     );
   }
+
+  onRewardChange(day: DayCell , event: Event) {
+  const input = event.target as HTMLInputElement;
+  const checked = input.checked;
+
+  
+  this.backendService.rewardLesson(day.lessonId, checked ).subscribe();
+}
+
 }

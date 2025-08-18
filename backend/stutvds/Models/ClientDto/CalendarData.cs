@@ -2,6 +2,7 @@
 
 public class DayData
 {
+    public int LessonId { get; set; }
     public string Date { get; set; } = null!; // формат "YYYY-MM-DD"
     public bool Done { get; set; }
     public bool Rewarded { get; set; }

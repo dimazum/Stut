@@ -60,4 +60,9 @@ export class BackendService implements OnInit {
   
   return this.httpClient.put(`${this.baseUrl}/lesson/finish`, body);
 }
+
+rewardLesson(id: number, value: boolean) {
+  const body = { id, value };
+  return this.httpClient.put(`${this.baseUrl}/lesson/reward`, body);
+}
 }
