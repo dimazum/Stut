@@ -1,38 +1,55 @@
-header{
-    position:fixed;
-    top: 0;
-    right: 0;
-    left: 0;
-    background-color: #43A047;
-    color: #fff;
-    padding: 0 100px;
-    
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 45px;
-    font-size: 18px;
-    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
-    z-index: 9999;
-}
-.left-group{
-    display: flex;
+header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  background-color: #43A047;
+  color: #fff;
+  padding: 0 40px; /* чуть меньше, чтобы всё влезало */
+  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  font-size: 16px;
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .15);
+  z-index: 9999;
 }
 
-.nav-item{
-    padding-right: 10px;
-    opacity: 85%;
-    cursor: pointer;
+.left-group {
+  display: flex;
+  align-items: center;
 }
 
-.left-group > div:first-child{
-    font-weight: 600;
+.nav-item {
+  padding: 0 10px;
+  opacity: 0.85;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 
-.nav-item:hover{
-    opacity: 95%;
+.left-group > div:first-child {
+  font-weight: 600;
 }
 
-.account{
-    display: flex;
+.nav-item:hover {
+  opacity: 1;
+}
+
+.account {
+  display: flex;
+  align-items: center;
+}
+
+.logout-btn {
+  background: transparent;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: inherit;
+  padding: 0 10px;
+}
+.logout-btn:hover {
+  opacity: 0.9;
 }

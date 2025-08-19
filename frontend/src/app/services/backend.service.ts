@@ -56,8 +56,6 @@ export class BackendService implements OnInit {
 
   finishLesson(id: number, words: number, wps: number) {
   const body = { id, words, wps };
-
-  
   return this.httpClient.put(`${this.baseUrl}/lesson/finish`, body);
 }
 

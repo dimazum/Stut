@@ -1,18 +1,25 @@
 <header>
-    <div class="left-group">
-        <div class="nav-item" routerLink="/">Тренажер для речи</div>
-        <div class="nav-item" routerLink="/calendar-page">Календарь</div>
-        <div class="nav-item" routerLink="/exercises">Exercises</div>
-        <div class="nav-item" routerLink="/twisters">Twisters</div>
-        <div class="nav-item" routerLink="/triggers">Triggers</div>
-        <div class="nav-item" routerLink="/diaphragm">Diaphragm</div>
-        <div class="nav-item">Admin</div>
-    </div>
-    <div class="account">
-        <div class="nav-item" routerLink="/register">Регистрация</div>
-        <div class="nav-item" routerLink="/login">Логин</div>
-        <app-language-picker></app-language-picker>
-        <span *ngIf="username">👋 {{ username }}</span>
-        <span *ngIf="username"><button (click)="logout()">Logout</button></span>
-    </div>
+  <div class="left-group">
+    <div class="nav-item" routerLink="/">Тренажер для речи</div>
+    <div class="nav-item" routerLink="/calendar-page">Календарь</div>
+    <div class="nav-item" routerLink="/exercises">Exercises</div>
+    <div class="nav-item" routerLink="/twisters">Twisters</div>
+    <div class="nav-item" routerLink="/triggers">Triggers</div>
+    <div class="nav-item" routerLink="/diaphragm">Diaphragm</div>
+    <div class="nav-item">Admin</div>
+  </div>
+
+  <div class="account">
+    <app-language-picker></app-language-picker>
+
+    <ng-container *ngIf="username$ | async as username; else guest">
+      <span class="nav-item">👋, {{ username }}!</span>
+      <button class="nav-item logout-btn" (click)="logout()">Выйти</button>
+    </ng-container>
+
+    <ng-template #guest>
+      <div class="nav-item" routerLink="/register">Регистрация</div>
+      <div class="nav-item" routerLink="/login">Логин</div>
+    </ng-template>
+  </div>
 </header>
