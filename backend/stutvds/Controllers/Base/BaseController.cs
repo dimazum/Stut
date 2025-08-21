@@ -17,7 +17,7 @@ namespace stutvds.Controllers.Base
             { "" , Language.Russian}
         };
         
-        protected Guid? UserId
+        protected Guid UserId
         {
             get
             {
@@ -25,7 +25,7 @@ namespace stutvds.Controllers.Base
 
                 if (id == null)
                 {
-                    return null;
+                    throw new Exception("User not logged in");
                 }
                 
                 return Guid.Parse(id);

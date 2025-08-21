@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using stutvds.DAL.Entities;
 using stutvds.Logic.DTOs;
 using stutvds.Models.ClientDto;
 
@@ -8,8 +9,8 @@ namespace stutvds
     {
         public MappingProfile()
         {
-            CreateMap<TriggerClientDto, TriggerModel>();
-            CreateMap<TriggerModel, TriggerResultClientDto>();
+            CreateMap<TriggerClientDto, TriggerEntity>();
+            CreateMap<TriggerEntity, TriggerResultClientDto>();
         }
     }
 }

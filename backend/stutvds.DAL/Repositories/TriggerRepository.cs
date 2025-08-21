@@ -13,15 +13,20 @@ using stutvds.Data;
 
 namespace stutvds.DAL
 {
-	public class TriggerRepository : BaseRepository<TriggerEntity>, ITriggerRepository
+	public class TriggerRepository : BaseRepository<TriggerEntity>
 	{
 		public TriggerRepository(ApplicationDbContext dbContext): base(dbContext)
 		{
 		}
 
-		public async Task<TriggerEntity> GetTriggerByNameAsync(string name)
+		public async Task<TriggerEntity> GetTriggerByNameAsync(string name, Guid userId)
 		{
-			return await _dbContext.Triggers.FirstOrDefaultAsync(t => t.Value == name);
+			return await _dbContext.Triggers.FirstOrDefaultAsync(t => t.Value == name && t.UserId == userId );
+		}
+		
+		public async Task<TriggerEntity> GetByName(string name, Guid userId)
+		{
+			return await _dbContext.Triggers.FirstAsync(t => t.Value == name && t.UserId == userId );
 		}
 
 		public IEnumerable<TriggerEntity> GetDefaultTriggers(Language language)
@@ -30,17 +35,17 @@ namespace stutvds.DAL
 				.Where(t => t.IsDefault == true)
 				.Where(t => t.TriggerType == TriggerType.Short)
 				.Where(t => t.Language == language)
-				.OrderBy(t => t.Value);
+				.OrderBy(t => t.Value)
+				.ToList();
 		}
 
 		public IEnumerable<TriggerEntity> GetTriggers(Guid userId, Language language)
 		{
 			return _dbContext.Triggers
-				.Where(t => t.IsDefault == false)
 				.Where(t => t.Language == language)
 				.Where(t => t.UserId == userId)
-				.Where(t => t.TriggerType == TriggerType.Short)
-				.OrderBy(t => t.Value);
+				.OrderBy(t => t.Value)
+				.ToList();
 		}
 	}
 }

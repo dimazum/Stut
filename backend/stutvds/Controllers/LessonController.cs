@@ -23,12 +23,7 @@ namespace stutvds.Controllers
         [HttpPost("start")]
         public async Task<IActionResult> StartLesson()
         {
-            if (!UserId.HasValue)
-            {
-                throw new Exception("User is not logged in");
-            }
-
-            var lesson = await _dayLessonRepository.GetByUserIdAndDay(UserId.Value, DateTime.Now);
+            var lesson = await _dayLessonRepository.GetByUserIdAndDay(UserId, DateTime.Now);
 
             if (lesson != null)
             {
@@ -39,7 +34,7 @@ namespace stutvds.Controllers
             {
                 Date = DateTime.Now,
                 Status = LessonStatus.Started,
-                UserId = UserId.Value
+                UserId = UserId
             };
 
             var created = await _dayLessonRepository.AddAsync(newLesson);

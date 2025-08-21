@@ -8,7 +8,7 @@ namespace stutvds.DAL
     {
         public static void AddDataAccessLayer(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddScoped<ITriggerRepository, TriggerRepository>();
+            serviceCollection.AddScoped<TriggerRepository>();
             serviceCollection.AddScoped<IArticleRepository, ArticleRepository>();
             serviceCollection.AddScoped<DayLessonRepository>();
         }

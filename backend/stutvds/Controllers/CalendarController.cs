@@ -26,12 +26,7 @@ namespace stutvds.Controllers
             int year = today.Year;
             int month = today.Month - 1; // JS/Angular ожидает 0-based месяц
             
-            if (!UserId.HasValue)
-            {
-                throw new Exception("User is not logged in");
-            }
-
-            var lessons = await _dayLessonRepository.GetAllByUserIdAndMonth(UserId.Value, today);
+            var lessons = await _dayLessonRepository.GetAllByUserIdAndMonth(UserId, today);
 
             var days = new List<DayData>();
 

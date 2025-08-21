@@ -1,10 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using StopStatAuth_6_0.Entities.Enums;
 using stutvds.Controllers.Base;
+using stutvds.DAL;
+using stutvds.DAL.Entities;
 using stutvds.Logic.DTOs;
 using stutvds.Logic.Services.Contracts;
 using stutvds.Logic.Services.Tasks;
@@ -16,17 +20,17 @@ namespace stutvds.Controllers
     [Route("api/[controller]")]
     public class TriggerController : BaseController
     {
-        private readonly ITriggerService _triggerService;
+        private readonly TriggerRepository _triggerRepository;
         private readonly IMapper _mapper;
         private readonly TriggerTaskManager _triggerTaskManager;
 
         public TriggerController(
-            ITriggerService triggerService,
+            TriggerRepository triggerRepository,
             IMapper mapper,
             TriggerTaskManager triggerTaskManager )
         {
             ILogger logger;
-            _triggerService = triggerService;
+            _triggerRepository = triggerRepository;
             _mapper = mapper;
             _triggerTaskManager = triggerTaskManager;
         }
@@ -35,12 +39,19 @@ namespace stutvds.Controllers
         [Route("create")]
         public async Task<JsonResult> Create([FromBody]TriggerClientDto dto)
         {
-            var mapped = _mapper.Map<TriggerModel>(dto);
-            mapped.Language = CurrentLanguage;
+            var entity = new TriggerEntity()
+            {
+                Value = dto.Value,
+                UserId = UserId,
+                IsDefault = true,
+                CreatedAt = DateTime.Now,
+                Difficulty = dto.Difficulty,
+                Language = Language.Russian
+            };
 
-            await _triggerService.CreateAsync(mapped);
+            var trigger=  await _triggerRepository.AddAsync(entity);
 
-            var triggers = _triggerService.GetTriggers(CurrentLanguage, UserId);
+            var triggers = _triggerRepository.GetTriggers( UserId, CurrentLanguage);
 
             return new JsonResult(triggers.Select(t => new
             {
@@ -54,9 +65,11 @@ namespace stutvds.Controllers
         [Route("{triggerValue}")]
         public async Task<JsonResult> Delete(string triggerValue)
         {
-            await _triggerService.DeleteAsync(triggerValue);
+            var entity = await _triggerRepository.GetByName(triggerValue, UserId);
+            
+            await _triggerRepository.DeleteAsync(entity);
 
-            var triggers = _triggerService.GetTriggers(CurrentLanguage, UserId);
+            var triggers = _triggerRepository.GetTriggers( UserId, CurrentLanguage);
 
             return new JsonResult(triggers.Select(t => new
             {
@@ -69,7 +82,7 @@ namespace stutvds.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-            var triggers = _triggerService.GetTriggers(CurrentLanguage, UserId);
+            var triggers = _triggerRepository.GetTriggers(UserId, CurrentLanguage);
 
             var mapped = _mapper.Map<List<TriggerResultClientDto>>(triggers);
 
@@ -80,15 +93,10 @@ namespace stutvds.Controllers
         [Route("change")]
         public async Task<JsonResult> ChangeDifficulty(string trigger, int difficulty)
         {
-            var triggerModel = new TriggerModel()
-            {
-                Value = trigger,
-                Difficulty = difficulty
-            };
-
-            await _triggerService.UpdateTriggerAsync(triggerModel);
-
-            var triggers = _triggerService.GetTriggers(CurrentLanguage, UserId);
+            var entity = await _triggerRepository.GetByName(trigger, UserId);
+            entity.Difficulty = difficulty;
+            
+            var triggers =  _triggerRepository.GetTriggers(UserId, CurrentLanguage);
 
             return new JsonResult(triggers.Select(t => new
             {
