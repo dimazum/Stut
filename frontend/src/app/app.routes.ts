@@ -7,11 +7,21 @@ import { DiaphragmComponent } from './diaphragm/diaphragm.component';
 import { CalendarPageComponent } from './calendar-page/calendar-page.component';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
+import { LessonsComponent } from './lessons/lessons.component';
+import { LarynxComponent } from './larynx/larynx.component';
 
 export const routes: Routes = [
     { 
         path: '',
         component: RandomTextComponent
+    },
+        { 
+        path: 'register',
+        component: RegisterComponent
+    },
+    { 
+        path: 'login',
+        component: LoginComponent
     },
     { 
         path: 'triggers',
@@ -34,12 +44,11 @@ export const routes: Routes = [
         component: CalendarPageComponent
     },
     { 
-        path: 'register',
-        component: RegisterComponent
-    },
-        { 
-        path: 'login',
-        component: LoginComponent
-    }
-    
+        path: 'lessons',
+        component: LessonsComponent,
+        children: [
+            { path: 'larynx', component: LarynxComponent },
+            { path: '', redirectTo: 'larynx', pathMatch: 'full' } // редирект на "Основы"
+            ]
+    } 
 ];

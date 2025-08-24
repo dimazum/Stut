@@ -100,7 +100,10 @@ namespace stutvds
 
             app.UseCors("AllowAngularDev");
 
-            app.UseHttpsRedirection();
+            if (!env.IsDevelopment())
+            {
+                app.UseHttpsRedirection();
+            }
 
             app.UseAuthentication();
             app.UseAuthorization();

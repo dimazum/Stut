@@ -53,3 +53,33 @@ header {
 .logout-btn:hover {
   opacity: 0.9;
 }
+
+/* выпадающее меню */
+.dropdown {
+  position: relative;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%; /* ниже кнопки */
+  left: 0;
+  background: white;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  min-width: 150px;
+  box-shadow: 0 .25rem .8rem rgba(0,0,0,0.2);
+  border-radius: 6px;
+  z-index: 10000;
+}
+
+.dropdown-menu a {
+  padding: 10px;
+  text-decoration: none;
+  color: #333;
+}
+
+.dropdown-menu a:hover {
+  background: #f0f0f0;
+}
+

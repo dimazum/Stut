@@ -2,10 +2,21 @@
   <div class="left-group">
     <div class="nav-item" routerLink="/">Тренажер для речи</div>
     <div class="nav-item" routerLink="/calendar-page">Календарь</div>
+<!-- Уроки с выпадающим меню -->
+    <div class="nav-item dropdown"
+      (click)="toggleLessonsMenu($event)"
+      (clickOutside)="lessonsMenuOpen=false"
+      *ngIf="true">
+        Уроки
+        <div class="dropdown-menu" *ngIf="lessonsMenuOpen">
+          <a routerLink="/lessons/larynx">Гортань</a>
+        </div>
+     </div>
+
     <div class="nav-item" routerLink="/exercises">Exercises</div>
     <div class="nav-item" routerLink="/twisters">Twisters</div>
     <div class="nav-item" routerLink="/triggers">Triggers</div>
-    <div class="nav-item" routerLink="/diaphragm">Diaphragm</div>
+ 
     <div class="nav-item">Admin</div>
   </div>
 
