@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using StopStatAuth_6_0.Entities.Enums;
+using stutvds.Constants;
 using stutvds.Controllers.Base;
 using stutvds.DAL;
 using stutvds.DAL.Entities;
@@ -120,6 +122,58 @@ namespace stutvds.Controllers
             // 101 кролик - 102 кролик - 1
 
             return new JsonResult(tasks);
+        }
+        
+        [HttpGet]
+        [Route("randomWord/{word}/{count}")]
+        public ActionResult GetRandomWord(string word, int count)
+        {
+            string words = string.Empty;
+            string w = String.Empty;
+            
+            var random = new Random();
+            
+            var l = word.ToLowerInvariant();
+            
+            switch (l)
+            {
+                case "a":
+                {
+                    var all = Triggers.GetTriggers_A();
+                    var r = random.Next(all.Count - 1);
+                     w = all[r];
+                } break;
+                case "о":
+                {
+                    var all = Triggers.GetTriggers_A();
+                    var r = random.Next(all.Count - 1);
+                    w = all[r];
+                } break;
+                case "у":
+                {
+                    var all = Triggers.GetTriggers_A();
+                    var r = random.Next(all.Count - 1);
+                    w = all[r];
+                } break;
+                case "э":
+                {
+                    var all = Triggers.GetTriggers_A();
+                    var r = random.Next(all.Count - 1);
+                    w = all[r];
+                } break;
+            }
+            
+            var sb = new StringBuilder();
+
+            for (int i = 0; i < count; i++)
+            {
+                sb.Append(w);
+                sb.Append(", ");
+            }
+                   
+            words = sb.ToString().Trim().Trim();
+
+            return Ok(words);
         } 
     }
 }

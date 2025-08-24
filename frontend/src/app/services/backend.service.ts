@@ -59,8 +59,12 @@ export class BackendService implements OnInit {
   return this.httpClient.put(`${this.baseUrl}/lesson/finish`, body);
 }
 
-rewardLesson(id: number, value: boolean) {
-  const body = { id, value };
-  return this.httpClient.put(`${this.baseUrl}/lesson/reward`, body);
+  rewardLesson(id: number, value: boolean) {
+    const body = { id, value };
+    return this.httpClient.put(`${this.baseUrl}/lesson/reward`, body);
+  }
+   getRandomWord(w: string, count: number): Observable<string> {
+  return this.httpClient.get(`${this.baseUrl}/trigger/randomWord/${w}/${count}`, { responseType: 'text' });
 }
+
 }
