@@ -30,7 +30,7 @@ export class TimerComponent implements OnInit, OnDestroy{
     this.timer = timer(1000, 1000);
   }
 
-  timeLeft: number = 1500;
+  timeLeft: number = 900;
 
 
   startTimer() {
@@ -50,7 +50,7 @@ export class TimerComponent implements OnInit, OnDestroy{
   }
 
   resetTimer() {
-    this.timeLeft = 1500;
+    this.timeLeft = 900;
   }
 
   ngOnDestroy(): void {

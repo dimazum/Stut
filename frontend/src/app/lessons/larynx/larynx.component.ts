@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { BackendService } from '../services/backend.service';
+import { BackendService } from '../../services/backend.service';
 import { Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 

@@ -8,7 +8,14 @@ import { CalendarPageComponent } from './calendar-page/calendar-page.component';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { LessonsComponent } from './lessons/lessons.component';
-import { LarynxComponent } from './larynx/larynx.component';
+import { LarynxComponent } from './lessons/larynx/larynx.component';
+import { Lesson1Component } from './lessons/lesson1/lesson1.component';
+import { Lesson2Component } from './lessons/lesson2/lesson2.component';
+import { Lesson3Component } from './lessons/lesson3/lesson3.component';
+import { Lesson4Component } from './lessons/lesson4/lesson4.component';
+import { Lesson5Component } from './lessons/lesson5/lesson5.component';
+import { Lesson6Component } from './lessons/lesson6/lesson6.component';
+import { Lesson7Component } from './lessons/lesson7/lesson7.component';
 
 export const routes: Routes = [
     { 
@@ -48,6 +55,13 @@ export const routes: Routes = [
         component: LessonsComponent,
         children: [
             { path: 'larynx', component: LarynxComponent },
+            { path: 'lesson1', component: Lesson1Component },
+            { path: 'lesson2', component: Lesson2Component },
+            { path: 'lesson3', component: Lesson3Component },
+            { path: 'lesson4', component: Lesson4Component },
+            { path: 'lesson5', component: Lesson5Component },
+            { path: 'lesson6', component: Lesson6Component },
+            { path: 'lesson7', component: Lesson7Component },
             { path: '', redirectTo: 'larynx', pathMatch: 'full' } // редирект на "Основы"
             ]
     } 
