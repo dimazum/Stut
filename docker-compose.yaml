@@ -13,6 +13,8 @@ services:
       dockerfile: Dockerfile
     ports:
     - 5001:4200
+    environment:
+    - NG_ENV=production
     
   proxy:
     image: nginx:1.21-alpine
