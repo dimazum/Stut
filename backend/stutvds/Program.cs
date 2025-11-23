@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace stutvds
 {
-	public class Program
+	public class Program//asd
 	{
 		public static void Main(string[] args)
 		{
