@@ -3,7 +3,7 @@ services:
   backend:
     build: backend
     environment:
-    - ASPNETCORE_ENVIRONMENT=Development
+    - ASPNETCORE_ENVIRONMENT=Production
     ports:
     - 5000:80
   client:
@@ -13,6 +13,8 @@ services:
       dockerfile: Dockerfile
     ports:
     - 5001:4200
+    environment:
+    - NG_ENV=production
     
   proxy:
     image: nginx:1.21-alpine
