@@ -46,14 +46,17 @@ builder.Services.AddCors(options =>
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
+        var jwtIssuer = builder.Configuration.GetSection("Jwt:Issuer").Get<string>();
+        var jwtKey = builder.Configuration.GetSection("Jwt:Key").Get<string>();
+        
         options.TokenValidationParameters = new TokenValidationParameters
         {
-            ValidateIssuer = false,
+            ValidIssuer = jwtIssuer,
             ValidateAudience = false,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes("SuperSecretKeyHere123!"))
+                Encoding.UTF8.GetBytes(jwtKey))
         };
     });
 
