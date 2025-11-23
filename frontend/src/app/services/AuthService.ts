@@ -15,8 +15,7 @@ interface JwtPayload {
   providedIn: 'root'
 })
 export class AuthService {
-  //private baseUrl = environment.apiUrl + '/auth';
-  private baseUrl = '/api/auth';
+  private baseUrl = environment.apiUrl + '/auth';
 
   // текущий юзер
   private usernameSubject = new BehaviorSubject<string | null>(this.getUsernameFromToken());
