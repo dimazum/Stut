@@ -12,6 +12,7 @@ namespace stutvds.Logic
         public static void AddLogicLayer(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddTransient<IWikiService, WIkiService>();
+            //
             serviceCollection.AddTransient<IStretchingService, StretchingService>();
             serviceCollection.AddTransient<SyllablesBreaker>();
             
