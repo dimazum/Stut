@@ -8,51 +8,47 @@ import { TriggerModalComponent } from '../triggers/trigger-modal/trigger-modal.c
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-footer',
+  selector: 'stu-footer',
   standalone: true,
   imports: [TimerComponent, NgClass, TriggerModalComponent],
   templateUrl: './footer.component.html',
-  styleUrls: ['./footer.component.css']
+  styleUrls: ['./footer.component.css'],
 })
 export class FooterComponent {
-  isEnabled = false;
-  startBtnName = 'Start';
-
-  wordsCounter? = 0;
-  speedCounter? = 0;
-  text? = '';
-  lessonId: number = 0;
+  public isEnabled = false;
+  public startBtnName = 'Start';
+  public wordsCounter? = 0;
+  public speedCounter? = 0;
+  public text? = '';
+  public lessonId: number = 0;
 
   private recognitionSub?: Subscription; // <-- подписка на результаты распознавания
 
-  constructor(
+  public constructor(
     private speechRecognitionService: SpeechRecognitionService,
     private backendService: BackendService
   ) {}
 
-  startListening(): void {
+  public startListening(): void {
     this.isEnabled = !this.isEnabled;
 
     // уведомляем сервис о старте/стопе урока
     startLessonSubject.next(this.isEnabled);
 
     if (this.isEnabled) {
-
-       this.backendService.startLesson().subscribe( x => {
-        this.lessonId = x
-      })
+      this.backendService.startLesson().subscribe(x => {
+        this.lessonId = x;
+      });
 
       this.speechRecognitionService.Start();
       this.startBtnName = 'Stop';
 
       // сохраняем подписку на результаты распознавания
-      this.recognitionSub = this.speechRecognitionService.recognitionResult
-        .subscribe(result => {
-          this.text = result.text;
-          this.wordsCounter = result.wordCount;
-          //this.speedCounter = result.wpm;
-        });
-
+      this.recognitionSub = this.speechRecognitionService.recognitionResult.subscribe(result => {
+        this.text = result.text;
+        this.wordsCounter = result.wordCount;
+        //this.speedCounter = result.wpm;
+      });
     } else {
       this.speechRecognitionService.Stop();
       this.startBtnName = 'Start';
@@ -63,7 +59,7 @@ export class FooterComponent {
     }
   }
 
-  onTimerFinished(){
+  public onTimerFinished() {
     this.backendService.finishLesson(this.lessonId, this.wordsCounter as number, 0).subscribe();
   }
 }

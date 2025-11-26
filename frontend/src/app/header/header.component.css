@@ -4,15 +4,14 @@ header {
   right: 0;
   left: 0;
   background-color: #43A047;
-  color: #fff;
+  color: #ffffff;
   padding: 0 40px; /* чуть меньше, чтобы всё влезало */
-  
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 50px;
   font-size: 16px;
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .15);
+  box-shadow: 0 .25rem .75rem rgb(0 0 0 / .15);
   z-index: 9999;
 }
 
@@ -45,11 +44,12 @@ header {
 .logout-btn {
   background: transparent;
   border: none;
-  color: #fff;
+  color: #ffffff;
   cursor: pointer;
   font-size: inherit;
   padding: 0 10px;
 }
+
 .logout-btn:hover {
   opacity: 0.9;
 }
@@ -68,7 +68,7 @@ header {
   display: flex;
   flex-direction: column;
   min-width: 150px;
-  box-shadow: 0 .25rem .8rem rgba(0,0,0,0.2);
+  box-shadow: 0 .25rem .8rem rgb(0 0 0 / 0.2);
   border-radius: 6px;
   z-index: 10000;
 }
@@ -76,7 +76,7 @@ header {
 .dropdown-menu a {
   padding: 10px;
   text-decoration: none;
-  color: #333;
+  color: #333333;
 }
 
 .dropdown-menu a:hover {

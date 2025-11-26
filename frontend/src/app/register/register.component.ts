@@ -6,17 +6,21 @@ import { AuthService } from '../services/AuthService';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-register',
+  selector: 'stu-register',
   templateUrl: './register.component.html',
-  styleUrl:'./register.component.css',
+  styleUrl: './register.component.css',
   standalone: true,
-  imports:[ReactiveFormsModule, NgIf]
+  imports: [ReactiveFormsModule, NgIf],
 })
 export class RegisterComponent {
-  registerForm: FormGroup;
-  errorMessage: string = '';
+  public registerForm: FormGroup;
+  public errorMessage: string = '';
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
+  public constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {
     this.registerForm = this.fb.group({
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -24,14 +28,14 @@ export class RegisterComponent {
     });
   }
 
-  onSubmit() {
+  public onSubmit() {
     if (this.registerForm.valid) {
       this.authService.register(this.registerForm.value).subscribe({
-        next: (res) => {
+        next: res => {
           console.log('Регистрация успешна', res);
-          this.router.navigate(['/login']) // перенаправляем
+          this.router.navigate(['/login']); // перенаправляем
         },
-        error: (err) => {
+        error: err => {
           this.errorMessage = err.error?.message || 'Ошибка регистрации';
         },
       });
