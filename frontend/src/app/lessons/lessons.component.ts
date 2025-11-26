@@ -2,12 +2,10 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: 'app-lessons',
+  selector: 'stu-lessons',
   standalone: true,
   imports: [RouterOutlet],
   templateUrl: './lessons.component.html',
-  styleUrl: './lessons.component.css'
+  styleUrl: './lessons.component.css',
 })
-export class LessonsComponent {
-
-}
+export class LessonsComponent {}

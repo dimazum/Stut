@@ -1,30 +1,27 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BackendService } from '../services/backend.service';
 
 @Component({
-  selector: 'app-random-text',
+  selector: 'stu-random-text',
   standalone: true,
   imports: [],
   templateUrl: './random-text.component.html',
-  styleUrl: './random-text.component.css'
+  styleUrl: './random-text.component.css',
 })
-export class RandomTextComponent {
-  article = '';
-  title = '';
+export class RandomTextComponent implements OnInit {
+  public article = '';
+  public title = '';
 
-  constructor(private backendServcie:BackendService) {    
-  }
+  public constructor(private backendServcie: BackendService) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.getArticle();
   }
 
-  private getArticle(): void{
-
-    this.backendServcie.getRandomArticle().subscribe(
-      (data) => {
-        this.article = data.content;
-        this.title = data.title;
-      });
+  private getArticle(): void {
+    this.backendServcie.getRandomArticle().subscribe(data => {
+      this.article = data.content;
+      this.title = data.title;
+    });
   }
 }

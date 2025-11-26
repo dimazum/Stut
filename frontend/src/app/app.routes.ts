@@ -18,51 +18,51 @@ import { Lesson6Component } from './lessons/lesson6/lesson6.component';
 import { Lesson7Component } from './lessons/lesson7/lesson7.component';
 
 export const routes: Routes = [
-    { 
-        path: '',
-        component: RandomTextComponent
-    },
-        { 
-        path: 'register',
-        component: RegisterComponent
-    },
-    { 
-        path: 'login',
-        component: LoginComponent
-    },
-    { 
-        path: 'triggers',
-        component: TriggersComponent
-    },
-    { 
-        path: 'twisters',
-        component: TwistersComponent
-    },
-    { 
-        path: 'exercises',
-        component: ExercisesComponent
-    },
-    { 
-        path: 'diaphragm',
-        component: DiaphragmComponent
-    },
-    { 
-        path: 'calendar-page',
-        component: CalendarPageComponent
-    },
-    { 
-        path: 'lessons',
-        component: LessonsComponent,
-        children: [
-            { path: 'larynx', component: LarynxComponent },
-            { path: 'lesson1', component: Lesson1Component },
-            { path: 'lesson2', component: Lesson2Component },
-            { path: 'lesson3', component: Lesson3Component },
-            { path: 'lesson4', component: Lesson4Component },
-            { path: 'lesson5', component: Lesson5Component },
-            { path: 'lesson6', component: Lesson6Component },
-            { path: 'lesson7', component: Lesson7Component },
-            { path: '', redirectTo: 'larynx', pathMatch: 'full' } // редирект на "Основы"
-            ]
-    } 
+  {
+    path: '',
+    component: RandomTextComponent,
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
+  {
+    path: 'triggers',
+    component: TriggersComponent,
+  },
+  {
+    path: 'twisters',
+    component: TwistersComponent,
+  },
+  {
+    path: 'exercises',
+    component: ExercisesComponent,
+  },
+  {
+    path: 'diaphragm',
+    component: DiaphragmComponent,
+  },
+  {
+    path: 'calendar-page',
+    component: CalendarPageComponent,
+  },
+  {
+    path: 'lessons',
+    component: LessonsComponent,
+    children: [
+      { path: 'larynx', component: LarynxComponent },
+      { path: 'lesson1', component: Lesson1Component },
+      { path: 'lesson2', component: Lesson2Component },
+      { path: 'lesson3', component: Lesson3Component },
+      { path: 'lesson4', component: Lesson4Component },
+      { path: 'lesson5', component: Lesson5Component },
+      { path: 'lesson6', component: Lesson6Component },
+      { path: 'lesson7', component: Lesson7Component },
+      { path: '', redirectTo: 'larynx', pathMatch: 'full' }, // редирект на "Основы"
+    ],
+  },
 ];

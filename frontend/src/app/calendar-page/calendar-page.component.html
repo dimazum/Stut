@@ -16,9 +16,9 @@
       <tr *ngFor="let week of calendarGrid">
         <td *ngFor="let day of week" [class.empty]="!day.date" [class.today]="day.isToday" [class.done]="day.done">
           <div *ngIf="day.date" class="day-info">
-            <label class="words-read">Done:</label>
-            <input type="checkbox" [checked]="day.rewarded" (change)="onRewardChange(day, $event)">
-            <input type="checkbox" [checked]="day.done" readonly disabled>
+            <label class="words-read" for="">Done:</label>
+            <input type="checkbox" [checked]="day.rewarded" (change)="onRewardChange(day, $event)" />
+            <input type="checkbox" [checked]="day.done" readonly disabled />
             <span class="words-read">{{ day.wordsRead }}</span>
             <div class="day-number">{{ day.date.getDate() }}</div>
           </div>

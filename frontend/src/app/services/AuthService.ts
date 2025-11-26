@@ -7,30 +7,36 @@ import { environment } from '../../environments/environment';
 
 interface JwtPayload {
   unique_name?: string; // ClaimTypes.Name
-  nameid?: string;      // ClaimTypes.NameIdentifier
+  nameid?: string; // ClaimTypes.NameIdentifier
   exp?: number;
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private baseUrl = environment.apiUrl + '/auth';
 
   // текущий юзер
   private usernameSubject = new BehaviorSubject<string | null>(this.getUsernameFromToken());
-  username$ = this.usernameSubject.asObservable();
+  public username$ = this.usernameSubject.asObservable();
 
-  constructor(private httpClient: HttpClient, private router: Router) {}
+  public constructor(
+    private httpClient: HttpClient,
+    private router: Router
+  ) {}
 
   // регистрация
-  register(data: any): Observable<any> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public register(data: any): Observable<any> {
     return this.httpClient.post(`${this.baseUrl}/register`, data);
   }
 
   // логин
-  login(username: string, password: string): Observable<any> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public login(username: string, password: string): Observable<any> {
     return this.httpClient.post(`${this.baseUrl}/login`, { username, password }).pipe(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       tap((res: any) => {
         localStorage.setItem('token', res.token);
         const decoded = jwtDecode<JwtPayload>(res.token);
@@ -39,13 +45,13 @@ export class AuthService {
     );
   }
 
-  logout() {
+  public logout() {
     localStorage.removeItem('token');
-    this.usernameSubject.next(null);  // сбрасываем юзернейм
-    this.router.navigate(['/login']); 
+    this.usernameSubject.next(null); // сбрасываем юзернейм
+    this.router.navigate(['/login']);
   }
 
-  isLoggedIn(): boolean {
+  public isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
   }
 

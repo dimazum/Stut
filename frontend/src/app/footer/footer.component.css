@@ -5,7 +5,7 @@
     right: 0;
     height: 55px;
     background-color: #3e4449;
-    color: #fff;
+    color: #ffffff;
     padding: 4px 100px;
 }
 
@@ -36,11 +36,11 @@
 }
 
 .start-speech-container>button:hover{
-    opacity: 85%;
+    opacity: 0.85;
 }
 
 .active{
-    background-color: rgb(234, 252, 36) !important;
+    background-color: rgb(234 252 36) !important;
 }
 
 .speech-container{
@@ -54,7 +54,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     border: 1px solid;
-    padding: 2px 3px 0 3px;
+    padding: 2px 3px 0;
     font-size: 14px;
     line-height: 1;
 }
@@ -74,8 +74,9 @@
 }
 
 .footer span{
-    color: rgb(234, 252, 36);
+    color: rgb(234 252 36);
 }
+
 .speech-container-buttom{
     display: flex;
     justify-content: center;
@@ -92,7 +93,7 @@
 
 
 .speech-container-buttom:hover{
-    opacity: 85%;
+    opacity: 0.85;
 }
 
 .average-words-qty-container{

@@ -6,9 +6,5 @@ import { routes } from './app/app.routes';
 import { authInterceptor } from './app/auth.interceptor';
 
 bootstrapApplication(AppComponent, {
-  providers: [
-    provideHttpClient(withInterceptors([authInterceptor])),
-    provideRouter(routes)
-  ]
-})
-  .catch(err => console.error(err));
+  providers: [provideHttpClient(withInterceptors([authInterceptor])), provideRouter(routes)],
+}).catch(err => console.error(err));
