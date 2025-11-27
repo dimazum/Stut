@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -30,6 +31,8 @@ public class AuthController : ControllerBase
 
         if (!result.Succeeded)
             return BadRequest(new { message = string.Join(", ", result.Errors.Select(e => e.Description)) });
+        
+        await _userManager.AddToRoleAsync(user, "User");
 
         return Ok(new { message = "User registered successfully" });
     }
@@ -42,15 +45,23 @@ public class AuthController : ControllerBase
             return Unauthorized(new { message = "Invalid username or password" });
 
         // Генерация JWT токена
+        
+        var roles = await _userManager.GetRolesAsync(user);
+        
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.UTF8.GetBytes(_config.GetSection("Jwt:Key").Get<string>());
+        
+        var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.NameIdentifier, user.Id),
+            new Claim(ClaimTypes.Name, user.UserName)
+        };
+        
+        claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
+        
         var tokenDescriptor = new SecurityTokenDescriptor
         {
-            Subject = new ClaimsIdentity(new[]
-            {
-                new Claim(ClaimTypes.NameIdentifier, user.Id),
-                new Claim(ClaimTypes.Name, user.UserName)
-            }),
+            Subject = new ClaimsIdentity(claims),
             Expires = DateTime.UtcNow.AddMonths(12),
             Issuer = _config["Jwt:Issuer"],
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
