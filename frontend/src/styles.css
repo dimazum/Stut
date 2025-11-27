@@ -5,14 +5,14 @@
 } 
 
 .dm-select{
-    padding-top: 0rem !important;
-    padding-bottom: 0rem !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
     font-size: .775rem !important;
 }
 
 .dm-input{
-    padding-top: 0rem !important;
-    padding-bottom: 0rem !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
     font-size: .775rem !important;
 }
 

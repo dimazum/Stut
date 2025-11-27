@@ -1,29 +1,22 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BackendService } from '../services/backend.service';
 import { NgFor } from '@angular/common';
 
 @Component({
-  selector: 'app-twisters',
+  selector: 'stu-twisters',
   standalone: true,
   imports: [NgFor],
   templateUrl: './twisters.component.html',
-  styleUrl: './twisters.component.css'
+  styleUrl: './twisters.component.css',
 })
-export class TwistersComponent implements OnInit, OnDestroy {
-  twisters?: Array<Array<string>> = [];
+export class TwistersComponent implements OnInit {
+  public twisters?: Array<Array<string>> = [];
 
-constructor( private backendService:BackendService) {
-}
-  ngOnDestroy(): void {
-  }
+  public constructor(private backendService: BackendService) {}
 
-  ngOnInit(): void {
-
-    this.backendService.getTwisters().subscribe(
-      (data => {
-        this.twisters = data;
-      })
-    )
+  public ngOnInit(): void {
+    this.backendService.getTwisters().subscribe(data => {
+      this.twisters = data;
+    });
   }
 }
-

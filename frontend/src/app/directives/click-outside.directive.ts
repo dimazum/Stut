@@ -1,16 +1,17 @@
 import { Directive, ElementRef, EventEmitter, HostListener, Output } from '@angular/core';
 
 @Directive({
+  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[clickOutside]',
-  standalone: true
+  standalone: true,
 })
 export class ClickOutsideDirective {
-  @Output() clickOutside = new EventEmitter<void>();
+  @Output() public clickOutside = new EventEmitter<void>();
 
-  constructor(private el: ElementRef) {}
+  public constructor(private el: ElementRef) {}
 
   @HostListener('document:click', ['$event.target'])
-  onClick(target: HTMLElement) {
+  public onClick(target: HTMLElement) {
     if (!this.el.nativeElement.contains(target)) {
       this.clickOutside.emit();
     }

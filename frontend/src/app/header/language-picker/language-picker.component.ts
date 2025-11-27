@@ -2,22 +2,22 @@ import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-language-picker',
+  selector: 'stu-language-picker',
   standalone: true,
   imports: [NgIf],
   templateUrl: './language-picker.component.html',
-  styleUrl: './language-picker.component.css'
+  styleUrl: './language-picker.component.css',
 })
 export class LanguagePickerComponent {
-  currentLang = "RU";
-  allLangueges = ['RU', 'ENG']
-  isShown = false;
+  public currentLang = 'RU';
+  public allLanguages = ['RU', 'ENG'];
+  public isShown = false;
 
-  public mouseEnter(){
+  public mouseEnter() {
     this.isShown = true;
   }
 
-  public mouseLeave(){
+  public mouseLeave() {
     this.isShown = false;
   }
 }

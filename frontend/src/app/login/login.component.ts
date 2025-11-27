@@ -5,23 +5,26 @@ import { NgIf } from '@angular/common';
 import { AuthService } from '../services/AuthService';
 
 @Component({
-  selector: 'app-login',
+  selector: 'stu-login',
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
   standalone: true,
-  imports:[ReactiveFormsModule, FormsModule, NgIf]
+  imports: [ReactiveFormsModule, FormsModule, NgIf],
 })
 export class LoginComponent {
-  username = '';
-  password = '';
-  errorMessage = '';
+  public username = '';
+  public password = '';
+  public errorMessage = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  public constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
-  onSubmit() {
+  public onSubmit() {
     this.authService.login(this.username, this.password).subscribe({
       next: () => this.router.navigate(['/']), // перенаправляем
-      error: err => this.errorMessage = err.error.message || 'Login failed'
+      error: err => (this.errorMessage = err.error.message || 'Login failed'),
     });
   }
 }
