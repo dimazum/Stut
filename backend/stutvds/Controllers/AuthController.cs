@@ -7,16 +7,19 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.Extensions.Configuration;
 
 [ApiController]
 [Route("api/[controller]")]
 public class AuthController : ControllerBase
 {
+    private readonly IConfiguration _config;
     private readonly UserManager<IdentityUser> _userManager;
 
-    public AuthController(UserManager<IdentityUser> userManager)
+    public AuthController(UserManager<IdentityUser> userManager, IConfiguration config)
     {
         _userManager = userManager;
+        _config = config;
     }
 
     [HttpPost("register")]
@@ -40,7 +43,7 @@ public class AuthController : ControllerBase
 
         // Генерация JWT токена
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.UTF8.GetBytes("SuperSecretKeyHere123!"); // лучше хранить в appsettings.json
+        var key = Encoding.UTF8.GetBytes(_config.GetSection("Jwt:Key").Get<string>());
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(new[]
@@ -49,6 +52,7 @@ public class AuthController : ControllerBase
                 new Claim(ClaimTypes.Name, user.UserName)
             }),
             Expires = DateTime.UtcNow.AddMonths(12),
+            Issuer = _config["Jwt:Issuer"],
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         };
 
