@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StopStatAuth_6_0.Entities.Enums;
 using stutvds.Controllers.Base;
@@ -20,6 +21,7 @@ namespace stutvds.Controllers
         }
         
         [HttpGet("get")]
+        [Authorize(Roles = "Admin, User")]
         public async Task<ActionResult<CalendarData>> GetCalendar()
         {
             var today = DateTime.Today;

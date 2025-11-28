@@ -16,6 +16,7 @@ import { Lesson4Component } from './lessons/lesson4/lesson4.component';
 import { Lesson5Component } from './lessons/lesson5/lesson5.component';
 import { Lesson6Component } from './lessons/lesson6/lesson6.component';
 import { Lesson7Component } from './lessons/lesson7/lesson7.component';
+import { AdminPageComponent } from './admin-page/admin-page.component';
 
 export const routes: Routes = [
   {
@@ -64,5 +65,9 @@ export const routes: Routes = [
       { path: 'lesson7', component: Lesson7Component },
       { path: '', redirectTo: 'larynx', pathMatch: 'full' }, // редирект на "Основы"
     ],
+  },
+   {
+    path: 'admin-page',
+    component: AdminPageComponent,
   },
 ];

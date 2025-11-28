@@ -16,7 +16,7 @@ import { BackendService } from '../services/backend.service';
   styleUrl: './header.component.css',
 })
 export class HeaderComponent implements OnInit {
-  public version: string | undefined = undefined;
+  
   public username$ = this.auth.username$;
   public lessonsMenuOpen = false;
 
@@ -32,7 +32,6 @@ export class HeaderComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.backendService.getCurrentVersion().subscribe(data => (this.version = data));
   }
 
   public logout() {
