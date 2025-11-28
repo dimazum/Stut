@@ -1,7 +1,7 @@
 <header>
   <div class="left-group">
     <div class="nav-item" routerLink="/">Тренажер для речи</div>
-    <div class="nav-item" routerLink="/calendar-page">Календарь</div>
+    <div class="nav-item" *ngIf="(userinfo$ | async)?.logged_in" routerLink="/calendar-page">Календарь</div>
     <!-- Уроки с выпадающим меню -->
     <div class="nav-item dropdown" (click)="toggleLessonsMenu()" (clickOutside)="lessonsMenuOpen = false" *ngIf="true">
       Уроки
@@ -26,8 +26,8 @@
   <div class="account">
     <stu-language-picker></stu-language-picker>
 
-    <ng-container *ngIf="username$ | async as username; else guest">
-      <span class="nav-item">👋, {{ username }}!</span>
+    <ng-container *ngIf="userinfo$ | async as userinfo; else guest">
+      <span class="nav-item">👋, {{ userinfo.user_name }}!</span>
       <button class="nav-item logout-btn" (click)="logout()">Выйти</button>
     </ng-container>
 

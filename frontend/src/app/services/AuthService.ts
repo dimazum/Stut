@@ -8,7 +8,14 @@ import { environment } from '../../environments/environment';
 interface JwtPayload {
   unique_name?: string; // ClaimTypes.Name
   nameid?: string; // ClaimTypes.NameIdentifier
+  role?: string | string[]; //ClaimTypes.Roles
   exp?: number;
+}
+
+interface UserInfo {
+  user_name?: string;
+  user_role?: string;
+  logged_in: boolean;
 }
 
 @Injectable({
@@ -18,8 +25,8 @@ export class AuthService {
   private baseUrl = environment.apiUrl + '/auth';
 
   // текущий юзер
-  private usernameSubject = new BehaviorSubject<string | null>(this.getUsernameFromToken());
-  public username$ = this.usernameSubject.asObservable();
+  private usernameSubject = new BehaviorSubject<UserInfo | null>(this.getUserInfoFromToken());
+  public userinfo$ = this.usernameSubject.asObservable();
 
   public constructor(
     private httpClient: HttpClient,
@@ -39,15 +46,17 @@ export class AuthService {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       tap((res: any) => {
         localStorage.setItem('token', res.token);
-        const decoded = jwtDecode<JwtPayload>(res.token);
-        this.usernameSubject.next(decoded.unique_name ?? null);
+
+        const userInfo = this.parceJwtToken(res.token);
+
+        this.usernameSubject.next(userInfo ?? null);
       })
     );
   }
 
   public logout() {
     localStorage.removeItem('token');
-    this.usernameSubject.next(null); // сбрасываем юзернейм
+    this.usernameSubject.next(null); // сбрасываем юзеринфо
     this.router.navigate(['/login']);
   }
 
@@ -55,15 +64,36 @@ export class AuthService {
     return !!localStorage.getItem('token');
   }
 
-  private getUsernameFromToken(): string | null {
+  private getUserInfoFromToken(): UserInfo | null {
     const token = localStorage.getItem('token');
     if (!token) return null;
 
     try {
-      const decoded = jwtDecode<JwtPayload>(token);
-      return decoded.unique_name ?? null;
+       const userInfo = this.parceJwtToken(token);
+      
+      return userInfo ?? null;
     } catch {
       return null;
     }
+  }
+
+  private parceJwtToken(token: string) : UserInfo | null{
+    const decoded = jwtDecode<JwtPayload>(token);
+
+        let roleString: string = '';
+
+        if (typeof decoded.role === "string") {
+          roleString = decoded.role;
+        } else if (Array.isArray(decoded.role)) {
+          roleString = decoded.role.join(", ");
+        }
+
+        const userInfo : UserInfo = {
+          user_name : decoded.unique_name,
+          user_role : roleString,
+          logged_in : roleString.trim() !== ""
+        }
+
+        return userInfo;
   }
 }

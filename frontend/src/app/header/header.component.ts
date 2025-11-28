@@ -17,7 +17,7 @@ import { BackendService } from '../services/backend.service';
 })
 export class HeaderComponent implements OnInit {
   
-  public username$ = this.auth.username$;
+  public userinfo$ = this.auth.userinfo$;
   public lessonsMenuOpen = false;
 
   public constructor(
