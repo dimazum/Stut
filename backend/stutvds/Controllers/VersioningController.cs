@@ -18,9 +18,7 @@ namespace stutvds.Controllers
                 .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
                 .InformationalVersion;
 
-            var cleanVersion = version?.Split('+')[0];
-
-            return Content(cleanVersion!, "text/plain");
+            return Content(version!, "text/plain");
         }
     }
 }
