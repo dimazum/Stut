@@ -9,9 +9,8 @@ namespace stutvds.Controllers
     
     public class VersioningController : BaseController
     {
-        [HttpGet]
-        [Route("current")]
-        public JsonResult GetCurrentVersion()
+        [HttpGet("current")]
+        public IActionResult GetCurrentVersion()
         {
             var entryAssembly = Assembly.GetEntryAssembly();
 
@@ -19,7 +18,9 @@ namespace stutvds.Controllers
                 .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
                 .InformationalVersion;
 
-            return new JsonResult(version);
+            var cleanVersion = version?.Split('+')[0];
+
+            return Content(cleanVersion!, "text/plain");
         }
     }
 }
