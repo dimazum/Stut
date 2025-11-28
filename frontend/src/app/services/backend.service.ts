@@ -62,4 +62,8 @@ export class BackendService {
   public getRandomWord(w: string, count: number): Observable<string> {
     return this.httpClient.get(`${this.baseUrl}/trigger/randomWord/${w}/${count}`, { responseType: 'text' });
   }
+
+  public getCurrentVersion(): Observable<string> {
+    return this.httpClient.get(`${this.baseUrl}/versioning/current`, { responseType: 'text' });
+  }
 }
