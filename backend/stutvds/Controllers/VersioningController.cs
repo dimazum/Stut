@@ -1,5 +1,5 @@
-﻿using System.Reflection;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using stutvds.Controllers.Base;
 
 namespace stutvds.Controllers
@@ -9,16 +9,19 @@ namespace stutvds.Controllers
     
     public class VersioningController : BaseController
     {
-        [HttpGet("current")]
-        public IActionResult GetCurrentVersion()
+        private readonly IConfiguration _config;
+
+        public VersioningController(IConfiguration config)
         {
-            var entryAssembly = Assembly.GetEntryAssembly();
+            _config = config;
+        }
+        [HttpGet("hash")]
+        public IActionResult GetCurrentCommitHash()
+        {
+            //from deploy.sh (only live)
+            var hash = _config["COMMIT_HASH"] ?? "unknown";
 
-            var version = entryAssembly?
-                .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
-                .InformationalVersion;
-
-            return Content(version!, "text/plain");
+            return Content(hash, "text/plain");
         }
     }
 }

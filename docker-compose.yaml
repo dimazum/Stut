@@ -4,6 +4,7 @@ services:
     build: backend
     environment:
     - ASPNETCORE_ENVIRONMENT=Production
+    - COMMIT_HASH=${COMMIT_HASH}
     ports:
     - 5000:80
   client:

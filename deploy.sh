@@ -1,15 +1,20 @@
 #!/bin/bash
-set -e  # cancel script if error
+set -e
 
 echo "Pulling latest changes..."
 git pull origin develop --tags
 
-# images
-echo "Building Docker images..."
-docker-compose build
+COMMIT_HASH=$(git rev-parse --short HEAD)
+echo "Commit hash: $COMMIT_HASH"
 
-# start
+export COMMIT_HASH=$COMMIT_HASH   # установить env
+
+echo "Building Docker images..."
+docker-compose build              # теперь COMMIT_HASH доступен как build ARG
+
 echo "Starting containers..."
-docker-compose up -d
+docker-compose up -d              # COMMIT_HASH доступен как env
+
+unset COMMIT_HASH                 # удалить переменную
 
 echo "Deployment finished successfully"

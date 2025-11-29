@@ -10,13 +10,13 @@ import { BackendService } from '../services/backend.service';
 })
 export class AdminPageComponent implements OnInit {
 
-  public version: string | undefined = undefined;
+  public hash: string | undefined = undefined;
 
   constructor(private backendService: BackendService) {
   }
 
   public ngOnInit(): void {
-    this.backendService.getCurrentVersion().subscribe(data => (this.version = data));
+    this.backendService.getCurrentCommitHash().subscribe(data => (this.hash = data));
   }
 
 }
