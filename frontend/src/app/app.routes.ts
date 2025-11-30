@@ -66,7 +66,7 @@ export const routes: Routes = [
       { path: '', redirectTo: 'larynx', pathMatch: 'full' }, // редирект на "Основы"
     ],
   },
-   {
+  {
     path: 'admin-page',
     component: AdminPageComponent,
   },

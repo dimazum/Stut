@@ -12,14 +12,14 @@ export class RandomTextComponent implements OnInit {
   public article = '';
   public title = '';
 
-  public constructor(private backendServcie: BackendService) {}
+  public constructor(private backendService: BackendService) {}
 
   public ngOnInit(): void {
     this.getArticle();
   }
 
   private getArticle(): void {
-    this.backendServcie.getRandomArticle().subscribe(data => {
+    this.backendService.getRandomArticle().subscribe(data => {
       this.article = data.content;
       this.title = data.title;
     });

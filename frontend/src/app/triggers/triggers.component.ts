@@ -1,21 +1,22 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BackendService } from '../services/backend.service';
 import { TriggerResult, TriggerTaskResult } from '../models/models';
-import { DatePipe, NgFor, NgIf } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { StutEventSystem } from '../services/stut-event-system';
-import { Subject, switchMap, takeUntil } from 'rxjs';
+import { switchMap } from 'rxjs';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'stu-triggers',
   standalone: true,
-  imports: [NgFor, DatePipe, NgIf],
+  imports: [NgFor, NgIf],
   templateUrl: './triggers.component.html',
   styleUrl: './triggers.component.css',
 })
-export class TriggersComponent implements OnInit, OnDestroy {
+export class TriggersComponent implements OnInit {
   public triggers?: Array<TriggerResult>;
   public triggerTasks?: Array<TriggerTaskResult>;
-  private unsubscribe$ = new Subject<void>();
 
   public constructor(
     private backendService: BackendService,
@@ -27,7 +28,7 @@ export class TriggersComponent implements OnInit, OnDestroy {
 
     this.eventSystem.trigger$
       .pipe(
-        takeUntil(this.unsubscribe$),
+        untilDestroyed(this),
         switchMap(triggerValue => {
           return this.backendService.getTriggerTasks(triggerValue.value);
         })
@@ -36,7 +37,4 @@ export class TriggersComponent implements OnInit, OnDestroy {
   }
 
   //TODO вынести в базовый класс
-  public ngOnDestroy(): void {
-    this.unsubscribe$.next();
-  }
 }

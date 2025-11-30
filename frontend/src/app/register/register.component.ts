@@ -28,7 +28,7 @@ export class RegisterComponent {
     });
   }
 
-  public onSubmit() {
+  public onSubmit(): void {
     if (this.registerForm.valid) {
       this.authService.register(this.registerForm.value).subscribe({
         next: res => {

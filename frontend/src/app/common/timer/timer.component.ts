@@ -35,7 +35,7 @@ export class TimerComponent implements OnInit, OnDestroy {
     this.timer = timer(1000, 1000);
   }
 
-  public startTimer() {
+  public startTimer(): void {
     this.subscription = this.timer?.subscribe(() => {
       if (this.timeLeft > 0) {
         this.timeLeft--;
@@ -46,11 +46,11 @@ export class TimerComponent implements OnInit, OnDestroy {
     });
   }
 
-  public stopTimer() {
+  public stopTimer(): void {
     this.subscription?.unsubscribe();
   }
 
-  public resetTimer() {
+  public resetTimer(): void {
     this.timeLeft = 900;
   }
 

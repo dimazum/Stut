@@ -33,7 +33,7 @@ export class TriggerModalComponent implements OnInit {
     this.backendService.getTriggers().subscribe(data => (this.triggers = data));
   }
 
-  public onCreate() {
+  public onCreate(): void {
     if (this.triggerForm.valid) {
       const trigger: Trigger = {
         value: this.triggerForm.value.value,
@@ -59,13 +59,13 @@ export class TriggerModalComponent implements OnInit {
     this.eventSystem.trigger$.next(trigger);
   }
 
-  public onDelete(trigger: Trigger) {
+  public onDelete(trigger: Trigger): void {
     this.backendService.deleteTrigger(trigger.value).subscribe(() => {
       this.backendService.getTriggers().subscribe(data => (this.triggers = data));
     });
   }
 
-  public onToggle() {
+  public onToggle(): void {
     this.isOpen = !this.isOpen;
   }
 }

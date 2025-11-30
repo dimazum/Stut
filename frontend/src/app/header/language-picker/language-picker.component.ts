@@ -13,11 +13,11 @@ export class LanguagePickerComponent {
   public allLanguages = ['RU', 'ENG'];
   public isShown = false;
 
-  public mouseEnter() {
+  public mouseEnter(): void {
     this.isShown = true;
   }
 
-  public mouseLeave() {
+  public mouseLeave(): void {
     this.isShown = false;
   }
 }

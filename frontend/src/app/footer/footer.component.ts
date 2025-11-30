@@ -59,7 +59,7 @@ export class FooterComponent {
     }
   }
 
-  public onTimerFinished() {
+  public onTimerFinished(): void {
     this.backendService.finishLesson(this.lessonId, this.wordsCounter as number, 0).subscribe();
   }
 }

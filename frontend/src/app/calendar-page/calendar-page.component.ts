@@ -106,7 +106,7 @@ export class CalendarPageComponent implements OnInit {
     this.calendarGrid = calendar;
   }
 
-  public onRewardChange(day: DayCell, event: Event) {
+  public onRewardChange(day: DayCell, event: Event): void {
     const input = event.target as HTMLInputElement;
     const checked = input.checked;
 

@@ -21,7 +21,7 @@ export class LoginComponent {
     private router: Router
   ) {}
 
-  public onSubmit() {
+  public onSubmit(): void {
     this.authService.login(this.username, this.password).subscribe({
       next: () => this.router.navigate(['/']), // перенаправляем
       error: err => (this.errorMessage = err.error.message || 'Login failed'),

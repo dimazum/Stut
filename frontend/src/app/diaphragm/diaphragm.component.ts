@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NgFor } from '@angular/common';
-import { Subject } from 'rxjs';
 import { StutEventSystem } from '../services/stut-event-system';
-import { untilDestroyed } from '@ngneat/until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'stu-diaphragm',
   standalone: true,
@@ -13,7 +13,6 @@ import { untilDestroyed } from '@ngneat/until-destroy';
 })
 export class DiaphragmComponent implements OnInit {
   public exercises?: Array<Array<string>> = [];
-  private unsubscribe$ = new Subject<void>();
 
   public constructor(private eventSystem: StutEventSystem) {}
 

@@ -50,12 +50,12 @@ export class BackendService {
     return this.httpClient.post<number>(`${this.baseUrl}/lesson/start`, null);
   }
 
-  public finishLesson(id: number, words: number, wps: number) {
+  public finishLesson(id: number, words: number, wps: number): Observable<object> {
     const body = { id, words, wps };
     return this.httpClient.put(`${this.baseUrl}/lesson/finish`, body);
   }
 
-  public rewardLesson(id: number, value: boolean) {
+  public rewardLesson(id: number, value: boolean): Observable<object> {
     const body = { id, value };
     return this.httpClient.put(`${this.baseUrl}/lesson/reward`, body);
   }

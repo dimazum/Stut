@@ -29,7 +29,7 @@ export class SpeechRecognitionService implements OnDestroy {
     this.recognition.lang = 'ru-RU';
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    this.recognition.onresult = (event: any) => {
+    this.recognition.onresult = (event: any): void => {
       const text = event.results[event.results.length - 1][0].transcript;
       const wordCount = text.trim().split(/\s+/).length;
 
@@ -65,14 +65,14 @@ export class SpeechRecognitionService implements OnDestroy {
       console.log('Распознанный текст:', text, 'WPM:', speed.toFixed(1));
     };
 
-    this.recognition.onend = () => {
+    this.recognition.onend = (): void => {
       if (this.isRecognitionEnabled) {
         this.recognition.start();
       }
     };
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    this.recognition.onerror = (event: any) => {
+    this.recognition.onerror = (event: any): void => {
       console.error('Speech recognition error:', event.error);
       // Можно перезапустить распознавание, если ошибка recoverable
       if (this.isRecognitionEnabled && event.error !== 'not-allowed') {

@@ -54,7 +54,7 @@ export class AuthService {
     );
   }
 
-  public logout() {
+  public logout(): void {
     localStorage.removeItem('token');
     this.usernameSubject.next(null); // сбрасываем юзеринфо
     this.router.navigate(['/login']);
@@ -69,31 +69,31 @@ export class AuthService {
     if (!token) return null;
 
     try {
-       const userInfo = this.parceJwtToken(token);
-      
+      const userInfo = this.parceJwtToken(token);
+
       return userInfo ?? null;
     } catch {
       return null;
     }
   }
 
-  private parceJwtToken(token: string) : UserInfo | null{
+  private parceJwtToken(token: string): UserInfo | null {
     const decoded = jwtDecode<JwtPayload>(token);
 
-        let roleString: string = '';
+    let roleString: string = '';
 
-        if (typeof decoded.role === "string") {
-          roleString = decoded.role;
-        } else if (Array.isArray(decoded.role)) {
-          roleString = decoded.role.join(", ");
-        }
+    if (typeof decoded.role === 'string') {
+      roleString = decoded.role;
+    } else if (Array.isArray(decoded.role)) {
+      roleString = decoded.role.join(', ');
+    }
 
-        const userInfo : UserInfo = {
-          user_name : decoded.unique_name,
-          user_role : roleString,
-          logged_in : roleString.trim() !== ""
-        }
+    const userInfo: UserInfo = {
+      user_name: decoded.unique_name,
+      user_role: roleString,
+      logged_in: roleString.trim() !== '',
+    };
 
-        return userInfo;
+    return userInfo;
   }
 }
