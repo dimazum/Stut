@@ -1,46 +1,64 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TimerComponent } from '../common/timer/timer.component';
 import { startLessonSubject } from '../models/events';
-import { NgClass } from '@angular/common';
+import { NgClass, NgIf } from '@angular/common';
 import { SpeechRecognitionService } from '../services/speech-recognition.service';
 import { BackendService } from '../services/backend.service';
 import { TriggerModalComponent } from '../triggers/trigger-modal/trigger-modal.component';
 import { Subscription } from 'rxjs';
+import { VisualizerComponent } from '../visualizer-component/visualizer-component.component';
+import { AudioRecorderService } from '../services/audio-recorder.service';
+import { DailyLessonStatus } from '../models/enums';
+import { DayLessonDto } from '../models/models';
 
 @Component({
   selector: 'stu-footer',
   standalone: true,
-  imports: [TimerComponent, NgClass, TriggerModalComponent],
+  imports: [TimerComponent, NgClass, TriggerModalComponent, VisualizerComponent, NgIf],
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.css'],
 })
-export class FooterComponent {
+export class FooterComponent implements OnInit{
   public isEnabled = false;
   public startBtnName = 'Start';
-  public wordsCounter? = 0;
+  public wordsCounter = 0;
   public speedCounter? = 0;
   public text? = '';
-  public lessonId: number = 0;
-
-  private recognitionSub?: Subscription; // <-- подписка на результаты распознавания
+  public dailyLesson? : DayLessonDto;
+  private recognitionSub?: Subscription;
+  public timeLeftInSec: number = 0;
 
   public constructor(
     private speechRecognitionService: SpeechRecognitionService,
-    private backendService: BackendService
+    private backendService: BackendService,
+    private audioRecorderService : AudioRecorderService
   ) {}
 
-  public startListening(): void {
+  ngOnInit(): void {
+    this.backendService.getDailyLesson().subscribe( x => {
+      this.dailyLesson = x;
+      this.timeLeftInSec = this.dailyLesson.leftInSec;
+      this.speechRecognitionService.setSpokenWords(x.wordsSpoken);
+      this.wordsCounter = x.wordsSpoken;
+    });
+
+  }
+//переделать в toggle
+  public startListening() {
     this.isEnabled = !this.isEnabled;
 
-    // уведомляем сервис о старте/стопе урока
-    startLessonSubject.next(this.isEnabled);
 
     if (this.isEnabled) {
+    
+
       this.backendService.startLesson().subscribe(x => {
-        this.lessonId = x;
+        this.dailyLesson = x;
+
+        startLessonSubject.next({enabled: true, secondsRemaining : x.leftInSec});
+
+        this.audioRecorderService.startRecording();
       });
 
-      this.speechRecognitionService.Start();
       this.startBtnName = 'Stop';
 
       // сохраняем подписку на результаты распознавания
@@ -50,16 +68,38 @@ export class FooterComponent {
         //this.speedCounter = result.wpm;
       });
     } else {
-      this.speechRecognitionService.Stop();
       this.startBtnName = 'Start';
 
-      // отписка от Subject
+      if(this.dailyLesson?.status !== DailyLessonStatus.Finished){
+        
+      }
+
+      this.backendService.pauseLesson(this.dailyLesson!.id, this.wordsCounter, 0).subscribe(x => {
+        this.dailyLesson = x;
+
+        startLessonSubject.next({enabled: false, secondsRemaining : x.leftInSec});
+
+        this.audioRecorderService.stopAndUpload();
+      });
+
       this.recognitionSub?.unsubscribe();
       this.recognitionSub = undefined;
     }
   }
 
   public onTimerFinished() {
-    this.backendService.finishLesson(this.lessonId, this.wordsCounter as number, 0).subscribe();
+    if(this.dailyLesson?.status === DailyLessonStatus.Finished ||
+      this.dailyLesson?.status === DailyLessonStatus.Rewarded){
+      return;
+    }
+    this.backendService.finishLesson(this.dailyLesson!.id, this.wordsCounter as number, 0).subscribe(
+      x =>{
+            this.dailyLesson = x
+            startLessonSubject.next({enabled: false, secondsRemaining : 0});
+            this.isEnabled = false;
+            this.startBtnName = 'Start';
+        }
+    );
+    //this.audioRecorderService.stopRecording().subscribe();
   }
 }

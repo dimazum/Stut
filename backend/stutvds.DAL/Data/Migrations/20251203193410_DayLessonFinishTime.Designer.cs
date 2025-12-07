@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using stutvds.Data;
 
@@ -11,9 +12,11 @@ using stutvds.Data;
 namespace stutvds.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251203193410_DayLessonFinishTime")]
+    partial class DayLessonFinishTime
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -259,17 +262,14 @@ namespace stutvds.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTimeOffset?>("FinishTime")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("FinishTime")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int>("LeftInSec")
-                        .HasColumnType("int");
+                    b.Property<DateTime?>("PauseTime")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTimeOffset>("StartRangeTime")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<DateTimeOffset>("StartTime")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");

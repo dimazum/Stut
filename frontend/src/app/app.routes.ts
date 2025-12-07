@@ -17,6 +17,7 @@ import { Lesson5Component } from './lessons/lesson5/lesson5.component';
 import { Lesson6Component } from './lessons/lesson6/lesson6.component';
 import { Lesson7Component } from './lessons/lesson7/lesson7.component';
 import { AdminPageComponent } from './admin-page/admin-page.component';
+import { AudioListComponent } from './audio-list/audio-list.component';
 
 export const routes: Routes = [
   {
@@ -63,10 +64,14 @@ export const routes: Routes = [
       { path: 'lesson5', component: Lesson5Component },
       { path: 'lesson6', component: Lesson6Component },
       { path: 'lesson7', component: Lesson7Component },
-      { path: '', redirectTo: 'larynx', pathMatch: 'full' }, // редирект на "Основы"
+      { path: '', redirectTo: 'larynx', pathMatch: 'full' },
     ],
   },
-   {
+  {
+    path: 'audio-files-page',
+    component: AudioListComponent,
+  },
+  {
     path: 'admin-page',
     component: AdminPageComponent,
   },

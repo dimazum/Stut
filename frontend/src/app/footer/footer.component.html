@@ -1,4 +1,4 @@
-<div class="footer">
+<!-- <div class="footer">
   <div class="speech-trigger-container">
     <div class="start-speech-container">
       <button [ngClass]="{ active: isEnabled }" (click)="startListening()">{{ startBtnName }}</button>
@@ -23,8 +23,35 @@
     </div>
     <div class="timer-container">
       <stu-timer (finishedEvent)="onTimerFinished()"></stu-timer>
-    </div>12
+    </div>
+    
+<app-visualizer></app-visualizer>
   </div>
-</div>
+</div> -->
 
+<footer class="footer">
+  
+  <!-- Кнопка Старт -->
+  <button class="start-btn" (click)="startListening()" [class.enabled]="isEnabled">
+    {{ startBtnName }}
+  </button>
+
+  <!-- Блок статистики -->
+  <div class="stats">
+    <div>Прочитано: <strong>{{ wordsCounter }}/1000</strong></div>
+    <div>Скорость: <strong>{{ speedCounter }} слов/мин</strong></div>
+    <div><stu-timer [timeLeft]="timeLeftInSec" (finishedEvent)="onTimerFinished()"></stu-timer></div>
+  </div>
+
+  <!-- Textarea с распознанным текстом -->
+  <div class="text-block">
+    <textarea placeholder="Распознанный текст...">{{ text }}</textarea>
+  </div>
+
+  <!-- Эквалайзер -->
+  <div class="equalizer">
+    <app-visualizer></app-visualizer>
+  </div>
+
+</footer>
 <stu-trigger-modal></stu-trigger-modal>

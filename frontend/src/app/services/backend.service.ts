@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { ArticleData, CalendarData, Trigger, TriggerResult, TriggerTaskResult } from '../models/models';
+import { map, Observable, tap } from 'rxjs';
+import { ArticleData, AudioFile, CalendarData, DayLessonDto, Trigger, TriggerResult, TriggerTaskResult } from '../models/models';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -46,13 +46,26 @@ export class BackendService {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public startLesson(): Observable<any> {
-    return this.httpClient.post<number>(`${this.baseUrl}/lesson/start`, null);
+  public startLesson(): Observable<DayLessonDto> {
+  return this.httpClient
+    .post<DayLessonDto>(`${this.baseUrl}/lesson/start`, null);
   }
 
-  public finishLesson(id: number, words: number, wps: number) {
+  public getDailyLesson(): Observable<DayLessonDto> {
+    return this.httpClient
+      .get<DayLessonDto>(`${this.baseUrl}/lesson/daily`);
+  }
+
+  public pauseLesson(id: number, words: number, wps: number): Observable<DayLessonDto> {
     const body = { id, words, wps };
-    return this.httpClient.put(`${this.baseUrl}/lesson/finish`, body);
+    return this.httpClient
+      .put<DayLessonDto>(`${this.baseUrl}/lesson/pause`, body);
+  }
+
+  public finishLesson(id: number, words: number, wps: number): Observable<DayLessonDto> {
+    const body = { id, words, wps };
+    return this.httpClient
+      .put<DayLessonDto>(`${this.baseUrl}/lesson/finish`, body);
   }
 
   public rewardLesson(id: number, value: boolean) {
@@ -65,5 +78,31 @@ export class BackendService {
 
   public getCurrentCommitHash(): Observable<string> {
     return this.httpClient.get(`${this.baseUrl}/versioning/hash`, { responseType: 'text' });
+  }
+
+//AudioService
+  public uploadRecording(blob: Blob) {
+    const formData = new FormData();
+    formData.append('file', blob, 'recording.webm');
+
+    return this.httpClient.post<FormData>(`${this.baseUrl}/audio/upload`, formData);
+  }
+
+  public getList(): Observable<AudioFile[]> {
+    return this.httpClient.get<AudioFile[]>(`${this.baseUrl}/audio/list`);
+  }
+
+  public getFileUrl(fileName: string): string {
+    return `${this.baseUrl}/audio/file/${fileName}`;
+  }
+
+//   public deleteFile(fileName: string) {
+//   const token = localStorage.getItem('token'); // JWT
+//   return this.httpClient.delete(`/api/audio/${fileName}`, {
+//     headers: { 'Authorization': `Bearer ${token}` }
+//   });
+// }
+  public deleteFile(fileName: string) {
+  return this.httpClient.delete(`/api/audio/${fileName}`);
   }
 }

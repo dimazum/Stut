@@ -2,6 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { startLessonSubject } from '../models/events';
 import { ReplaySubject, Subscription } from 'rxjs';
 import { RecognitionData } from '../models/models';
+import { DailyLessonStatus } from '../models/enums';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare let webkitSpeechRecognition: any;
@@ -27,6 +28,7 @@ export class SpeechRecognitionService implements OnDestroy {
     this.recognition = new webkitSpeechRecognition();
     this.recognition.interimResults = false;
     this.recognition.lang = 'ru-RU';
+
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     this.recognition.onresult = (event: any) => {
@@ -80,16 +82,20 @@ export class SpeechRecognitionService implements OnDestroy {
       }
     };
 
-    this.subscription = startLessonSubject.subscribe(isEnabled => {
-      if (isEnabled) {
-        this.Start();
+    this.subscription = startLessonSubject.subscribe(dayLesson => {
+      if (dayLesson?.enabled) {
+        this.start();
       } else {
-        this.Stop();
+        this.stop();
       }
     });
   }
 
-  public Start(): void {
+  public setSpokenWords(words: number){
+      this.totalWordCount = words;
+  }
+
+  public start(): void {
     if (!this.isRecognitionEnabled) {
       this.isRecognitionEnabled = true;
       this.windowStartTime = Date.now(); // начинаем отсчет сразу
@@ -98,7 +104,7 @@ export class SpeechRecognitionService implements OnDestroy {
     }
   }
 
-  public Stop(): void {
+  public stop(): void {
     if (this.isRecognitionEnabled) {
       this.isRecognitionEnabled = false;
       this.recognition.stop();
@@ -107,6 +113,6 @@ export class SpeechRecognitionService implements OnDestroy {
 
   public ngOnDestroy(): void {
     this.subscription?.unsubscribe();
-    this.Stop();
+    this.stop();
   }
 }

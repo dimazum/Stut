@@ -1,108 +1,65 @@
-.footer{
+.footer {
     position: fixed;
     bottom: 0;
-    left: 0;
-    right: 0;
-    height: 55px;
-    background-color: #3e4449;
-    color: #ffffff;
-    padding: 4px 100px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  width: 100%;
+  padding: 10px 20px;
+
+  background: #1f1f1f;
+  color: white;
+
+  border-top: 2px solid #333;
 }
 
-.timer-container{
-    display: flex;
-    justify-content: center;
-    font-size: 12px;
-    margin-left: 25px;
+/* Кнопка */
+.start-btn {
+    min-width: 100px;
+  background: #4caf50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  border: 1px solid #94be16;
+}
+.start-btn.enabled {
+  background: #b3f107;
+  border: 1px solid #94be16;
+}
+.start-btn:hover {
+  background: #45a049;
+}
+.start-btn.enabled:hover {
+  background: #3ed745;
+}
+/* Статистика */
+.stats {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 150px;
 }
 
-.speech-trigger-container{
-    display: flex;
+/* Textarea */
+.text-block textarea {
+  width: 350px;
+  height: 70px;
+  resize: none;
+  padding: 5px;
+  border-radius: 8px;
+  border: 1px solid #444;
+  background: #2e2e2e;
+  color: white;
 }
 
-.start-speech-container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+/* Эквалайзер */
+.equalizer {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 40px;
 }
-
-.start-speech-container>button{
-    height: 30px;
-    width: 45px;
-    background-color: #cececc;
-    color: #43A047;
-    border: none;
-    font-weight: 600;
-}
-
-.start-speech-container>button:hover{
-    opacity: 0.85;
-}
-
-.active{
-    background-color: rgb(234 252 36) !important;
-}
-
-.speech-container{
-    display: flex;
-    justify-content: center;
-}
-
-.speech-right-block{
-    width: 400px;
-    height: 46px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    border: 1px solid;
-    padding: 2px 3px 0;
-    font-size: 14px;
-    line-height: 1;
-}
-
-.speech-container > div{
-    margin-left: 15px;
-}
-
-.words-qty-container{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.words-qty-container > *{
-    margin-left: 10px;
-}
-
-.footer span{
-    color: rgb(234 252 36);
-}
-
-.speech-container-buttom{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: none;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    cursor: pointer;
-    background-color: #cececc;
-    color: #43A047;
-    font-weight: 600;
-}
-
-
-.speech-container-buttom:hover{
-    opacity: 0.85;
-}
-
-.average-words-qty-container{
-    display: flex;
-    justify-content: center;
-}
-
-.average-words-qty-container > *{
-    margin-left: 10px;
-}
-
-

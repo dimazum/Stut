@@ -1,3 +1,6 @@
+import { Time } from "@angular/common";
+import { DailyLessonStatus } from "./enums";
+
 export interface ArticleData {
   id: string;
   title: string;
@@ -9,7 +12,7 @@ export interface ArticleData {
 
 export class RecognitionData {
   public text?: string;
-  public wordCount?: number;
+  public wordCount: number = 0;
   public wpm?: number;
 }
 
@@ -43,3 +46,27 @@ export interface CalendarData {
   month: number; // месяц (0-11)
   days: DayData[]; // массив дней месяца
 }
+
+export interface DayLessonEnabledDto {
+  enabled: boolean;
+  secondsRemaining: number;
+}
+
+export interface DayLessonDto {
+  id: number;
+  userId: string;
+  status: DailyLessonStatus;
+  startTime: Date;
+  wordsSpoken: number;
+  wps: number;
+  leftInSec: number;
+}
+
+export interface AudioFile {
+  fileName: string;
+  fullPath: string;
+  uploadedAt: string;
+}
+
+
+

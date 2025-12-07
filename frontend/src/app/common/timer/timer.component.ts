@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Observable, Subscription, timer } from 'rxjs';
 import { startLessonSubject } from '../../models/events';
 import { DecimalPipe } from '@angular/common';
@@ -14,15 +14,15 @@ import { UntilDestroy } from '@ngneat/until-destroy';
 })
 export class TimerComponent implements OnInit, OnDestroy {
   public timer?: Observable<number>;
-  public timeLeft: number = 900;
-
+  @Input() public timeLeft: number = 0;
+  //@Input() public lessonTimeInSec: number = 900;
   @Output() public finishedEvent = new EventEmitter();
 
   private subscription?: Subscription;
   private finished: boolean = false;
 
   public get minutes(): number {
-    return Math.floor(this.timeLeft / 60);
+    return Math.floor(this.timeLeft/ 60);
   }
 
   public get seconds(): number {
@@ -30,7 +30,17 @@ export class TimerComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    startLessonSubject.subscribe(isEnabled => (isEnabled ? this.startTimer() : this.stopTimer()));
+    startLessonSubject.subscribe(x =>{
+      this.timeLeft = x?.secondsRemaining ?? this.timeLeft;
+
+      if(x?.enabled){
+        this.startTimer()
+      }
+      else{
+          this.stopTimer()
+      }
+    });
+    
 
     this.timer = timer(1000, 1000);
   }
@@ -51,7 +61,7 @@ export class TimerComponent implements OnInit, OnDestroy {
   }
 
   public resetTimer() {
-    this.timeLeft = 900;
+    this.timeLeft = 0;
   }
 
   public ngOnDestroy(): void {

@@ -27,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Common\" />
     <Folder Include="wwwroot\Topics\ru\Countries\" />
   </ItemGroup>
 

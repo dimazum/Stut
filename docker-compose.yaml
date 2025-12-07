@@ -1,22 +1,26 @@
 ﻿version: "3.9"
+
 services:
   backend:
     build: backend
     environment:
-    - ASPNETCORE_ENVIRONMENT=Production
-    - COMMIT_HASH=${COMMIT_HASH}
+      - ASPNETCORE_ENVIRONMENT=Production
+      - COMMIT_HASH=${COMMIT_HASH}
     ports:
-    - 5000:80
+      - 5000:80
+    volumes:
+      - audio_data:/app/Uploads   # хранилище аудио
+
   client:
     image: angular-client
-    build: 
+    build:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-    - 5001:4200
+      - 5001:4200
     environment:
-    - NG_ENV=production
-    
+      - NG_ENV=production
+
   proxy:
     image: nginx:1.21-alpine
     volumes:
@@ -36,7 +40,6 @@ services:
     entrypoint: /bin/sh
     command: -c "trap exit TERM; while :; do sleep 6h & wait $${!}; certbot renew --webroot -w /var/www/certbot; done"
 
-
   stut.database:
     image: mcr.microsoft.com/mssql/server:2017-latest
     container_name: stut.database
@@ -47,3 +50,6 @@ services:
       - "5434:1433"
     volumes:
       - ./data:/var/opt/mssql/data
+
+volumes:
+  audio_data:

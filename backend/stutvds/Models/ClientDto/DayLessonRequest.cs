@@ -1,6 +1,6 @@
 ﻿namespace stutvds.Models.ClientDto
 {
-    public class FinishLessonRequest
+    public class DayLessonRequest
     {
         public int Id { get; set; }
         public int Words { get; set; }

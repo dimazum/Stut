@@ -17,21 +17,21 @@ namespace stutvds.DAL.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<DayLesson> GetByUserIdAndDay(Guid userId, DateTime date)
+        public async Task<DayLesson> GetByUserIdAndDay(Guid userId, DateTimeOffset date)
         {
             return await _dbContext.DayLessons
                 .FirstOrDefaultAsync(x => x.UserId == userId &&
-                                          x.Date.Year == date.Year &&
-                                          x.Date.Month == date.Month &&
-                                          x.Date.Day == date.Day);
+                                          x.StartTime.Year == date.Year &&
+                                          x.StartTime.Month == date.Month &&
+                                          x.StartTime.Day == date.Day);
         }
         
-        public async Task<List<DayLesson>> GetAllByUserIdAndMonth(Guid userId, DateTime date)
+        public async Task<List<DayLesson>> GetAllByUserIdAndMonth(Guid userId, DateTimeOffset date)
         {
             return await _dbContext.DayLessons
                 .Where(x => x.UserId == userId &&
-                                          x.Date.Year == date.Year &&
-                                          x.Date.Month == date.Month)
+                                          x.StartTime.Year == date.Year &&
+                                          x.StartTime.Month == date.Month)
                 .ToListAsync();
         }
     }
