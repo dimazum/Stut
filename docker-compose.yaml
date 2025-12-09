@@ -9,7 +9,16 @@ services:
     ports:
       - 5000:80
     volumes:
-      - audio_data:/app/Uploads   # хранилище аудио
+      - audio_data:/app/Uploads
+      
+  voice-analyzer:
+    build: ./voice-analyzer
+    container_name: voice.analyzer
+    ports:
+      - "8001:8000"
+    volumes:
+      - audio_data:/audio
+    restart: unless-stopped
 
   client:
     image: angular-client

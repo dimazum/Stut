@@ -393,3 +393,6 @@ testem.log
 .DS_Store
 Thumbs.db
 
+# Python virtual environment
+.venv/
+

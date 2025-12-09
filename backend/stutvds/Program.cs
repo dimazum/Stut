@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using stutvds;
+using stutvds.Clients;
 using stutvds.DAL;
 using stutvds.Data;
 using stutvds.Logic;
@@ -64,6 +66,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorization();
 
 builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddHttpClient<VoiceAnalyzerClient>(client =>
+{
+    var uri = builder.Configuration.GetSection("VoiceAnalyzer:Uri").Get<string>();
+    var timeout = builder.Configuration.GetSection("VoiceAnalyzer:Timeout").Get<int>();
+    client.BaseAddress = new Uri(uri);
+    client.Timeout = TimeSpan.FromSeconds(timeout);
+});
+
 builder.Services.AddDataAccessLayer();
 builder.Services.AddLogicLayer();
 

@@ -8,17 +8,26 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using stutvds.Clients;
 using stutvds.Controllers.Base;
+using stutvds.DAL.Repositories;
 
 [Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class AudioController : BaseController
 {
+    private readonly VoiceAnalyzerClient _vaclient;
+    private readonly VoiceAnalyseRepository _voiceAnalyseRepository;
     private readonly string _uploadPath;
 
-    public AudioController(IConfiguration config, IWebHostEnvironment env)
+    public AudioController(IConfiguration config,
+        IWebHostEnvironment env,
+        VoiceAnalyzerClient vaclient,
+        VoiceAnalyseRepository voiceAnalyseRepository)
     {
+        _vaclient = vaclient;
+        _voiceAnalyseRepository = voiceAnalyseRepository;
         var configuredPath = config["AudioStoragePath"];
         _uploadPath = Path.IsPathRooted(configuredPath)
             ? configuredPath
@@ -40,6 +49,31 @@ public class AudioController : BaseController
 
         await using var stream = System.IO.File.Create(filePath);
         await file.CopyToAsync(stream);
+        
+        
+        //analyser
+        {
+            await using var stream2 = file.OpenReadStream();
+
+            var result = await _vaclient.AnalyzeAsync(
+                stream2,
+                file.FileName
+            );
+            
+            var entity = new VoiceAnalysisEntity
+            {
+                UserId = UserId,
+                MeanPitch = result.MeanPitch,
+                PitchMin = result.PitchMin,
+                PitchMax = result.PitchMax,
+                VolumeDb = result.VolumeDb,
+                MfccMean = result.MfccMean
+            };
+
+
+            await _voiceAnalyseRepository.AddAsync(entity);
+        }
+       
 
         return Ok(new { file = fileName, path = filePath, uploadedAt = DateTime.UtcNow });
     }
