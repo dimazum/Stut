@@ -19,6 +19,7 @@ export class HeaderComponent implements OnInit {
   
   public userinfo$ = this.auth.userinfo$;
   public lessonsMenuOpen = false;
+  public voiceAnalysisMenuOpen = false;
 
   public constructor(
     private auth: AuthService,
@@ -28,6 +29,7 @@ export class HeaderComponent implements OnInit {
   ) {
     this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => {
       this.lessonsMenuOpen = false; // закрыть меню при переходе
+      this.voiceAnalysisMenuOpen = false;
     });
   }
 
@@ -40,6 +42,10 @@ export class HeaderComponent implements OnInit {
 
   public toggleLessonsMenu() {
     this.lessonsMenuOpen = !this.lessonsMenuOpen;
+  }
+
+   public toggleVoiceAnalysisMenu() {
+    this.voiceAnalysisMenuOpen = !this.voiceAnalysisMenuOpen;
   }
 
   public closeMenu() {

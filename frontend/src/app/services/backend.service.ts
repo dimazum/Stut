@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable, tap } from 'rxjs';
-import { ArticleData, AudioFile, CalendarData, DayLessonDto, Trigger, TriggerResult, TriggerTaskResult } from '../models/models';
+import { ArticleData, AudioFile, CalendarData, DayLessonDto, Trigger, TriggerResult, TriggerTaskResult, VoiceAnalysisResult } from '../models/models';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -96,13 +96,11 @@ export class BackendService {
     return `${this.baseUrl}/audio/file/${fileName}`;
   }
 
-//   public deleteFile(fileName: string) {
-//   const token = localStorage.getItem('token'); // JWT
-//   return this.httpClient.delete(`/api/audio/${fileName}`, {
-//     headers: { 'Authorization': `Bearer ${token}` }
-//   });
-// }
   public deleteFile(fileName: string) {
   return this.httpClient.delete(`/api/audio/${fileName}`);
+  }
+
+  public getVoiceAnalysisResults() {
+  return this.httpClient.get<VoiceAnalysisResult[]>(`/api/voiceAnalysis/last`);
   }
 }

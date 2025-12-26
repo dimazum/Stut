@@ -10,11 +10,12 @@ import { VisualizerComponent } from '../visualizer-component/visualizer-componen
 import { AudioRecorderService } from '../services/audio-recorder.service';
 import { DailyLessonStatus } from '../models/enums';
 import { DayLessonDto } from '../models/models';
+import { TextareaAutoClearComponent } from '../common/textarea-auto-clear/textarea-auto-clear.component';
 
 @Component({
   selector: 'stu-footer',
   standalone: true,
-  imports: [TimerComponent, NgClass, TriggerModalComponent, VisualizerComponent, NgIf],
+  imports: [TextareaAutoClearComponent,TimerComponent, NgClass, TriggerModalComponent, VisualizerComponent, NgIf],
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.css'],
 })
@@ -23,7 +24,7 @@ export class FooterComponent implements OnInit{
   public startBtnName = 'Start';
   public wordsCounter = 0;
   public speedCounter? = 0;
-  public text? = '';
+  public text = '';
   public dailyLesson? : DayLessonDto;
   private recognitionSub?: Subscription;
   public timeLeftInSec: number = 0;
@@ -63,7 +64,7 @@ export class FooterComponent implements OnInit{
 
       // сохраняем подписку на результаты распознавания
       this.recognitionSub = this.speechRecognitionService.recognitionResult.subscribe(result => {
-        this.text = result.text;
+        this.text = result.text ?? '';
         this.wordsCounter = result.wordCount;
         //this.speedCounter = result.wpm;
       });

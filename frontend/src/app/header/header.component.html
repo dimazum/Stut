@@ -17,10 +17,17 @@
       </div>
     </div>
 
+    <div class="nav-item dropdown" (click)="toggleVoiceAnalysisMenu()" (clickOutside)="voiceAnalysisMenuOpen = false" *ngIf="true">
+      Анализ голоса
+      <div class="dropdown-menu" *ngIf="voiceAnalysisMenuOpen">
+        <a routerLink="/audio-files">Записи</a>
+        <a routerLink="/voice-analysis">Диаграммы</a>
+      </div>
+    </div>
+
     <div class="nav-item" routerLink="/exercises">Exercises</div>
     <div class="nav-item" routerLink="/twisters">Twisters</div>
     <div class="nav-item" routerLink="/triggers">Triggers</div>
-    <div class="nav-item" routerLink="/audio-files-page">Аудио файлы</div>
     <div class="nav-item" routerLink="/admin-page">Admin</div>
   </div>
 

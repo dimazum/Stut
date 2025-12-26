@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using stutvds.Clients;
 using stutvds.Controllers.Base;
 using stutvds.DAL.Repositories;
+using stutvds.Models.VoiceAnalizerDto;
 
 [Authorize]
 [ApiController]
@@ -55,7 +56,7 @@ public class AudioController : BaseController
         {
             await using var stream2 = file.OpenReadStream();
 
-            var result = await _vaclient.AnalyzeAsync(
+            VoiceAnalysisResult result = await _vaclient.AnalyzeAsync(
                 stream2,
                 file.FileName
             );
@@ -63,10 +64,30 @@ public class AudioController : BaseController
             var entity = new VoiceAnalysisEntity
             {
                 UserId = UserId,
-                MeanPitch = result.MeanPitch,
+
+                Duration = result.Duration,
+                RecordedAt = DateTimeOffset.UtcNow,
+
+                // ===== Pitch =====
+                PitchMean = result.PitchMean,
+                PitchStd = result.PitchStd,
                 PitchMin = result.PitchMin,
                 PitchMax = result.PitchMax,
-                VolumeDb = result.VolumeDb,
+
+                // ===== Volume =====
+                VolumeMeanDb = result.VolumeMeanDb,
+                VolumeStdDb = result.VolumeStdDb,
+                VolumePeakDb = result.VolumePeakDb,
+
+                // ===== Rhythm / Timing =====
+                SpeechRate = result.SpeechRate,
+                PauseRatio = result.PauseRatio,
+
+                // ===== Voice Quality =====
+                Jitter = result.Jitter,
+                Shimmer = result.Shimmer,
+
+                // ===== MFCC =====
                 MfccMean = result.MfccMean
             };
 
@@ -76,9 +97,13 @@ public class AudioController : BaseController
        
 
         return Ok(new { file = fileName, path = filePath, uploadedAt = DateTime.UtcNow });
+
+        var t =
+            "На утреннем поле медленно пробегала белка. Ветер осторожно шевелил высокие травы, а солнце освещало капли росы на каждом листочке. Проходя мимо старого дуба, птицы пели свои трели, переплетая лёгкую музыку с шумом листьев." +
+            "\n\nКаждый звук природы словно напоминал о тишине и гармонии вокруг. Человек, остановившийся на мгновение, мог услышать дыхание леса, почувствовать ритм ветра и мягкость солнечного света. Шагая по тропинке, легко замечать, как каждое движение сопровождается мелодией, а простая прогулка превращается в маленькое приключение для слуха и души.";
     }
     
-        // ============================================================
+    // ============================================================
     //  GET api/audio/list
     //  Возвращает список файлов с датами
     // ============================================================
@@ -106,7 +131,6 @@ public class AudioController : BaseController
 
 
     // ============================================================
-    //  GET api/audio/file/{userId}/{fileName}
     //  Возвращает сам аудиофайл
     // ============================================================
     [HttpGet("file/{fileName}")]

@@ -6,18 +6,38 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - COMMIT_HASH=${COMMIT_HASH}
+      - RABBITMQ_HOST=rabbitmq
     ports:
       - 5000:80
     volumes:
       - audio_data:/app/Uploads
-      
+    depends_on:
+      - rabbitmq
+
   voice-analyzer:
     build: ./voice-analyzer
     container_name: voice.analyzer
+    environment:
+      - RABBITMQ_HOST=rabbitmq
     ports:
       - "8001:8000"
     volumes:
       - audio_data:/audio
+    restart: unless-stopped
+    depends_on:
+      - rabbitmq
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      #- "5672:5672"     # AMQP
+      - "15672:15672"   # Management UI (временно для дебага)
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
     restart: unless-stopped
 
   client:
@@ -62,3 +82,4 @@ services:
 
 volumes:
   audio_data:
+  rabbitmq_data:

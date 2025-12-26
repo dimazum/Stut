@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { BackendService } from '../services/backend.service';
-import { AudioFile } from '../models/models';
+import { BackendService } from '../../services/backend.service';
+import { AudioFile } from '../../models/models';
 import { CommonModule } from '@angular/common';
 
 @Component({

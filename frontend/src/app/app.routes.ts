@@ -17,7 +17,8 @@ import { Lesson5Component } from './lessons/lesson5/lesson5.component';
 import { Lesson6Component } from './lessons/lesson6/lesson6.component';
 import { Lesson7Component } from './lessons/lesson7/lesson7.component';
 import { AdminPageComponent } from './admin-page/admin-page.component';
-import { AudioListComponent } from './audio-list/audio-list.component';
+import { AudioListComponent } from './voise-analysis/audio-list/audio-list.component';
+import { VoiseAnlysisPageComponent } from './voise-analysis/voise-anlysis-page/voise-anlysis-page.component';
 
 export const routes: Routes = [
   {
@@ -68,8 +69,12 @@ export const routes: Routes = [
     ],
   },
   {
-    path: 'audio-files-page',
+    path: 'audio-files',
     component: AudioListComponent,
+  },
+  {
+    path: 'voice-analysis',
+    component: VoiseAnlysisPageComponent,
   },
   {
     path: 'admin-page',

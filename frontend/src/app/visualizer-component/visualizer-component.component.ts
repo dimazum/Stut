@@ -26,6 +26,7 @@ export class VisualizerComponent implements  OnDestroy {
   private audioContext!: AudioContext;
   private source!: MediaStreamAudioSourceNode;
   private lessonSub!: Subscription;
+  private stream!: MediaStream;
 
   constructor() {
     this.lessonSub = startLessonSubject.subscribe(x => {
@@ -39,14 +40,14 @@ export class VisualizerComponent implements  OnDestroy {
 
 async start(enableDelay: boolean = false) {
 
-  const stream = await navigator.mediaDevices.getUserMedia({
+  this.stream = await navigator.mediaDevices.getUserMedia({
     audio: { deviceId: { exact: 'default' } }
   });
 
   this.audioContext = new AudioContext();
 
   // Создаём узел микрофона
-  this.source = this.audioContext.createMediaStreamSource(stream);
+  this.source = this.audioContext.createMediaStreamSource(this.stream);
 
   // Настраиваем воспроизведение для наушников
   if (enableDelay) {
@@ -69,8 +70,10 @@ async start(enableDelay: boolean = false) {
 }
 
   async stop() {
+    
    this.audioMotion?.destroy();
-    //this.audioContext?.close();
+   this.audioContext?.close();
+   this.stream?.getTracks().forEach(track => track.stop());
   }
 
   ngOnDestroy() {

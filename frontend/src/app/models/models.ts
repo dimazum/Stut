@@ -68,5 +68,22 @@ export interface AudioFile {
   uploadedAt: string;
 }
 
+export interface VoiceAnalysisResult {
+  duration: number;
+  pitchMean?: number;
+  pitchStd?: number;
+  pitchMin?: number;
+  pitchMax?: number;
+  volumeMeanDb: number;
+  volumeStdDb: number;
+  volumePeakDb: number;
+  speechRate: number;
+  pauseRatio: number;
+  jitter?: number;
+  shimmer?: number;
+  mfccMean: number[];
+  recordedAt: string; // дата записи
+}
+
 
 
