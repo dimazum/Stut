@@ -14,3 +14,11 @@ dotnet dev-certs https --trust
 http://localhost:15672/
 95.182.122.4:15672
 
+#Обновить файл deploy.sh
+Вызвать на VPS:
+chmod +x deploy.sh
+
+#Запустить деплой на VPS
+dps
+или
+./deploy.sh
