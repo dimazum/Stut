@@ -8,7 +8,7 @@ import { environment } from '../../environments/environment';
   providedIn: 'root',
 })
 export class BackendService {
-  public baseUrl = environment.apiUrl;
+  public baseUrl = environment.baseUrl + '/api';
 
   public constructor(private httpClient: HttpClient) {}
 

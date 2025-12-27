@@ -22,7 +22,7 @@ interface UserInfo {
   providedIn: 'root',
 })
 export class AuthService {
-  private baseUrl = environment.apiUrl + '/auth';
+  private baseUrl = environment.baseUrl + '/api/auth';
 
   // текущий юзер
   private usernameSubject = new BehaviorSubject<UserInfo | null>(this.getUserInfoFromToken());

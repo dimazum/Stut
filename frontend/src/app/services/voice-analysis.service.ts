@@ -2,6 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { VoiceAnalysisUpdateDto } from '../models/models';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +16,9 @@ export class VoiceAnalysisService implements OnDestroy {
 
   constructor() {
 
+    const url = environment.baseUrl + '/voice-analysis' ;
    this.hubConnection = new signalR.HubConnectionBuilder()
-  .withUrl('https://localhost:5001/voice-analysis', {
+  .withUrl(url, {
     accessTokenFactory: () => {
       return localStorage.getItem('token') || '';
     }
