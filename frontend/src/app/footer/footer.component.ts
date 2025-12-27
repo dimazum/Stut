@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TimerComponent } from '../common/timer/timer.component';
 import { startLessonSubject } from '../models/events';
 import { NgClass, NgIf } from '@angular/common';
@@ -9,8 +9,9 @@ import { Subscription } from 'rxjs';
 import { VisualizerComponent } from '../visualizer-component/visualizer-component.component';
 import { AudioRecorderService } from '../services/audio-recorder.service';
 import { DailyLessonStatus } from '../models/enums';
-import { DayLessonDto } from '../models/models';
+import { DayLessonDto, VoiceAnalysisUpdateDto } from '../models/models';
 import { TextareaAutoClearComponent } from '../common/textarea-auto-clear/textarea-auto-clear.component';
+import { VoiceAnalysisService } from '../services/voice-analysis.service';
 
 @Component({
   selector: 'stu-footer',
@@ -19,7 +20,7 @@ import { TextareaAutoClearComponent } from '../common/textarea-auto-clear/textar
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.css'],
 })
-export class FooterComponent implements OnInit{
+export class FooterComponent implements OnInit, OnDestroy{
   public isEnabled = false;
   public startBtnName = 'Start';
   public wordsCounter = 0;
@@ -28,12 +29,16 @@ export class FooterComponent implements OnInit{
   public dailyLesson? : DayLessonDto;
   private recognitionSub?: Subscription;
   public timeLeftInSec: number = 0;
+  private subscription!: Subscription;
+  voiceData: VoiceAnalysisUpdateDto | null = null;
 
   public constructor(
     private speechRecognitionService: SpeechRecognitionService,
     private backendService: BackendService,
-    private audioRecorderService : AudioRecorderService
+    private audioRecorderService : AudioRecorderService,
+    private voiceService: VoiceAnalysisService
   ) {}
+
 
   ngOnInit(): void {
     this.backendService.getDailyLesson().subscribe( x => {
@@ -41,6 +46,12 @@ export class FooterComponent implements OnInit{
       this.timeLeftInSec = this.dailyLesson.leftInSec;
       this.speechRecognitionService.setSpokenWords(x.wordsSpoken);
       this.wordsCounter = x.wordsSpoken;
+    });
+
+     this.subscription = this.voiceService.voiceAnalysis$.subscribe(data => {
+      if (data) {
+        this.voiceData = data;
+      }
     });
 
   }
@@ -102,5 +113,9 @@ export class FooterComponent implements OnInit{
         }
     );
     //this.audioRecorderService.stopRecording().subscribe();
+  }
+
+    ngOnDestroy(): void {
+     this.subscription.unsubscribe();
   }
 }

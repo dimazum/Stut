@@ -85,7 +85,7 @@ export class BackendService {
     const formData = new FormData();
     formData.append('file', blob, 'recording.webm');
 
-    return this.httpClient.post<FormData>(`${this.baseUrl}/audio/upload`, formData);
+    return this.httpClient.post<FormData>(`${this.baseUrl}/voiceAnalysis/upload`, formData);
   }
 
   public getList(): Observable<AudioFile[]> {

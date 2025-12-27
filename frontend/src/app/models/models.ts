@@ -85,5 +85,10 @@ export interface VoiceAnalysisResult {
   recordedAt: string; // дата записи
 }
 
+export interface VoiceAnalysisUpdateDto {
+  sessionId: string;
+  jitter: number;
+  shimmer: number;
+}
 
 

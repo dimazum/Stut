@@ -1,8 +1,7 @@
-fastapi
-uvicorn[standard]
+aio-pika==8.3.0
+pydantic>=1.10
 librosa
 numpy
 scipy
 soundfile
 praat-parselmouth
-python-multipart

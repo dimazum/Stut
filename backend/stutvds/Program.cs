@@ -1,6 +1,8 @@
 using System;
 using System.Text;
+using System.Threading.Tasks;
 using AutoMapper;
+using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -9,11 +11,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using RabbitMQ.Client;
 using stutvds;
-using stutvds.Clients;
+using stutvds.Consumers;
 using stutvds.DAL;
 using stutvds.Data;
 using stutvds.Logic;
+using stutvds.Messages;
+using stutvds.WebSocketHubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,9 +45,9 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAngularDev", policy =>
     {
         policy.WithOrigins("http://localhost:4200")
-              .AllowAnyMethod()
-              .WithHeaders("Authorization", "Content-Type")
-              .AllowCredentials();
+            .AllowAnyMethod()
+            .AllowAnyHeader()        // <- разрешаем все заголовки
+            .AllowCredentials();     // обязательно для SignalR
     });
 });
 
@@ -61,20 +66,65 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(jwtKey))
         };
+        
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                var accessToken = context.Request.Query["access_token"];
+
+                // Если запрос к SignalR hub и есть access_token — используем его
+                var path = context.HttpContext.Request.Path;
+                if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/voice-analysis"))
+                {
+                    context.Token = accessToken;
+                }
+                return Task.CompletedTask;
+            }
+        };
     });
 
-builder.Services.AddAuthorization();
 
-builder.Services.AddHttpContextAccessor();
+builder.Services.AddSignalR();
 
-builder.Services.AddHttpClient<VoiceAnalyzerClient>(client =>
+// MassTransit
+builder.Services.AddMassTransit(x =>
 {
-    var uri = builder.Configuration.GetSection("VoiceAnalyzer:Uri").Get<string>();
-    var timeout = builder.Configuration.GetSection("VoiceAnalyzer:Timeout").Get<int>();
-    client.BaseAddress = new Uri(uri);
-    client.Timeout = TimeSpan.FromSeconds(timeout);
+    x.AddConsumer<VoiceAnalysisResultConsumer>();
+
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        var host = builder.Configuration.GetValue<string>("RabbitMQ:Host");
+
+        cfg.Host(host, "/", h =>
+        {
+            h.Username("guest");
+            h.Password("guest");
+        });
+
+        // 🔹 1. ТОЧКА ПУБЛИКАЦИИ ДЛЯ PYTHON
+        cfg.Message<VoiceAnalysisRequested>(m =>
+        {
+            m.SetEntityName("voice-analysis"); // имя exchange
+        });
+
+        cfg.Publish<VoiceAnalysisRequested>(p =>
+        {
+            p.ExchangeType = ExchangeType.Fanout;
+            p.Durable = true;
+        });
+
+        // 🔹 2. ОЧЕРЕДЬ ДЛЯ РЕЗУЛЬТАТОВ (Python → .NET)
+        cfg.ReceiveEndpoint("voice-analysis-result-queue", e =>
+        {
+            e.UseRawJsonDeserializer();
+            e.ConfigureConsumer<VoiceAnalysisResultConsumer>(context);
+        });
+    });
 });
 
+builder.Services.AddAuthorization();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddDataAccessLayer();
 builder.Services.AddLogicLayer();
 
@@ -114,6 +164,8 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapRazorPages();
+
+app.MapHub<VoiceAnalysisHub>("/voice-analysis");
 
     //SEEDING
 using (var scope = app.Services.CreateScope())

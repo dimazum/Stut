@@ -8,26 +8,21 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using stutvds.Clients;
 using stutvds.Controllers.Base;
 using stutvds.DAL.Repositories;
-using stutvds.Models.VoiceAnalizerDto;
 
 [Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class AudioController : BaseController
 {
-    private readonly VoiceAnalyzerClient _vaclient;
     private readonly VoiceAnalyseRepository _voiceAnalyseRepository;
     private readonly string _uploadPath;
 
     public AudioController(IConfiguration config,
         IWebHostEnvironment env,
-        VoiceAnalyzerClient vaclient,
         VoiceAnalyseRepository voiceAnalyseRepository)
     {
-        _vaclient = vaclient;
         _voiceAnalyseRepository = voiceAnalyseRepository;
         var configuredPath = config["AudioStoragePath"];
         _uploadPath = Path.IsPathRooted(configuredPath)
@@ -50,51 +45,6 @@ public class AudioController : BaseController
 
         await using var stream = System.IO.File.Create(filePath);
         await file.CopyToAsync(stream);
-        
-        
-        //analyser
-        {
-            await using var stream2 = file.OpenReadStream();
-
-            VoiceAnalysisResult result = await _vaclient.AnalyzeAsync(
-                stream2,
-                file.FileName
-            );
-            
-            var entity = new VoiceAnalysisEntity
-            {
-                UserId = UserId,
-
-                Duration = result.Duration,
-                RecordedAt = DateTimeOffset.UtcNow,
-
-                // ===== Pitch =====
-                PitchMean = result.PitchMean,
-                PitchStd = result.PitchStd,
-                PitchMin = result.PitchMin,
-                PitchMax = result.PitchMax,
-
-                // ===== Volume =====
-                VolumeMeanDb = result.VolumeMeanDb,
-                VolumeStdDb = result.VolumeStdDb,
-                VolumePeakDb = result.VolumePeakDb,
-
-                // ===== Rhythm / Timing =====
-                SpeechRate = result.SpeechRate,
-                PauseRatio = result.PauseRatio,
-
-                // ===== Voice Quality =====
-                Jitter = result.Jitter,
-                Shimmer = result.Shimmer,
-
-                // ===== MFCC =====
-                MfccMean = result.MfccMean
-            };
-
-
-            await _voiceAnalyseRepository.AddAsync(entity);
-        }
-       
 
         return Ok(new { file = fileName, path = filePath, uploadedAt = DateTime.UtcNow });
 
