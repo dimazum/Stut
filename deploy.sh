@@ -12,25 +12,21 @@ COMMIT_HASH=$(git rev-parse --short HEAD)
 export COMMIT_HASH
 echo "▶ Commit hash: $COMMIT_HASH"
 
-echo "▶ Building Angular (production)..."
-cd frontend
-ng build --configuration production
-cd ..
+# =============================
+# 1. Build Angular в контейнере
+# =============================
+echo "▶ Building Angular in Docker container..."
+docker build -f frontend-builder.Dockerfile -t frontend-builder .
 
-ANGULAR_DIST="frontend/dist/angular1/browser"
-WWWROOT="backend/stutvds/wwwroot"
+# Создаем временный контейнер и копируем dist
+docker create --name tmp-frontend frontend-builder
+rm -rf backend/stutvds/wwwroot/*
+docker cp tmp-frontend:/app/dist/angular1/browser/. backend/stutvds/wwwroot/
+docker rm tmp-frontend
 
-echo "▶ Copying Angular build to backend wwwroot..."
-if [ ! -d "$ANGULAR_DIST" ]; then
-  echo "❌ Angular build not found: $ANGULAR_DIST"
-  exit 1
-fi
-
-rm -rf "$WWWROOT"/*
-mkdir -p "$WWWROOT"
-cp -r "$ANGULAR_DIST"/* "$WWWROOT"/
-
-echo "▶ Building and starting Docker containers..."
+# =============================
+# 2. Сборка и поднятие Docker-compose
+# =============================
 docker-compose up -d --build
 
 unset COMMIT_HASH
