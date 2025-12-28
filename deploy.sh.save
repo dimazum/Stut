@@ -1,0 +1,20 @@
+#!/bin/bash
+set -e  #  #cancel script if erroторий
+echo "Pulling latest changes..."
+git pull origin main
+
+# 2️⃣ Вычисляем версию с MinVer
+echo "Calculating version with MinVer..."
+VERSION=$(dotnet minver)
+echo "Version: $VERSION"
+
+# 3️⃣ Собираем контейнеры через docker-compose
+echo "Building Docker images..."
+docker-compose build --build-arg VERSION=$VERSION
+
+# 4️⃣ Запускаем контейнеры
+echo "Starting containers..."
+docker-compose up -d
+
+echo "Deployment finished successfully!"
+

@@ -1,0 +1,24 @@
+  GNU nano 2.9.3                                New Buffer                                Modified
+
+/bash
+set -e  # �^=�^`е�^`�^kваем �^aк�^`ип�^b п�^`и л�^nбой о�^hибке
+
+# 1�^o�^c� �^~бновл�^oем �^`епози�^bо�^`ий
+echo "Pulling latest changes..."
+git pull origin main
+
+# 2�^o�^c� �^r�^k�^gи�^aл�^oем ве�^`�^aи�^n �^a MinVer
+echo "Calculating version with MinVer..."
+VERSION=$(dotnet minver)
+echo "Version: $VERSION"
+
+# 3�^o�^c� Соби�^`аем кон�^bейне�^`�^k �^gе�^`ез docker-compose
+echo "Building Docker images..."
+docker-compose build --build-arg VERSION=$VERSION
+
+# 4�^o�^c� �^wап�^c�^aкаем кон�^bейне�^`�^k
+echo "Starting containers..."
+docker-compose up -d
+
+echo "Deployment finished successfully!"
+
