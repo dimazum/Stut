@@ -93,6 +93,20 @@ services:
     restart: unless-stopped
 
   # ========================
+  # SQL SERVER DB
+  # ========================
+  stut.database:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    container_name: stut.database
+    environment:
+      - SA_PASSWORD=Pass@word
+      - ACCEPT_EULA=Y
+    ports:
+      - "5434:1433"
+    volumes:
+      - ./data:/var/opt/mssql/data
+
+  # ========================
   # Frontend Builder (Angular)
   # ========================
   frontend-builder:
