@@ -1,23 +1,40 @@
 #!/bin/bash
 set -e
 
-echo "Pulling latest changes..."
+echo "=============================="
+echo "🚀 Starting deployment"
+echo "=============================="
+
+echo "▶ Pulling latest changes..."
 git pull origin develop --tags
 
 COMMIT_HASH=$(git rev-parse --short HEAD)
-echo "Commit hash: $COMMIT_HASH"
+export COMMIT_HASH
+echo "▶ Commit hash: $COMMIT_HASH"
 
-export COMMIT_HASH=$COMMIT_HASH   # установить env
+echo "▶ Building Angular (production)..."
+cd frontend
+ng build --configuration production
+cd ..
 
-echo "Cleaning up old Docker resources..."
-#docker image prune -af
+ANGULAR_DIST="frontend/dist/angular1/browser"
+WWWROOT="backend/stutvds/wwwroot"
 
-echo "Building Docker images..."
-docker-compose build              # теперь COMMIT_HASH доступен как build ARG
+echo "▶ Copying Angular build to backend wwwroot..."
+if [ ! -d "$ANGULAR_DIST" ]; then
+  echo "❌ Angular build not found: $ANGULAR_DIST"
+  exit 1
+fi
 
-echo "Starting containers..."
-docker-compose up -d              # COMMIT_HASH доступен как env
+rm -rf "$WWWROOT"/*
+mkdir -p "$WWWROOT"
+cp -r "$ANGULAR_DIST"/* "$WWWROOT"/
 
-unset COMMIT_HASH                 # удалить переменную
+echo "▶ Building and starting Docker containers..."
+docker-compose up -d --build
 
-echo "Deployment finished successfully"
+unset COMMIT_HASH
+
+echo "=============================="
+echo "✅ Deployment finished successfully"
+echo "=============================="

@@ -36,28 +36,23 @@ services:
       - "5000:80"  # для дебага
     labels:
       - "traefik.enable=true"
+
+      # API
       - "traefik.http.routers.backend-api.rule=Host(`stut.mooo.com`) && PathPrefix(`/api`)"
       - "traefik.http.routers.backend-api.entrypoints=websecure"
       - "traefik.http.routers.backend-api.tls.certresolver=le"
+
+      # voice-analysis
       - "traefik.http.routers.backend-voice.rule=Host(`stut.mooo.com`) && PathPrefix(`/voice-analysis`)"
       - "traefik.http.routers.backend-voice.entrypoints=websecure"
       - "traefik.http.routers.backend-voice.tls.certresolver=le"
-      - "traefik.http.services.backend.loadbalancer.server.port=80"
 
-  client:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    environment:
-      - NG_ENV=production
-    ports:
-      - "5001:4200"  # для дебага
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.client.rule=Host(`stut.mooo.com`) && PathPrefix(`/`)"
-      - "traefik.http.routers.client.entrypoints=websecure"
-      - "traefik.http.routers.client.tls.certresolver=le"
-      - "traefik.http.services.client.loadbalancer.server.port=4200"
+      # FRONTEND
+      - "traefik.http.routers.backend-frontend.rule=Host(`stut.mooo.com`)"
+      - "traefik.http.routers.backend-frontend.entrypoints=websecure"
+      - "traefik.http.routers.backend-frontend.tls.certresolver=le"
+      
+      - "traefik.http.services.backend.loadbalancer.server.port=80"
 
   voice-analyzer:
     build: ./voice-analyzer
