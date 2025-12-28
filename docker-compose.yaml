@@ -1,6 +1,9 @@
 ﻿version: "3.9"
 
 services:
+  # ========================
+  # Traefik
+  # ========================
   traefik:
     image: traefik:v3.0
     container_name: traefik
@@ -22,6 +25,9 @@ services:
       - ./letsencrypt:/letsencrypt
     restart: unless-stopped
 
+  # ========================
+  # Backend (.NET 10)
+  # ========================
   backend:
     build: backend
     environment:
@@ -51,9 +57,12 @@ services:
       - "traefik.http.routers.backend-frontend.rule=Host(`stut.mooo.com`)"
       - "traefik.http.routers.backend-frontend.entrypoints=websecure"
       - "traefik.http.routers.backend-frontend.tls.certresolver=le"
-      
+
       - "traefik.http.services.backend.loadbalancer.server.port=80"
 
+  # ========================
+  # Voice Analyzer
+  # ========================
   voice-analyzer:
     build: ./voice-analyzer
     container_name: voice.analyzer
@@ -67,6 +76,9 @@ services:
       - rabbitmq
     restart: unless-stopped
 
+  # ========================
+  # RabbitMQ
+  # ========================
   rabbitmq:
     image: rabbitmq:3-management
     container_name: rabbitmq
@@ -79,6 +91,21 @@ services:
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
     restart: unless-stopped
+
+  # ========================
+  # Frontend Builder (Angular)
+  # ========================
+  frontend-builder:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend-builder
+    volumes:
+      - ./backend/stutvds/wwwroot:/app/wwwroot
+    command: >
+      sh -c "cp -r /app/dist/angular1/browser/* /app/wwwroot/"
+    restart: "no"
+
 
 volumes:
   audio_data:
