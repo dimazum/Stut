@@ -7,7 +7,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Устанавливаем зависимости
-RUN npm install --legacy-peer-deps
+RUN npm install
 
 # Копируем весь фронт
 COPY . .

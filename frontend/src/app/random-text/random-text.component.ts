@@ -24,4 +24,11 @@ export class RandomTextComponent implements OnInit {
       this.title = data.title;
     });
   }
+
+  get formattedContent() {
+    console.log(this.article);
+    
+  // Убираем двойные и более переносы строк
+  return this.article.replace(/(\r?\n){2,}/g, '\n\n').trim();
+}
 }

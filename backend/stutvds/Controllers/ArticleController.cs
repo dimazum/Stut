@@ -1,9 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Text.Json;
+using System.Threading.Tasks;
+using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StopStatAuth_6_0.Entities.Enums;
 using stutvds.Controllers.Base;
 using stutvds.DAL.Repositories.Contracts;
+using stutvds.Integrations;
 using stutvds.Logic.Services.Contracts;
+using stutvds.Models.ClientDto;
 
 namespace stutvds.Controllers
 {
@@ -14,12 +19,19 @@ namespace stutvds.Controllers
         private readonly IArticleRepository _articleRepository;
         private readonly IWikiService _wikiService;
         private readonly IHttpContextAccessor _accessor;
+        private readonly PollinationsIS _pollinationsIs;
+        private readonly IMapper _mapper;
 
-        public ArticleController(IArticleRepository articleRepository, IWikiService wikiService, IHttpContextAccessor accessor)
+        public ArticleController(IArticleRepository articleRepository,
+            IWikiService wikiService,
+            IHttpContextAccessor accessor,
+            PollinationsIS pollinationsIS, IMapper mapper)
         {
             _articleRepository = articleRepository;
             _wikiService = wikiService;
             _accessor = accessor;
+            _pollinationsIs = pollinationsIS;
+            _mapper = mapper;
         }
         
         [HttpGet]
@@ -32,10 +44,14 @@ namespace stutvds.Controllers
 
         [HttpGet]
         [Route("random")]
-        public JsonResult GetRandomArticle()
+        public async Task<ActionResult<ArticleDto>> GetRandomArticle()
         {
+            //var randomText = await _pollinationsIs. GetDubaiFact();
+
             var article = _articleRepository.GetRandomArticle(CurrentLanguage);
-            return new JsonResult(article);
+            var dto =  _mapper.Map<ArticleDto>(article);
+            
+            return Ok(dto);
         }
 
         [HttpGet]

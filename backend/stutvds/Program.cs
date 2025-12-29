@@ -17,6 +17,7 @@ using stutvds;
 using stutvds.Consumers;
 using stutvds.DAL;
 using stutvds.Data;
+using stutvds.Integrations;
 using stutvds.Logic;
 using stutvds.Messages;
 using stutvds.WebSocketHubs;
@@ -85,8 +86,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-
-builder.Services.AddSignalR();
+builder.Services.AddSignalR(options =>
+{
+    options.MaximumReceiveMessageSize = 1024 * 1024 * 10; // 10 MB
+    options.EnableDetailedErrors = true;
+});
 
 // MassTransit
 builder.Services.AddMassTransit(x =>
@@ -126,6 +130,9 @@ builder.Services.AddMassTransit(x =>
 
 builder.Services.AddAuthorization();
 builder.Services.AddHttpContextAccessor();
+
+
+builder.Services.AddScoped<PollinationsIS>();
 builder.Services.AddDataAccessLayer();
 builder.Services.AddLogicLayer();
 

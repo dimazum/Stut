@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { VoiceAnalysisResult } from '../../models/models';
 import { BackendService } from '../../services/backend.service';
-import { VoiceDiagramsComponent } from "../voice-diagrams/voice-diagrams.component";
 
 @Component({
   selector: 'app-voise-anlysis-page',
   standalone: true,
-  imports: [VoiceDiagramsComponent],
+  imports: [],
   templateUrl: './voise-anlysis-page.component.html',
   styleUrl: './voise-anlysis-page.component.css'
 })

@@ -91,7 +91,7 @@ export class FooterComponent implements OnInit, OnDestroy{
 
         startLessonSubject.next({enabled: false, secondsRemaining : x.leftInSec});
 
-        this.audioRecorderService.stopAndUpload();
+        this.audioRecorderService.stop();
       });
 
       this.recognitionSub?.unsubscribe();

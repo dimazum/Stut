@@ -9,78 +9,89 @@ export class AudioRecorderService implements OnDestroy {
   private stream!: MediaStream;
   private recordedChunks: Blob[] = [];
   private isRecording = false;
+  private uploadInterval!: any;
 
   constructor(private backendService: BackendService) {}
 
-  // -----------------------------
-  // START RECORDING
-  // -----------------------------
   startRecording(): void {
-    if (this.isRecording) {
-      return;
-    }
+    if (this.isRecording) return;
 
     navigator.mediaDevices.getUserMedia({ audio: true })
       .then(stream => {
         this.stream = stream;
+        this.isRecording = true;
         this.recordedChunks = [];
 
-        this.mediaRecorder = new MediaRecorder(stream, {
-          mimeType: 'audio/webm'
-        });
+        this.startMediaRecorder();
 
-        this.mediaRecorder.ondataavailable = event => {
-          if (event.data.size > 0) {
-            this.recordedChunks.push(event.data);
-          }
-        };
-
-        this.mediaRecorder.start();
-        this.isRecording = true;
+        // Каждые 5 секунд отправляем данные
+        this.uploadInterval = setInterval(() => {
+          this.sendChunkToServer();
+        }, 5000);
       })
-      .catch(err => {
-        console.error('Microphone access error:', err);
+      .catch(err => console.error('Microphone access error:', err));
+  }
+
+private startMediaRecorder(): void {
+  this.mediaRecorder = new MediaRecorder(this.stream, { mimeType: 'audio/webm' });
+
+  this.mediaRecorder.ondataavailable = event => {
+    if (event.data.size > 0) {
+      this.recordedChunks.push(event.data);
+      console.log('chunk received', event.data.size);
+    }
+  };
+
+  // 🔥 ВАЖНО
+  this.mediaRecorder.start(3000); // каждые 5 сек браузер сам отдаёт Blob
+}
+
+  private sendChunkToServer(): void {
+    if (this.recordedChunks.length === 0) return;
+
+    this.mediaRecorder.stop();
+
+    this.mediaRecorder.onstop = () => {
+      const blob = new Blob(this.recordedChunks, { type: 'audio/webm' });
+      this.recordedChunks = [];
+
+      this.backendService.uploadRecording(blob).subscribe({
+        next: res => console.log('Chunk uploaded', res),
+        error: err => console.error('Upload error:', err)
       });
+
+      this.startMediaRecorder();
+    };
   }
 
   // -----------------------------
-  // STOP RECORDING
+  // Новый метод: стоп без параметров
   // -----------------------------
-  stopRecording(onStop: (blob: Blob) => void): void {
-    if (!this.isRecording) {
-      return;
-    }
+  stop(): void {
+    if (!this.isRecording) return;
+
+    clearInterval(this.uploadInterval);
 
     this.mediaRecorder.onstop = () => {
-      const blob = new Blob(this.recordedChunks, {
-        type: 'audio/webm'
-      });
+      const blob = new Blob(this.recordedChunks, { type: 'audio/webm' });
 
-      // остановить микрофон
       this.stream.getTracks().forEach(t => t.stop());
-
       this.isRecording = false;
-      onStop(blob);
+
+      if (blob.size > 0) {
+        this.backendService.uploadRecording(blob).subscribe({
+          next: res => console.log('Final chunk uploaded', res),
+          error: err => console.error('Upload error:', err)
+        });
+      }
     };
 
     this.mediaRecorder.stop();
   }
 
-  // -----------------------------
-  // STOP + UPLOAD
-  // -----------------------------
-  stopAndUpload(onComplete?: (res: any) => void): void {
-    this.stopRecording(blob => {
-      this.backendService.uploadRecording(blob).subscribe({
-        next: res => onComplete?.(res),
-        error: err => console.error('Upload error:', err)
-      });
-    });
-  }
-
   ngOnDestroy(): void {
     if (this.isRecording) {
-      this.mediaRecorder.stop();
+      this.stop();
     }
   }
 }
