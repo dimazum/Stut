@@ -1,17 +1,12 @@
 # frontend/Dockerfile
-FROM node:18-alpine AS builder
+FROM node:18-bullseye
 
 WORKDIR /app
 
-# Копируем package.json и package-lock.json
+# Только зависимости (кэшируются)
 COPY package*.json ./
+RUN npm ci
 
-# Устанавливаем зависимости
-RUN npm install
-
-# Копируем весь фронт-код
+# Исходники
 COPY . .
 
-# Сборка production и генерация manifest
-RUN npx ng build --configuration production --output-hashing=all \
-    && node scripts/generate-manifest.js
