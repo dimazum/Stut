@@ -1,66 +1,36 @@
-<!-- <div class="footer">
-  <div class="speech-trigger-container">
-    <div class="start-speech-container">
-      <button [ngClass]="{ active: isEnabled }" (click)="startListening()">{{ startBtnName }}</button>
-    </div>
-    <div class="speech-container">
-      <div class="speech-left-block">
-        <div class="words-qty-container">
-          <div>
-            Прочитано: <span>{{ wordsCounter }}</span
-            >/1000
-          </div>
-          <button class="speech-container-buttom" title="Сбросить"><div>R</div></button>
-        </div>
-        <div class="average-words-qty-container">
-          <div>
-            Скорость: <span>{{ speedCounter }}</span> слов/мин
-          </div>
-          <button class="speech-container-buttom" title="Сбросить"><div>R</div></button>
-        </div>
-      </div>
-      <div class="speech-right-block">{{ text }}</div>
-    </div>
-    <div class="timer-container">
-      <stu-timer (finishedEvent)="onTimerFinished()"></stu-timer>
-    </div>
-    
-<app-visualizer></app-visualizer>
-  </div>
-</div> -->
-
 <footer class="footer">
-  
-  <!-- Кнопка Старт -->
-  <button class="start-btn" (click)="startListening()" [class.enabled]="isEnabled">
-    {{ startBtnName }}
-  </button>
+  <div class="footer-container">
+    <!-- Кнопка Старт -->
+    <button class="start-btn" (click)="startListening()" [class.enabled]="isEnabled">
+      {{ startBtnName }}
+    </button>
 
-  <!-- Блок статистики -->
-  <div class="stats">
-    <div>Прочитано слов: <strong>{{ wordsCounter }}/1000</strong></div>
-    <div>Скорость: <strong>{{ speedCounter }} слов/мин</strong></div>
-    <div>
-      Осталось:
-      <stu-timer [timeLeft]="timeLeftInSec" (finishedEvent)="onTimerFinished()"></stu-timer>
+    <!-- Блок статистики -->
+    <div class="stats">
+      <div>Прочитано слов: <strong>{{ wordsCounter }}/1000</strong></div>
+      <div>Скорость: <strong>{{ speedCounter }} слов/мин</strong></div>
+      <div>
+        Осталось:
+        <stu-timer [timeLeft]="timeLeftInSec" (finishedEvent)="onTimerFinished()"></stu-timer>
+      </div>
     </div>
-  </div>
 
-   <div class="stats">
-    <div>Дрожание тона (jitter): <strong>{{ voiceData?.jitter }}</strong></div>
-    <div>Дрожание громкости (shimmer): <strong>{{ voiceData?.shimmer }}</strong></div>
-    <div></div>
-  </div>
+    <div class="stats">
+      <div>Дрожание тона (jitter): <strong>{{ voiceData?.jitter }}</strong></div>
+      <div>Дрожание громкости (shimmer): <strong>{{ voiceData?.shimmer }}</strong></div>
+      <div></div>
+    </div>
 
+    <!-- Textarea с распознанным текстом -->
+    <div class="text-block">
+      <app-textarea-auto-clear [text]="text"></app-textarea-auto-clear>
+    </div>
 
-  <!-- Textarea с распознанным текстом -->
-  <div class="text-block">
-    <app-textarea-auto-clear [text]="text"></app-textarea-auto-clear>
-  </div>
+    <!-- Эквалайзер -->
+    <div class="equalizer">
+      <app-visualizer></app-visualizer>
+    </div>
 
-  <!-- Эквалайзер -->
-  <div class="equalizer">
-    <app-visualizer></app-visualizer>
   </div>
 
 </footer>

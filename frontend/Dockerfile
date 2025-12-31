@@ -9,8 +9,9 @@ COPY package*.json ./
 # Устанавливаем зависимости
 RUN npm install
 
-# Копируем весь фронт
+# Копируем весь фронт-код
 COPY . .
 
-# Собираем production билд
-RUN npx ng build --configuration production
+# Сборка production и генерация manifest
+RUN npx ng build --configuration production --output-hashing=all \
+    && node scripts/generate-manifest.js

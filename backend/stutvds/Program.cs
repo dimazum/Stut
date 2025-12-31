@@ -176,9 +176,9 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
-app.MapFallbackToFile("index.html");
+    pattern: "{action}/{id?}",
+    defaults: new { controller = "Home", action = "Index" }
+    );
 
 app.MapRazorPages();
 

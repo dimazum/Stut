@@ -1,52 +1,69 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.Extensions.Hosting
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment Env
+@using System.Text.Json
+
+@{
+    var manifest = JsonSerializer.Deserialize<Dictionary<string,string>>(
+        System.IO.File.ReadAllText(
+            System.IO.Path.Combine(Env.WebRootPath, "angular/manifest.json")
+        )
+    );
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Stuttering</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <title>Тренажер для речи</title>
+    <meta name="description" content="Онлайн-тренажер по улучшению речи, упражнения для дикции и уверенной коммуникации." />
+    
+    @if (!Env.IsDevelopment())
+    {
+        <link rel="stylesheet" href="/angular/@manifest["styles"]" />
+        @* <link rel="stylesheet" href="styles.css"/> *@
+    }
     <link rel="stylesheet" href="~/css/site.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Stuttering</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <partial name="_LoginPartial" />
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                         @* <li class="nav-item"> *@
-                         @*    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Triggers">Triggers</a> *@
-                         @* </li> *@
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+@RenderBody()
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - stutvds - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @RenderSection("Scripts", required: false)
+@* angular app *@
+<app-root></app-root>
+
+@if (!Env.IsDevelopment())
+{
+    <script src="/angular/@manifest["polyfills"]" type="module"></script>
+    <script src="/angular/@manifest["main"]" type="module"></script>
+    @* <script src="polyfills.js" type="module"></script> *@
+    @* <script src="main.js" type="module"></script> *@
+}
+else
+{
+    <script type="module" src="http://localhost:4200/main.js"></script>
+}
 </body>
+
+<header>
+    <div class="container header-container">
+        <div class="logo">
+            <a href="@Url.Action("Index", "Home")">
+                <img src="~/images/logo.png" alt="Школа улучшения речи" />
+            </a>
+        </div>
+        <nav>
+            <ul class="nav-menu">
+                <li><a href="@Url.Action("Index", "Home")">Главная</a></li>
+                <li><a href="@Url.Action("Calendar", "Home")">Календарь</a></li>
+                <li><a href="@Url.Action("Texts", "Home")">Тексты</a></li>
+                <li><a href="@Url.Action("Exercises", "Home")">Упражнения</a></li>
+                <li><a href="@Url.Action("VoiceAnalisys", "Home")">Анализ голоса</a></li>
+                <li><a href="@Url.Action("AboutProject", "Home")">О проекте</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
 </html>

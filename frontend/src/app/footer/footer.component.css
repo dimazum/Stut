@@ -1,12 +1,12 @@
 .footer {
-    position: fixed;
-    bottom: 0;
-  display: flex;
+  position: fixed;
+  bottom: 0;
+  /* display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 20px; */
 
   width: 100%;
-  padding: 4px 20px;
+  
 
   background: #1f1f1f;
   color: white;
@@ -14,22 +14,39 @@
   border-top: 2px solid #333;
 }
 
+.footer-container{
+  margin: 0 auto;
+  width: 90%;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 4px 20px;
+  
+}
+
 /* Кнопка */
 .start-btn {
-    min-width: 100px;
-  background: #4caf50;
-  color: white;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-  border: 1px solid #94be16;
+    width: 100px;
+    background-color: #ffd700;
+    color: #333;
+    padding: 7px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s;
 }
 .start-btn.enabled {
-  background: #b3f107;
+  background: linear-gradient(-45deg, #4caf50, #81c784, #66bb6a, #388e3c);
   border: 1px solid #94be16;
+  background-size: 400% 400%;
+  animation: gradientMove s ease infinite;
 }
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 .start-btn:hover {
   background: #45a049;
 }

@@ -22,7 +22,7 @@ import { VoiceAnalysisService } from '../services/voice-analysis.service';
 })
 export class FooterComponent implements OnInit, OnDestroy{
   public isEnabled = false;
-  public startBtnName = 'Start';
+  public startBtnName = 'Начать';
   public wordsCounter = 0;
   public speedCounter? = 0;
   public text = '';
@@ -71,7 +71,7 @@ export class FooterComponent implements OnInit, OnDestroy{
         this.audioRecorderService.startRecording();
       });
 
-      this.startBtnName = 'Stop';
+      this.startBtnName = 'Стоп';
 
       // сохраняем подписку на результаты распознавания
       this.recognitionSub = this.speechRecognitionService.recognitionResult.subscribe(result => {
@@ -80,7 +80,7 @@ export class FooterComponent implements OnInit, OnDestroy{
         //this.speedCounter = result.wpm;
       });
     } else {
-      this.startBtnName = 'Start';
+      this.startBtnName = 'Начать';
 
       if(this.dailyLesson?.status !== DailyLessonStatus.Finished){
         
