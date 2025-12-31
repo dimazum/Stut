@@ -15,6 +15,7 @@ COMMIT_HASH=$(git rev-parse --short HEAD)
 export COMMIT_HASH
 echo "Commit hash: $COMMIT_HASH"
 
+docker-compose down
 # -----------------------------
 # 2. Build Angular в контейнере
 # -----------------------------
