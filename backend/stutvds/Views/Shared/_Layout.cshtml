@@ -4,11 +4,15 @@
 @using System.Text.Json
 
 @{
-    var manifest = JsonSerializer.Deserialize<Dictionary<string,string>>(
-        System.IO.File.ReadAllText(
-            System.IO.Path.Combine(Env.WebRootPath, "angular/manifest.json")
-        )
-    );
+    var manifest = new Dictionary<string, string>();
+    if (!Env.IsDevelopment())
+    {
+        manifest = JsonSerializer.Deserialize<Dictionary<string,string>>(
+            System.IO.File.ReadAllText(
+                System.IO.Path.Combine(Env.WebRootPath, "angular/manifest.json")
+            )
+        );
+    }
 }
 
 <!DOCTYPE html>
@@ -29,23 +33,6 @@
 
 </head>
 <body>
-@RenderBody()
-
-@* angular app *@
-<app-root></app-root>
-
-@if (!Env.IsDevelopment())
-{
-    <script src="/angular/@manifest["polyfills"]" type="module"></script>
-    <script src="/angular/@manifest["main"]" type="module"></script>
-    @* <script src="polyfills.js" type="module"></script> *@
-    @* <script src="main.js" type="module"></script> *@
-}
-else
-{
-    <script type="module" src="http://localhost:4200/main.js"></script>
-}
-</body>
 
 <header>
     <div class="container header-container">
@@ -66,4 +53,25 @@ else
         </nav>
     </div>
 </header>
+
+
+@RenderBody()
+
+@* angular app *@
+<app-root></app-root>
+
+@if (!Env.IsDevelopment())
+{
+    <script src="/angular/@manifest["polyfills"]" type="module"></script>
+    <script src="/angular/@manifest["main"]" type="module"></script>
+    @* <script src="polyfills.js" type="module"></script> *@
+    @* <script src="main.js" type="module"></script> *@
+}
+else
+{
+    <script type="module" src="http://localhost:4200/main.js"></script>
+}
+</body>
+
+
 </html>
