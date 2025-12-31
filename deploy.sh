@@ -16,10 +16,12 @@ export COMMIT_HASH
 echo "Commit hash: $COMMIT_HASH"
 
 docker-compose down
+
 # -----------------------------
 # 2. Build Angular в контейнере
 # -----------------------------
 echo "Building Angular in Docker container..."
+docker compose build frontend-builder
 docker compose run --rm frontend-builder
 
 # -----------------------------
