@@ -1,7 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
 @using Microsoft.Extensions.Hosting
-@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment Env
 @using System.Text.Json
+
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment Env
 
 @{
     var manifest = new Dictionary<string, string>();
@@ -13,6 +14,9 @@
             )
         );
     }
+    
+    var userAgent = Context.Request.Headers["User-Agent"].ToString();
+    var isBot = userAgent.Contains("Googlebot") || userAgent.Contains("Bingbot") || userAgent.Contains("Yandex");
 }
 
 <!DOCTYPE html>
@@ -26,52 +30,66 @@
     @if (!Env.IsDevelopment())
     {
         <link rel="stylesheet" href="/angular/@manifest["styles"]" />
-        @* <link rel="stylesheet" href="styles.css"/> *@
     }
-    <link rel="stylesheet" href="~/css/site.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    else
+    {
+        <link rel="stylesheet" href="http://localhost:4200/styles.css" />
+    }
 
 </head>
 <body>
-
 <header>
-    <div class="container header-container">
+    <div class="header-container">
         <div class="logo">
             <a href="@Url.Action("Index", "Home")">
-                <img src="~/images/logo.png" alt="Школа улучшения речи" />
+                <img src="~/images/logo.png" alt="Тренажер для речи" />
             </a>
+            <strong>Тренажер для речи</strong>
         </div>
         <nav>
             <ul class="nav-menu">
-                <li><a href="@Url.Action("Index", "Home")">Главная</a></li>
-                <li><a href="@Url.Action("Calendar", "Home")">Календарь</a></li>
-                <li><a href="@Url.Action("Texts", "Home")">Тексты</a></li>
-                <li><a href="@Url.Action("Exercises", "Home")">Упражнения</a></li>
-                <li><a href="@Url.Action("VoiceAnalisys", "Home")">Анализ голоса</a></li>
-                <li><a href="@Url.Action("AboutProject", "Home")">О проекте</a></li>
+                <li><a class="nav-item" href="@Url.Action("Index", "Home")">Главная</a></li>
+                <li><a class="nav-item" href="@Url.Action("Calendar", "Home")">Календарь</a></li>
+                <li><app-nav-item path="/texts" btn="Тексты"></app-nav-item></li>
+                <li><a class="nav-item" href="@Url.Action("Exercises", "Home")">Упражнения</a></li>
+                <li><a class="nav-item" href="@Url.Action("VoiceAnalisys", "Home")">Анализ голоса</a></li>
+                <li><a class="nav-item" href="@Url.Action("AboutProject", "Home")">О проекте</a></li>
             </ul>
         </nav>
+        <language-picker></language-picker>
+        <app-account></app-account>
     </div>
 </header>
 
+<main id="main-content">
+    <div id="server-content">
+        @RenderBody()
+    </div>
+    <div id="spa-content" hidden>
+        <angular-content></angular-content>
+    </div>
+</main>
 
-@RenderBody()
-
-@* angular app *@
 <app-root></app-root>
 
 @if (!Env.IsDevelopment())
 {
     <script src="/angular/@manifest["polyfills"]" type="module"></script>
     <script src="/angular/@manifest["main"]" type="module"></script>
-    @* <script src="polyfills.js" type="module"></script> *@
-    @* <script src="main.js" type="module"></script> *@
 }
 else
 {
     <script type="module" src="http://localhost:4200/main.js"></script>
 }
+@if (isBot)
+{
+    <footer>
+        <p>© 2026 Тренажер для речи</p>
+        <nav>
+            <a href="/home">Главная</a>
+            <a href="/about">О проекте</a>
+        </nav>
+    </footer>
+}
 </body>
-
-
 </html>

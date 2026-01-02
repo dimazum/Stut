@@ -1,0 +1,9 @@
+.account {
+  display: flex;
+  align-items: center;
+}
+
+.nav-item{
+    padding-right: 10px;
+}
+

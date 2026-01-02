@@ -6,20 +6,19 @@
 
 .language-picker-current
 { 
-    opacity: 0.8;
     cursor: pointer; 
 }
 
 .language-picker-current:hover
 {
-    opacity: 0.95;
+    opacity: 0.75;
 }
 
 .language-picker-items{
     position: absolute;
     left: -1px;
     color: #ffffff;
-    background-color: #43A047;
+    background-color: #1abc9c;
     padding-top: 7px;
     border: 1px solid;
     box-shadow: 0 .25rem .75rem rgb(0 0 0 / .05);
@@ -27,12 +26,11 @@
 
 .language-picker-items>div{
     padding: 2px 3px;
-    opacity: 0.85;
     cursor: pointer; 
 }
 
 .language-picker-items>div:hover
 {
-    opacity: 0.95;
+    opacity: 0.85;
 }
 

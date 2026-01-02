@@ -1,0 +1,12 @@
+  <div class="account">
+    <ng-container *ngIf="userinfo$ | async as userinfo; else guest">
+      <span class="nav-item">👋, {{ userinfo.user_name }}!</span>
+      <div class="nav-item" (click)="logout()">Выйти</div>
+    </ng-container>
+
+    <ng-template #guest>
+      <div class="nav-item" (click)="goToLogin()">Регистрация</div>
+      <div class="nav-item" (click)="goToLogin()">Логин</div>
+    </ng-template>
+  </div>
+

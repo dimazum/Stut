@@ -2,11 +2,29 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: 'stu-main-content',
+  selector: 'angular-content',
   standalone: true,
   imports: [RouterOutlet],
-  providers: [],
   templateUrl: './main-content.component.html',
-  styleUrl: './main-content.component.css',
 })
-export class MainContentComponent {}
+export class MainContentComponent {
+
+onActivate() {
+  this.showSpa();
+}
+
+onDeactivate() {
+  this.showServer();
+}
+
+private showSpa() {
+  document.getElementById('server-content')!.hidden = true;
+  document.getElementById('spa-content')!.hidden = false;
+}
+
+private showServer() {
+  document.getElementById('spa-content')!.hidden = true;
+  document.getElementById('server-content')!.hidden = false;
+}
+
+}

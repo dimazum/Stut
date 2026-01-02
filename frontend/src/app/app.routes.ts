@@ -22,7 +22,7 @@ import { VoiseAnlysisPageComponent } from './voise-analysis/voise-anlysis-page/v
 
 export const routes: Routes = [
   {
-    path: '',
+    path: 'texts',
     component: RandomTextComponent,
   },
   {

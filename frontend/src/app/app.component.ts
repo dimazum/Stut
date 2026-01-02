@@ -7,17 +7,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-root',
   standalone: true,
   imports: [
-    RouterOutlet,
-    HeaderComponent,
-    MainContentComponent,
     FooterComponent,
     HttpClientModule,
     ReactiveFormsModule,
-  ],
+    MainContentComponent
+],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })

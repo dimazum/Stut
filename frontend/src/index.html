@@ -6,9 +6,51 @@
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
   </head>
   <body>
+    <header>
+      <div class="stu-container header-container">
+          <div class="logo">
+              <a href="/">
+                  <img src="assets/images/logo.png" alt="Тренажер для речи" />
+              </a>
+              <strong>Тренажер для речи</strong>
+          </div>
+          <nav>
+              <ul class="nav-menu">
+                  <li><a class="nav-item" href="/">Главная</a></li>
+                  <li><a class="nav-item" href="/Calendar">Календарь</a></li>
+                  <li><app-nav-item path="/texts" btn="Тексты"></app-nav-item></li>
+                  <li><a class="nav-item" href="/Exercises">Упражнения</a></li>
+                  <li><a class="nav-item" href="/VoiceAnalisys">Анализ голоса</a></li>
+                  <li><a class="nav-item" href="/AboutProject">О проекте</a></li>
+              </ul>
+          </nav>
+          <language-picker></language-picker>
+          <app-account></app-account>
+      </div>
+    </header>
+    <main id="main-content">
+      <div id="server-content">
+        <div>Server content</div>
+
+        <div>Server content</div>
+
+        <div>Server content</div>
+
+        <div>Server content</div>
+
+        <div>Server content</div>
+
+        <div>Server content</div>
+
+        <div>Server content</div>
+      </div>
+
+      <div id="spa-content" hidden>
+        <angular-content></angular-content> 
+      </div>
+    </main>
     <app-root></app-root>
   </body>
 </html>
