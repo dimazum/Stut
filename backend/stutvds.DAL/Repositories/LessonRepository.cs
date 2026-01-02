@@ -26,12 +26,12 @@ namespace stutvds.DAL.Repositories
                                           x.StartTime.Day == date.Day);
         }
         
-        public async Task<List<DayLesson>> GetAllByUserIdAndMonth(Guid userId, DateTimeOffset date)
+        public async Task<List<DayLesson>> GetAllByUserIdAndMonth(Guid userId, int year, int month)
         {
             return await _dbContext.DayLessons
                 .Where(x => x.UserId == userId &&
-                                          x.StartTime.Year == date.Year &&
-                                          x.StartTime.Month == date.Month)
+                                          x.StartTime.Year == year &&
+                                          x.StartTime.Month == month)
                 .ToListAsync();
         }
     }

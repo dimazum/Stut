@@ -7,8 +7,24 @@
     font-family: Roboto, serif;
 } 
 
+body{
+    overflow-y: scroll;
+}
+
 a {
     text-decoration: none !important;
+}
+
+h1 {
+    font-size: 1.7rem !important;
+}
+
+h2 {
+    font-size: 1.5rem !important;
+}
+
+h3 {
+    font-size: 1.2rem !important;
 }
 
 .dm-select{
@@ -33,6 +49,7 @@ a {
     width: 80%;
     max-width: 1200px;
     margin: 0 auto;
+    font-size: 20px;
 }
 
 header {
@@ -41,6 +58,7 @@ header {
     width: 100%;
     background: linear-gradient(90deg, #2ecc71, #27ae60, #1abc9c);
     color: white;
+    z-index: 9999;
 }
 
 .header-container {
@@ -53,10 +71,17 @@ header {
 
 .logo{
     padding-top: 1px;
+    min-width: 150px;
 }
 
 .logo img {
     height: 50px;
+}
+
+.logo span {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
 }
 
 nav .nav-menu {
@@ -81,6 +106,16 @@ nav .nav-menu {
 
 main {
     padding: 75px 0;
+}
+
+.read-rule{
+    background-color:beige;
+    font-size: 16px;
+}
+
+.not-logged-in-error{
+    color: red;
+    font-size: 16px;
 }
 
 

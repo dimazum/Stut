@@ -41,8 +41,8 @@ export class BackendService {
     return this.httpClient.get<Array<TriggerTaskResult>>(`${this.baseUrl}/trigger/triggertasks/${triggerValue}`);
   }
 
-  public getCalendar(): Observable<CalendarData> {
-    return this.httpClient.get<CalendarData>(`${this.baseUrl}/calendar/get`);
+  public getCalendar(year: number, month: number): Observable<CalendarData> {
+    return this.httpClient.get<CalendarData>(`${this.baseUrl}/calendar?year=${year}&month=${month}`);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

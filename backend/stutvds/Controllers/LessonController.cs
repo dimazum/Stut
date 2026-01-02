@@ -72,12 +72,13 @@ namespace stutvds.Controllers
 
             if (lesson.Status != LessonStatus.Finished)
             {
-                lesson.Status = LessonStatus.Paused;
                 lesson.LeftInSec -= (int)(DateTimeOffset.Now - lesson.StartRangeTime).TotalSeconds;
-                lesson.WordsSpoken = request.Words;
-                lesson.WPS = request.Wps;
-                await _dayLessonRepository.UpdateAsync(lesson);
             }
+            
+            lesson.Status = LessonStatus.Paused;
+            lesson.WordsSpoken = request.Words;
+            lesson.WPS = request.Wps;
+            await _dayLessonRepository.UpdateAsync(lesson);
 
             return Ok(lesson);
         }

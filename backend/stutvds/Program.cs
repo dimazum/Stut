@@ -39,7 +39,13 @@ builder.Services
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddControllersWithViews().AddNewtonsoftJson();
+builder.Services.AddControllersWithViews()
+    .AddRazorOptions(options =>
+        {
+            options.ViewLocationFormats.Add("/Controllers/MVC/{1}/{0}.cshtml"); // рядом с контроллером
+        }
+    
+    ).AddNewtonsoftJson();
 builder.Services.AddRazorPages();
 
 builder.Services.AddCors(options =>
@@ -176,7 +182,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{action}/{id?}",
+    pattern: "{controller=Home}/{action=Index}/{id?}",
     defaults: new { controller = "Home", action = "Index" }
     );
 

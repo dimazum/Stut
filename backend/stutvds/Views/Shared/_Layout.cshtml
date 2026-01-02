@@ -24,7 +24,10 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Тренажер для речи</title>
+    <title>@ViewData["Title"] | SpeechFlow</title>
+    <meta name="description" content="@ViewData["Description"]" />
+    <meta name="keywords" content="@ViewData["Keywords"]" />
+
     <meta name="description" content="Онлайн-тренажер по улучшению речи, упражнения для дикции и уверенной коммуникации." />
     
     @if (!Env.IsDevelopment())
@@ -42,32 +45,28 @@
     <div class="header-container">
         <div class="logo">
             <a href="@Url.Action("Index", "Home")">
-                <img src="~/images/logo.png" alt="Тренажер для речи" />
+                <img src="~/images/logo.png" alt="SpeechFlow" />
+                <span>SpeechFlow</span>
             </a>
-            <strong>Тренажер для речи</strong>
+            
         </div>
         <nav>
             <ul class="nav-menu">
                 <li><a class="nav-item" href="@Url.Action("Index", "Home")">Главная</a></li>
-                <li><a class="nav-item" href="@Url.Action("Calendar", "Home")">Календарь</a></li>
-                <li><app-nav-item path="/texts" btn="Тексты"></app-nav-item></li>
+                <li><a class="nav-item" href="@Url.Action("Index", "Calendar")">Календарь</a></li>
+                <li><a class="nav-item" href="@Url.Action("Index", "Texts")">Тексты</a></li>
+                @* <li><app-nav-item path="/texts" btn="Тексты"></app-nav-item></li> *@
                 <li><a class="nav-item" href="@Url.Action("Exercises", "Home")">Упражнения</a></li>
                 <li><a class="nav-item" href="@Url.Action("VoiceAnalisys", "Home")">Анализ голоса</a></li>
                 <li><a class="nav-item" href="@Url.Action("AboutProject", "Home")">О проекте</a></li>
             </ul>
         </nav>
-        <language-picker></language-picker>
         <app-account></app-account>
     </div>
 </header>
 
-<main id="main-content">
-    <div id="server-content">
-        @RenderBody()
-    </div>
-    <div id="spa-content" hidden>
-        <angular-content></angular-content>
-    </div>
+<main class="stu-container">
+    @RenderBody()
 </main>
 
 <app-root></app-root>
@@ -84,7 +83,7 @@ else
 @if (isBot)
 {
     <footer>
-        <p>© 2026 Тренажер для речи</p>
+        <p>© @DateTime.Now.Year — SpeechFlow</p>
         <nav>
             <a href="/home">Главная</a>
             <a href="/about">О проекте</a>

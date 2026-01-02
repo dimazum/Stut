@@ -4,9 +4,8 @@ import { RandomTextComponent } from './random-text/random-text.component';
 import { TwistersComponent } from './twisters/twisters.component';
 import { ExercisesComponent } from './exercises/exercises.component';
 import { DiaphragmComponent } from './diaphragm/diaphragm.component';
-import { CalendarPageComponent } from './calendar-page/calendar-page.component';
 import { RegisterComponent } from './register/register.component';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './header/login/login.component';
 import { LessonsComponent } from './lessons/lessons.component';
 import { LarynxComponent } from './lessons/larynx/larynx.component';
 import { Lesson1Component } from './lessons/lesson1/lesson1.component';
@@ -21,10 +20,10 @@ import { AudioListComponent } from './voise-analysis/audio-list/audio-list.compo
 import { VoiseAnlysisPageComponent } from './voise-analysis/voise-anlysis-page/voise-anlysis-page.component';
 
 export const routes: Routes = [
-  {
-    path: 'texts',
-    component: RandomTextComponent,
-  },
+  // {
+  //   path: 'texts',
+  //   component: RandomTextComponent,
+  // },
   {
     path: 'register',
     component: RegisterComponent,
@@ -48,10 +47,6 @@ export const routes: Routes = [
   {
     path: 'diaphragm',
     component: DiaphragmComponent,
-  },
-  {
-    path: 'calendar-page',
-    component: CalendarPageComponent,
   },
   {
     path: 'lessons',

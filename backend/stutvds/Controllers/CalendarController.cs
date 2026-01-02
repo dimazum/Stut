@@ -10,25 +10,21 @@ using stutvds.DAL.Repositories;
 namespace stutvds.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
-    public class CalendarController : BaseController
+    [Route("api/calendar")]
+    public class CalendarApiController : BaseController
     {
         private readonly DayLessonRepository _dayLessonRepository;
 
-        public CalendarController(DayLessonRepository dayLessonRepository)
+        public CalendarApiController(DayLessonRepository dayLessonRepository)
         {
             _dayLessonRepository = dayLessonRepository;
         }
         
-        [HttpGet("get")]
+        [HttpGet]
         [Authorize(Roles = "Admin, User")]
-        public async Task<ActionResult<CalendarData>> GetCalendar()
+        public async Task<ActionResult<CalendarData>> GetCalendar(int year, int month)
         {
-            var today = DateTime.Today;
-            int year = today.Year;
-            int month = today.Month - 1; // JS/Angular ожидает 0-based месяц
-            
-            var lessons = await _dayLessonRepository.GetAllByUserIdAndMonth(UserId, today);
+            var lessons = await _dayLessonRepository.GetAllByUserIdAndMonth(UserId, year, month + 1);
 
             var days = new List<DayData>();
 
@@ -44,14 +40,14 @@ namespace stutvds.Controllers
                 });
             }
 
-            var calendar = new CalendarData
+            var calendarDate = new CalendarData
             {
                 Year = year,
                 Month = month,
                 Days = days
             };
 
-            return Ok(calendar);
+            return Ok(calendarDate);
         }
     }
 }

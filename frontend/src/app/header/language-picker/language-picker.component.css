@@ -2,6 +2,7 @@
     position: relative;
     padding: 1px 3px;
     border: 1px solid;
+    margin-right: 15px;
 }
 
 .language-picker-current

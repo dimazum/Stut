@@ -1,0 +1,40 @@
+.calendar-container{
+  width: 70%;
+  margin: 0 auto;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+table.calendar {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table.calendar th,
+table.calendar td {
+  border: 1px solid #ccc;
+  width: 14.28%; /* 100 / 7 */
+  height: 70px;
+  
+  vertical-align: top;
+  padding: 5px;
+  font-size: 14px;
+}
+
+td.empty {
+  background-color: #f5f5f5;
+}
+
+div.today {
+  background-color: #e0f7fa;
+}
+
+button {
+  display: block;
+  margin-top: 5px;
+}

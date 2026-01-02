@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { jwtDecode } from 'jwt-decode';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 
 interface JwtPayload {
@@ -29,21 +28,17 @@ export class AuthService {
   public userinfo$ = this.usernameSubject.asObservable();
 
   public constructor(
-    private httpClient: HttpClient,
-    private router: Router
+    private httpClient: HttpClient
   ) {}
 
   // регистрация
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public register(data: any): Observable<any> {
     return this.httpClient.post(`${this.baseUrl}/register`, data);
   }
 
   // логин
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public login(username: string, password: string): Observable<any> {
     return this.httpClient.post(`${this.baseUrl}/login`, { username, password }).pipe(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       tap((res: any) => {
         localStorage.setItem('token', res.token);
 
@@ -57,7 +52,6 @@ export class AuthService {
   public logout() {
     localStorage.removeItem('token');
     this.usernameSubject.next(null); // сбрасываем юзеринфо
-    this.router.navigate(['/login']);
   }
 
   public isLoggedIn(): boolean {
