@@ -396,3 +396,4 @@ Thumbs.db
 # Python virtual environment
 .venv/
 
+/backend/stutvds/wwwroot/angular/
