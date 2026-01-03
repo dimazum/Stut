@@ -4,7 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { BackendService } from '../services/backend.service';
 import { CalendarData, DayData } from '../models/models';
-import { AuthService } from '../services/AuthService';
+import { AuthService } from '../services/auth.service';
 import { Subscription } from 'rxjs';
 
 interface DayCell {
@@ -27,12 +27,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
   public userinfo$ = this.authServeice.userinfo$;
   public subscription!: Subscription;
 
-  constructor(
-    private backendService: BackendService,
-    private authServeice: AuthService
-  ) {}
-
-
   public msg: string  = 'Пройдите регистрацию чтобы увидеть календарь'
   public loggedIn: boolean = false;
 
@@ -42,10 +36,12 @@ export class CalendarComponent implements OnInit, OnDestroy {
   public currentMonthName = '';
   public currentYear = 0;
 
+  constructor(
+    private backendService: BackendService,
+    private authServeice: AuthService
+  ) {}
+
   ngOnInit(): void {
-    //this.loadCalendar();
-
-
   this.subscription = this.authServeice.userinfo$.subscribe(x => 
       {
         if(x?.logged_in){

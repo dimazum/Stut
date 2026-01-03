@@ -2,7 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgIf } from '@angular/common';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/AuthService';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'stu-register',

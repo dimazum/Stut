@@ -23,13 +23,10 @@ interface UserInfo {
 export class AuthService {
   private baseUrl = environment.baseUrl + '/api/auth';
 
-  // текущий юзер
   private usernameSubject = new BehaviorSubject<UserInfo | null>(this.getUserInfoFromToken());
   public userinfo$ = this.usernameSubject.asObservable();
 
-  public constructor(
-    private httpClient: HttpClient
-  ) {}
+  public constructor( private httpClient: HttpClient) {}
 
   // регистрация
   public register(data: any): Observable<any> {
@@ -40,8 +37,7 @@ export class AuthService {
   public login(username: string, password: string): Observable<any> {
     return this.httpClient.post(`${this.baseUrl}/login`, { username, password }).pipe(
       tap((res: any) => {
-        localStorage.setItem('token', res.token);
-
+        localStorage.setItem('jwt-token', res.token);
         const userInfo = this.parceJwtToken(res.token);
 
         this.usernameSubject.next(userInfo ?? null);
@@ -50,16 +46,16 @@ export class AuthService {
   }
 
   public logout() {
-    localStorage.removeItem('token');
-    this.usernameSubject.next(null); // сбрасываем юзеринфо
+    localStorage.removeItem('jwt-token');
+    this.usernameSubject.next(null);
   }
 
   public isLoggedIn(): boolean {
-    return !!localStorage.getItem('token');
+    return !!localStorage.getItem('jwt-token');
   }
 
   private getUserInfoFromToken(): UserInfo | null {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('jwt-token');
     if (!token) return null;
 
     try {

@@ -16,20 +16,20 @@ export class AudioRecorderService implements OnDestroy {
   startRecording(): void {
     if (this.isRecording) return;
 
-    navigator.mediaDevices.getUserMedia({ audio: true })
-      .then(stream => {
-        this.stream = stream;
-        this.isRecording = true;
-        this.recordedChunks = [];
+    // navigator.mediaDevices.getUserMedia({ audio: true })
+    //   .then(stream => {
+    //     this.stream = stream;
+    //     this.isRecording = true;
+    //     this.recordedChunks = [];
 
-        this.startMediaRecorder();
+    //     this.startMediaRecorder();
 
-        // Каждые 5 секунд отправляем данные
-        this.uploadInterval = setInterval(() => {
-          this.sendChunkToServer();
-        }, 5000);
-      })
-      .catch(err => console.error('Microphone access error:', err));
+    //     // Каждые 5 секунд отправляем данные
+    //     this.uploadInterval = setInterval(() => {
+    //       this.sendChunkToServer();
+    //     }, 5000);
+    //   })
+    //   .catch(err => console.error('Microphone access error:', err));
   }
 
 private startMediaRecorder(): void {
@@ -42,7 +42,6 @@ private startMediaRecorder(): void {
     }
   };
 
-  // 🔥 ВАЖНО
   this.mediaRecorder.start(3000); // каждые 5 сек браузер сам отдаёт Blob
 }
 

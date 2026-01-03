@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TimerComponent } from '../common/timer/timer.component';
-import { startLessonSubject } from '../models/events';
+import { startLessonSubject, notLoggedInSubject } from '../models/events';
 import { NgClass, NgIf } from '@angular/common';
 import { SpeechRecognitionService } from '../services/speech-recognition.service';
 import { BackendService } from '../services/backend.service';
@@ -12,6 +12,7 @@ import { DailyLessonStatus } from '../models/enums';
 import { DayLessonDto, VoiceAnalysisUpdateDto } from '../models/models';
 import { TextareaAutoClearComponent } from '../common/textarea-auto-clear/textarea-auto-clear.component';
 import { VoiceAnalysisService } from '../services/voice-analysis.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'stu-footer',
@@ -27,28 +28,37 @@ export class FooterComponent implements OnInit, OnDestroy{
   public speedCounter? = 0;
   public text = '';
   public dailyLesson? : DayLessonDto;
-  private recognitionSub?: Subscription;
   public timeLeftInSec: number = 0;
-  private subscription!: Subscription;
+  private recognitionSub?: Subscription;
+  private voiceSubscription!: Subscription;
+  private authSubscription!: Subscription;
   voiceData: VoiceAnalysisUpdateDto | null = null;
 
   public constructor(
     private speechRecognitionService: SpeechRecognitionService,
     private backendService: BackendService,
     private audioRecorderService : AudioRecorderService,
-    private voiceService: VoiceAnalysisService
+    private voiceService: VoiceAnalysisService,
+    private authService: AuthService,
+
   ) {}
 
-
   ngOnInit(): void {
-    this.backendService.getDailyLesson().subscribe( x => {
-      this.dailyLesson = x;
-      this.timeLeftInSec = this.dailyLesson.leftInSec;
-      this.speechRecognitionService.setSpokenWords(x.wordsSpoken);
-      this.wordsCounter = x.wordsSpoken;
-    });
 
-     this.subscription = this.voiceService.voiceAnalysis$.subscribe(data => {
+    this.authSubscription = this.authService.userinfo$.subscribe(x => 
+    {
+      if(x?.logged_in){
+            this.backendService.getDailyLesson().subscribe( x => {
+            this.dailyLesson = x;
+            this.timeLeftInSec = this.dailyLesson?.leftInSec;
+            this.speechRecognitionService.setSpokenWords(x?.wordsSpoken);
+            this.wordsCounter = x?.wordsSpoken;
+          });
+      }
+    })
+
+
+    this.voiceSubscription = this.voiceService.voiceAnalysis$.subscribe(data => {
       if (data) {
         this.voiceData = data;
       }
@@ -57,11 +67,16 @@ export class FooterComponent implements OnInit, OnDestroy{
   }
 //переделать в toggle
   public startListening() {
+    
+    if(!this.authService.isLoggedIn()){
+      notLoggedInSubject.next(null);
+      return;
+    }
+
     this.isEnabled = !this.isEnabled;
 
 
-    if (this.isEnabled) {
-    
+    if (this.isEnabled) {   
 
       this.backendService.startLesson().subscribe(x => {
         this.dailyLesson = x;
@@ -73,7 +88,6 @@ export class FooterComponent implements OnInit, OnDestroy{
 
       this.startBtnName = 'Стоп';
 
-      // сохраняем подписку на результаты распознавания
       this.recognitionSub = this.speechRecognitionService.recognitionResult.subscribe(result => {
         this.text = result.text ?? '';
         this.wordsCounter = result.wordCount;
@@ -116,6 +130,8 @@ export class FooterComponent implements OnInit, OnDestroy{
   }
 
     ngOnDestroy(): void {
-     this.subscription.unsubscribe();
+     this.voiceSubscription.unsubscribe();
+     this.authSubscription.unsubscribe()
+     
   }
 }

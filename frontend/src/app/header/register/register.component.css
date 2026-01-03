@@ -47,13 +47,13 @@ input {
 }
 
 input:focus {
-  border-color: #ffd700;
+  border-color: #22b47a;
 }
 
 button[type="submit"] {
   width: 100%;
   padding: 12px;
-  background: #ffd700;
+  background: #22b47a;
   border: none;
   border-radius: 8px;
   color: white;

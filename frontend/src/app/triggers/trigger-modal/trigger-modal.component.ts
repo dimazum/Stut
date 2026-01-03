@@ -1,36 +1,46 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Trigger, TriggerResult } from '../../models/models';
 import { BackendService } from '../../services/backend.service';
-import { NgClass, NgFor } from '@angular/common';
-import { EMPTY, catchError, of, switchMap } from 'rxjs';
+import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { EMPTY, Subscription, catchError, of, switchMap } from 'rxjs';
 import { StutEventSystem } from '../../services/stut-event-system';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'stu-trigger-modal',
   standalone: true,
-  imports: [ReactiveFormsModule, NgFor, NgClass],
+  imports: [ReactiveFormsModule, NgFor, NgClass, NgIf, AsyncPipe],
   templateUrl: './trigger-modal.component.html',
   styleUrl: './trigger-modal.component.css',
 })
-export class TriggerModalComponent implements OnInit {
+export class TriggerModalComponent implements OnInit, OnDestroy {
   public triggerForm: FormGroup;
   public triggers?: Array<TriggerResult>;
   public isOpen: boolean = false;
+  public userinfo$ = this.authServeice.userinfo$;
+  public subscription!: Subscription;  
 
   public constructor(
     private fb: FormBuilder,
     private readonly backendService: BackendService,
-    private readonly eventSystem: StutEventSystem
+    private readonly eventSystem: StutEventSystem,
+    private authServeice: AuthService
+    
   ) {
     this.triggerForm = this.fb.group({
-      value: ['', Validators.required],
-      difficulty: ['1', [Validators.required]],
+      value: ['', Validators.required]
     });
   }
 
-  public ngOnInit(): void {
-    this.backendService.getTriggers().subscribe(data => (this.triggers = data));
+  ngOnInit(): void {
+    this.subscription = this.authServeice.userinfo$.subscribe(x => 
+      {
+        if(x?.logged_in){
+          this.backendService.getTriggers().subscribe(data => (this.triggers = data));
+        }
+      }
+    )
   }
 
   public onCreate() {
@@ -40,10 +50,11 @@ export class TriggerModalComponent implements OnInit {
         difficulty: this.triggerForm.value.difficulty,
       };
 
+      this.triggerForm.get('value')?.reset('');
+
       this.backendService
         .createTrigger(trigger)
         .pipe(
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           switchMap((t: TriggerResult) => this.backendService.getTriggers()),
           switchMap((triggers: Array<TriggerResult>) => (this.triggers = triggers)),
           catchError(x => {
@@ -67,5 +78,9 @@ export class TriggerModalComponent implements OnInit {
 
   public onToggle() {
     this.isOpen = !this.isOpen;
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

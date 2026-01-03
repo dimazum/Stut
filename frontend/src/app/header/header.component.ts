@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { LanguagePickerComponent } from './language-picker/language-picker.component';
 import { NavigationEnd, RouterLink, RouterOutlet } from '@angular/router';
-import { AuthService } from '../services/AuthService';
+import { AuthService } from '../services/auth.service';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { Router } from '@angular/router';
 import { filter } from 'rxjs';

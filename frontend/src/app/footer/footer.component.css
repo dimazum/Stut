@@ -1,16 +1,9 @@
 .footer {
   position: fixed;
   bottom: 0;
-  /* display: flex;
-  align-items: center;
-  gap: 20px; */
-
   width: 100%;
-  
-
   background: #1f1f1f;
   color: white;
-
   border-top: 2px solid #333;
 }
 
@@ -20,11 +13,9 @@
   display: flex;
   align-items: center;
   gap: 20px;
-  padding: 4px 20px;
-  
+  padding: 4px 20px; 
 }
 
-/* Кнопка */
 .start-btn {
     width: 100px;
     background-color: #ffd700;
@@ -60,25 +51,6 @@
   display: flex;
   flex-direction: column;
   min-width: 190px;
-}
-
-/* Textarea */
-.text-block textarea {
-  font-size: 8px;
-  width: 350px;
-  height: 50px;
-  resize: none;
-  padding: 3px;
-  border-radius: 8px;
-  border: 1px solid #444;
-  background: #2e2e2e;
-  color: white;
-}
-
-.text-block textarea::placeholder {
-    font-size: 12px; /* размер текста placeholder */
-    color: #888;      /* цвет текста placeholder */
-    font-family: Arial, sans-serif; /* шрифт placeholder */
 }
 
 /* Эквалайзер */

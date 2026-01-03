@@ -3,31 +3,8 @@ import { Component, Input, OnChanges, SimpleChanges, OnDestroy } from '@angular/
 @Component({
   selector: 'app-textarea-auto-clear',
   standalone: true,
-  template: `
-    <div class="text-block">
-      <textarea placeholder="Распознанный текст..." [value]="text" readonly></textarea>
-    </div>
-  `,
-  styles: [`
-    /* Textarea */
-.text-block textarea {
-  font-size: 8px;
-  width: 350px;
-  height: 50px;
-  resize: none;
-  padding: 3px;
-  border-radius: 8px;
-  border: 1px solid #444;
-  background: #2e2e2e;
-  color: white;
-}
-
-.text-block textarea::placeholder {
-    font-size: 12px; /* размер текста placeholder */
-    color: #888;      /* цвет текста placeholder */
-    font-family: Arial, sans-serif; /* шрифт placeholder */
-}
-  `]
+  templateUrl: './textarea-auto-clear.component.html',
+  styleUrl: './textarea-auto-clear.component.css',
 })
 export class TextareaAutoClearComponent implements OnChanges, OnDestroy {
   @Input() text: string = '';

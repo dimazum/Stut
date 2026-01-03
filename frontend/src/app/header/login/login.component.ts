@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
-import { AuthService } from '../../services/AuthService';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'stu-login',

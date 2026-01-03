@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
-import { AuthService } from '../../services/AuthService';
+import { Component, OnDestroy } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { LoginComponent } from "../login/login.component";
 import { RegisterComponent } from "../register/register.component";
 import { LanguagePickerComponent } from "../language-picker/language-picker.component";
+import { notLoggedInSubject } from '../../models/events';
+import { Subscription } from 'rxjs';
+
 
 @Component({
   selector: 'app-account',
@@ -12,12 +15,17 @@ import { LanguagePickerComponent } from "../language-picker/language-picker.comp
   templateUrl: './account.component.html',
   styleUrl: './account.component.css'
 })
-export class AccountComponent {
+export class AccountComponent implements OnDestroy{
   public userinfo$ = this.auth.userinfo$;
   public showLogin = false;
   public showRegister = false;
+  private subscription: Subscription;
 
-  constructor(private auth: AuthService) {  
+  constructor(private auth: AuthService) {
+
+    this.subscription = notLoggedInSubject.subscribe(_ =>{
+      this.showLoginPopup();
+    })
   }
 
    showLoginPopup() {
@@ -30,5 +38,9 @@ export class AccountComponent {
 
   public logout() {
     this.auth.logout();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

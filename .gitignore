@@ -397,3 +397,4 @@ Thumbs.db
 .venv/
 
 /backend/stutvds/wwwroot/angular/
+/letsencrypt/

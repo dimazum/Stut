@@ -64,7 +64,6 @@ export class SpeechRecognitionService implements OnDestroy {
       rData.wpm = speed;
 
       this.recognitionResult.next(rData);
-      console.log('Распознанный текст:', text, 'WPM:', speed.toFixed(1));
     };
 
     this.recognition.onend = () => {
@@ -73,11 +72,22 @@ export class SpeechRecognitionService implements OnDestroy {
       }
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     this.recognition.onerror = (event: any) => {
-      console.error('Speech recognition error:', event.error);
+      //console.error('Speech recognition error:', event.error);
+
+      if(event.error == 'no-speech'){
+        const rData = new RecognitionData();
+        rData.text = 'Нет голоса...';
+        rData.wordCount = this.totalWordCount;
+        rData.wpm = 0;
+
+      this.recognitionResult.next(rData);
+      }
+
       // Можно перезапустить распознавание, если ошибка recoverable
-      if (this.isRecognitionEnabled && event.error !== 'not-allowed') {
+      if (this.isRecognitionEnabled
+         && event.error !== 'not-allowed'
+         && event.error !=='no-speech') {
         this.recognition.start();
       }
     };
@@ -98,7 +108,7 @@ export class SpeechRecognitionService implements OnDestroy {
   public start(): void {
     if (!this.isRecognitionEnabled) {
       this.isRecognitionEnabled = true;
-      this.windowStartTime = Date.now(); // начинаем отсчет сразу
+      this.windowStartTime = Date.now();
       this.lastResultTime = this.windowStartTime;
       this.recognition.start();
     }
