@@ -11,3 +11,25 @@
 .nav-item:hover{
     color: rgb(228, 230, 230);
 }
+
+/* Desktop */
+@media (min-width: 769px) {
+    .nav-item{
+      padding-right: 10px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .nav-item{
+      padding-right: 8px;
+    }
+
+    .truncate-user{
+      width: 70px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 14px;
+    }
+}

@@ -63,6 +63,9 @@ export class SpeechRecognitionService implements OnDestroy {
       rData.wordCount = this.totalWordCount;
       rData.wpm = speed;
 
+      console.log(text);
+      
+
       this.recognitionResult.next(rData);
     };
 

@@ -1,0 +1,27 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+<p>Browser logs:</p>
+<div id="log"></div>
+<script>
+    (function(){
+        const logContainer = document.getElementById('log');
+        if (!logContainer) {
+            console.warn('Div с id="log" не найден!');
+            return;
+        }
+
+        const originalLog = console.log;
+        console.log = function(...args){
+            originalLog.apply(console, args);
+            const msg = args.map(a => (typeof a === 'object' ? JSON.stringify(a, null, 2) : a)).join(' ');
+            const p = document.createElement('div');
+            p.textContent = msg;
+            logContainer.appendChild(p);
+            
+            logContainer.scrollTop = logContainer.scrollHeight;
+        };
+    })();
+
+</script>

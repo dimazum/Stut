@@ -36,3 +36,16 @@
     opacity: 0.85;
 }
 
+/* Desktop */
+@media (min-width: 769px) {
+    .language-picker{
+        margin-right: 15px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+     .language-picker{
+        margin-right: 8px;
+    }
+}

@@ -1,7 +1,7 @@
   <div class="account">
     <stu-language-picker></stu-language-picker>
     <ng-container *ngIf="userinfo$ | async as userinfo; else guest">
-      <span class="nav-item">{{ userinfo.user_name }}!</span>
+      <span class="nav-item truncate-user">{{ userinfo.user_name }}!</span>
       <div class="nav-item" (click)="logout()">Выйти</div>
     </ng-container>
 
