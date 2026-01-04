@@ -8,30 +8,99 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
   </head>
   <body>
-    <header>
-      <div class="stu-container header-container">
-          <div class="logo">
-              <a href="/">
-                  <img src="assets/images/logo.png" alt="Тренажер для речи" />
-              </a>
-              <strong>Тренажер для речи</strong>
-          </div>
-          <nav>
-              <ul class="nav-menu">
-                  <li><a class="nav-item" href="/">Главная</a></li>
-                  <li><a class="nav-item" href="/Calendar">Календарь</a></li>
-                  <li><app-nav-item path="/texts" btn="Тексты"></app-nav-item></li>
-                  <li><a class="nav-item" href="/Exercises">Упражнения</a></li>
-                  <li><a class="nav-item" href="/VoiceAnalisys">Анализ голоса</a></li>
-                  <li><a class="nav-item" href="/AboutProject">О проекте</a></li>
+    <header class="desktop-header">
+    <div class="header-container">
+        <div class="logo">
+            <a href="/">
+                <img src="assets/images/logo.png" alt="SpeechFlow" />
+                <span>SpeechFlow</span>
+            </a>
+        </div>
+
+        <nav class="desktop-nav">
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Главная</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/calendar">Календарь</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/texts">Тексты</a>
+                </li>
+
+                <!-- Exercises -->
+                <li class="nav-item has-submenu">
+                    <a href="/Home/Exercises" class="nav-link">
+                        Упражнения
+                    </a>
+                    <ul class="submenu">
+                        <li><a href="/Home/Exercises/Breathing">Дыхание</a></li>
+                        <li><a href="/Home/Exercises/Diction">Дикция</a></li>
+                        <li><a href="/Home/Exercises/Intonation">Интонация</a></li>
+                        <li><a href="/Home/Exercises/Voice">Голос</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/Home/VoiceAnalisys">Анализ голоса</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/Home/AboutProject">О проекте</a>
+                </li>
+            </ul>
+        </nav>
+        <app-account></app-account>
+    </div>
+</header>
+
+
+  <!-- Mobile header -->
+  <header class="mobile-header">
+    <div class="mobile-header-container">
+        <div class="mobile-logo">
+            <a href="/">
+                <img src="assets/images/logo.png" alt="SpeechFlow" />
+                <span>SpeechFlow</span>
+            </a>
+        </div>
+        <div class="mobile-account">
+            <app-account></app-account>
+        </div>
+        <button class="burger" id="burgerBtn" aria-label="Меню">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+    <nav class="mobile-nav" id="mobileNav">
+        <ul>
+            <li><a href="/">Главная</a></li>
+            <li><a href="/calendar">Календарь</a></li>
+            <li><a href="/texts">Тексты</a></li>
+            <!-- <li><a href="/Home/Exercises">Упражнения</a></li> -->
+            <li class="has-submenu">
+              <button class="submenu-toggle">
+                  Упражнения
+                  <span class="arrow"></span>
+              </button>
+
+              <ul class="submenu">
+                  <li><a href="/Home/Exercises/Breathing">Дыхание</a></li>
+                  <li><a href="/Home/Exercises/Diction">Дикция</a></li>
+                  <li><a href="/Home/Exercises/Intonation">Интонация</a></li>
+                  <li><a href="/Home/Exercises/Voice">Голос</a></li>
               </ul>
-          </nav>
-          <language-picker></language-picker>
-          <app-account></app-account>
-      </div>
-    </header>
-    <main id="main-content">
-      <div id="server-content">
+            </li>
+            <li><a href="/Home/VoiceAnalisys">Анализ голоса</a></li>
+            <li><a href="/Home/AboutProject">О проекте</a></li>
+        </ul>
+    </nav>
+</header>
+<main class="stu-container"> 
         <div>Server content</div>
 
         <div>Server content</div>
@@ -45,12 +114,26 @@
         <div>Server content</div>
 
         <div>Server content</div>
-      </div>
+  </main>
+  <app-root></app-root>
 
-      <div id="spa-content" hidden>
-        <angular-content></angular-content> 
-      </div>
-    </main>
-    <app-root></app-root>
+  <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const burger = document.getElementById("burgerBtn");
+            const nav = document.getElementById("mobileNav");
+
+            burger.addEventListener("click", () => {
+                nav.classList.toggle("active");
+            });
+
+
+            document.querySelectorAll(".submenu-toggle").forEach(btn => {
+              btn.addEventListener("click", () => {
+                  const parent = btn.closest(".has-submenu");
+                  parent.classList.toggle("active");
+              });
+          });
+        });
+    </script>
   </body>
 </html>

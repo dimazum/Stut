@@ -5,3 +5,13 @@
     font-size: 22px;
     font-weight: 400;
 }
+
+/* Desktop */
+@media (min-width: 769px) {
+    .text-container { font-size: 22px;}
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .text-container { font-size: 19px; }
+}

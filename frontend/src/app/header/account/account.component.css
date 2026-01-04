@@ -5,5 +5,9 @@
 
 .nav-item{
     padding-right: 10px;
+    cursor: pointer;
 }
 
+.nav-item:hover{
+    color: rgb(228, 230, 230);
+}

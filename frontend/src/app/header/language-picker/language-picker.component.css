@@ -23,6 +23,7 @@
     padding-top: 7px;
     border: 1px solid;
     box-shadow: 0 .25rem .75rem rgb(0 0 0 / .05);
+    z-index: 9999;
 }
 
 .language-picker-items>div{
