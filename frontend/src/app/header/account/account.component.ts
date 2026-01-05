@@ -6,12 +6,13 @@ import { RegisterComponent } from "../register/register.component";
 import { LanguagePickerComponent } from "../language-picker/language-picker.component";
 import { notLoggedInSubject } from '../../models/events';
 import { Subscription } from 'rxjs';
+import { UserInfoComponent } from "../user-info/user-info.component";
 
 
 @Component({
   selector: 'app-account',
   standalone: true,
-  imports: [NgIf, AsyncPipe, LoginComponent, RegisterComponent, LanguagePickerComponent],
+  imports: [NgIf, AsyncPipe, LoginComponent, RegisterComponent, LanguagePickerComponent, UserInfoComponent],
   templateUrl: './account.component.html',
   styleUrl: './account.component.css'
 })
@@ -19,6 +20,8 @@ export class AccountComponent implements OnDestroy{
   public userinfo$ = this.auth.userinfo$;
   public showLogin = false;
   public showRegister = false;
+  public showUserInfo = false;
+
   private subscription: Subscription;
 
   constructor(private auth: AuthService) {
@@ -38,6 +41,10 @@ export class AccountComponent implements OnDestroy{
 
   public logout() {
     this.auth.logout();
+  }
+
+  public openUserInfo(){
+    this.showUserInfo = !this.showUserInfo;
   }
 
   ngOnDestroy(): void {

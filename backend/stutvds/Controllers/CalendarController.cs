@@ -34,8 +34,8 @@ namespace stutvds.Controllers
                 {
                     LessonId = lesson.Id,
                     Date = lesson.StartTime.ToString("yyyy-MM-dd"),
-                    Done = lesson.Status == LessonStatus.Finished || lesson.Status == LessonStatus.Rewarded,
-                    Rewarded = lesson.Status == LessonStatus.Rewarded,
+                    Done = lesson.Status == LessonStatus.Finished,
+                    Rewarded = lesson.Rewarded,
                     WordsRead = lesson.WordsSpoken
                 });
             }

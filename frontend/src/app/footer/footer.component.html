@@ -9,9 +9,10 @@
     <div class="stats">
       <div>Прочитано слов: <strong>{{ wordsCounter }}/1000</strong></div>
       <div>Скорость: <strong>{{ speedCounter }} слов/мин</strong></div>
-      <div>
+      <div class="timer-container">
         Осталось:
         <stu-timer [timeLeft]="timeLeftInSec" (finishedEvent)="onTimerFinished()"></stu-timer>
+        <div class="lesson-status-label"></div>
       </div>
     </div>
 

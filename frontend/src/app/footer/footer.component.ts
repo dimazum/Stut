@@ -49,10 +49,10 @@ export class FooterComponent implements OnInit, OnDestroy{
     {
       if(x?.logged_in){
             this.backendService.getDailyLesson().subscribe( x => {
-            this.dailyLesson = x;
-            this.timeLeftInSec = this.dailyLesson?.leftInSec ?? 0;
-            this.speechRecognitionService.setSpokenWords(x?.wordsSpoken);
-            this.wordsCounter = x?.wordsSpoken;
+              this.dailyLesson = x;
+              this.timeLeftInSec = this.dailyLesson.leftInSec;
+              this.speechRecognitionService.setSpokenWords(x.wordsSpoken);
+              this.wordsCounter = x.wordsSpoken;
           });
       }
     })

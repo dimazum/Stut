@@ -34,5 +34,34 @@ namespace stutvds.DAL.Repositories
                                           x.StartTime.Month == month)
                 .ToListAsync();
         }
+        
+        
+        /// <summary>
+        /// Стрик по завершенным урокам
+        /// </summary>
+        public async Task<List<DateTime>> GetLastLessonDates(Guid userId, int days)
+        {
+            var todayUtc = DateTimeOffset.Now.Date;
+            var fromDate = todayUtc.AddDays(-days);
+
+            return await _dbContext.DayLessons
+                .Where(x =>
+                    x.UserId == userId &&
+                    x.FinishTime.HasValue &&
+                    x.FinishTime.Value.Date >= fromDate)
+                .Select(x => x.FinishTime.Value.Date)
+                .Distinct()
+                .OrderByDescending(x => x)
+                .ToListAsync();
+        }
+        
+        public async Task<int> GetNotRewardedPoints(Guid userId)
+        {
+            return await _dbContext.DayLessons
+                .Where(x =>
+                    x.UserId == userId &&
+                    !x.Rewarded)
+                .SumAsync(x => x.RewardPoints);
+        }
     }
 }

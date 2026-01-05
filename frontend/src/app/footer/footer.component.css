@@ -60,3 +60,17 @@
   gap: 6px;
   height: 40px;
 }
+
+.timer-container{
+  display: flex;
+  align-items: center;
+}
+
+.lesson-status-label{
+    width: 10px;
+    height: 10px;
+    background-color: #fff3cd;
+    border: solid 1px;
+    border-radius: 10px;
+    margin-left: 5px;
+}

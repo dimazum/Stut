@@ -9,6 +9,7 @@ namespace stutvds.DAL.Entities
     {
         public Guid UserId { get; set; }
         public LessonStatus Status { get; set; }
+        public bool Rewarded { get; set; }
         /// <summary>
         /// Начало урока
         /// </summary>
@@ -24,5 +25,6 @@ namespace stutvds.DAL.Entities
         public int LeftInSec { get; set; }
         public int WordsSpoken { get; set; }
         public int WPS { get; set; } //words per second
+        public int RewardPoints { get; set; }
     }
 }

@@ -85,6 +85,7 @@ h3 {
 
 .desktop-nav .nav-item {
     position: relative;
+    cursor: pointer;
 }
 
 .desktop-nav .nav-link {

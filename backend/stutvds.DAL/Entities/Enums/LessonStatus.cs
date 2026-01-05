@@ -5,7 +5,6 @@
         None,
         Started,
         Paused,
-        Finished,
-        Rewarded
+        Finished
     }
 }
