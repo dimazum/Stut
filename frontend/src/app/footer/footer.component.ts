@@ -50,7 +50,7 @@ export class FooterComponent implements OnInit, OnDestroy{
       if(x?.logged_in){
             this.backendService.getDailyLesson().subscribe( x => {
             this.dailyLesson = x;
-            this.timeLeftInSec = this.dailyLesson?.leftInSec;
+            this.timeLeftInSec = this.dailyLesson?.leftInSec ?? 0;
             this.speechRecognitionService.setSpokenWords(x?.wordsSpoken);
             this.wordsCounter = x?.wordsSpoken;
           });
@@ -90,7 +90,7 @@ export class FooterComponent implements OnInit, OnDestroy{
 
       this.recognitionSub = this.speechRecognitionService.recognitionResult.subscribe(result => {
         this.text = result.text ?? '';
-        this.wordsCounter = result.wordCount;
+        this.wordsCounter = result.wordCount ?? 0;
         //this.speedCounter = result.wpm;
       });
     } else {

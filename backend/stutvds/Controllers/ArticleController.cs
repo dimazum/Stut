@@ -1,4 +1,6 @@
-﻿using System.Text.Json;
+﻿using System;
+using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
@@ -66,7 +68,6 @@ namespace stutvds.Controllers
         [Route("seed")]
         public void SeedAllArticles()
         {
-            var t = _accessor;
             var allCountries = _wikiService.GetAllTitles(CurrentLanguage);
 
             foreach (var country in allCountries)
@@ -76,8 +77,10 @@ namespace stutvds.Controllers
                 if (!string.IsNullOrWhiteSpace(url))
                 {
                     var article = _wikiService.GetArticle(url);
+                    
+                    string decodedUrl = Uri.UnescapeDataString(url);
 
-                    _articleRepository.AddArticle(article, country, CurrentLanguage, AgeGroup.Adult);
+                    _articleRepository.AddArticle(article, country, "Countries", decodedUrl, CurrentLanguage, AgeGroup.Adult);
                 }
 
             }

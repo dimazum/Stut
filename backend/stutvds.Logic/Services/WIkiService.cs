@@ -30,8 +30,11 @@ namespace stutvds.Logic.Services
             string result = string.Empty;
 
             WebClient webClient = new WebClient();
+            webClient.Headers.Add("User-Agent", "MySpeechApp/1.0 (contact: pedro34546@gmail.com)");
+            
+            var url = string.Format(UrlWiki, "ru", title);
 
-            string text = webClient.DownloadString(string.Format(UrlWiki, _languageMap[language], title));
+            string text = webClient.DownloadString(url);
 
             webClient.Dispose();
 
@@ -65,7 +68,7 @@ namespace stutvds.Logic.Services
 
             try
             {
-                if (node != null && node.HasChildNodes)
+                if (node.HasChildNodes)
                 {
                     var modes = node.SelectNodes("//p");
                     foreach (HtmlNode HN in modes)
@@ -76,12 +79,17 @@ namespace stutvds.Logic.Services
 
                 var decodedString1 = HttpUtility.HtmlDecode(outputText);
                 var decodedString2 = Regex.Replace(decodedString1, @"\[(?<content>.+?)\]", "");
+                
+                decodedString2 = Regex.Replace(decodedString2, @"\s*\(.*?\)\s*", " ");
+
+                // Убираем лишние пробелы
+                decodedString2 = Regex.Replace(decodedString2, @"\s+", " ").Trim();
 
                 var arr = decodedString2.ToCharArray();
 
-                if (arr.Length >= 25000)
+                if (arr.Length >= 65000)
                 {
-                    newStr = new string(arr.Take(25000).ToArray());
+                    newStr = new string(arr.Take(65000).ToArray());
                     newStr += " ...";
                     newStr += System.Environment.NewLine;
 

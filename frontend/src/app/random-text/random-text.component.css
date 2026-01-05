@@ -4,14 +4,46 @@
     font-family: Roboto;
     font-size: 22px;
     font-weight: 400;
+    padding-top: 10px;
+}
+
+.control-container{
+    display: flex;
+    gap: 30px;
+    padding: 10px;
+    border: solid 1px;
+    margin: 5px;
+}
+
+.random-button{
+    border: solid 1px;
+    padding: 2px 3px;
+}
+
+.random-button:hover{
+    background-color: rgb(230, 231, 231);
+    transition: background-color 0.3s ease;
+
 }
 
 /* Desktop */
 @media (min-width: 769px) {
-    .text-container { font-size: 22px;}
+    .text-container {
+        font-size: 22px;
+    }
+    .control-container{
+        flex-direction: row;
+        row-gap: 30px;
+    }
 }
 
 /* Mobile */
 @media (max-width: 768px) {
-    .text-container { font-size: 19px; }
+    .text-container {
+        font-size: 19px; 
+    }
+    .control-container{
+        flex-direction: column;
+        row-gap: 10px;
+    }
 }

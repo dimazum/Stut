@@ -4,6 +4,8 @@ import { DailyLessonStatus } from "./enums";
 export interface ArticleData {
   id: string;
   title: string;
+  topic: string;
+  source: string;
   content: string;
   locale: string;
   ageGroup: number;

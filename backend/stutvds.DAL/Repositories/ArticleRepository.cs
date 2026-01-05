@@ -17,13 +17,16 @@ namespace stutvds.DAL.Repositories
             _dbContext = dbContext;
         }
 
-        public void AddArticle(string content, string title, Language language, AgeGroup ageGroup)
+        public void AddArticle(string content, string title, string topic, string source,
+            Language language, AgeGroup ageGroup)
         {
             var article = GetArticleByTitle(title);
 
             if(article != null)
             {
                 article.Content = content;
+                article.Topic = topic;
+                article.Source = source;
                 article.CreatedAt = DateTime.Now;
                 article.Language = language;
                 article.AgeGroup = ageGroup;
@@ -36,6 +39,8 @@ namespace stutvds.DAL.Repositories
             {
                 CreatedAt = DateTime.Now,
                 Content = content,
+                Topic = topic,
+                Source = source,
                 Title = title,
                 Language = language,
                 AgeGroup = ageGroup
