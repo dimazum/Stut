@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable, tap } from 'rxjs';
+import { map, Observable, shareReplay, tap } from 'rxjs';
 import { ArticleData, AudioFile, CalendarData, DayLessonDto, Trigger, TriggerResult, TriggerTaskResult, VoiceAnalysisResult } from '../models/models';
 import { environment } from '../../environments/environment';
 
@@ -9,6 +9,8 @@ import { environment } from '../../environments/environment';
 })
 export class BackendService {
   public baseUrl = environment.baseUrl + '/api';
+
+  private rewardPoints$?: Observable<number>;
 
   public constructor(private httpClient: HttpClient) {}
 
@@ -54,6 +56,19 @@ export class BackendService {
   public getDailyLesson(): Observable<DayLessonDto> {
     return this.httpClient
       .get<DayLessonDto>(`${this.baseUrl}/lesson/daily`);
+  }
+
+
+  getRewardPoints(): Observable<number> {
+    if (!this.rewardPoints$) {
+      this.rewardPoints$ = this.httpClient
+        .get<number>(`${this.baseUrl}/lesson/rewardPoints`)
+        .pipe(
+          shareReplay(1)
+        );
+    }
+
+    return this.rewardPoints$;
   }
 
   public pauseLesson(id: number, words: number, wps: number): Observable<DayLessonDto> {

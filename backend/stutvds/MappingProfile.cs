@@ -13,6 +13,7 @@ namespace stutvds
             CreateMap<TriggerClientDto, TriggerEntity>();
             CreateMap<TriggerEntity, TriggerResultClientDto>();
             CreateMap<ArticleEntity, ArticleDto>().ReverseMap();
+            CreateMap<DayLesson, DailyLessonDto>().ReverseMap();
         }
     }
 }

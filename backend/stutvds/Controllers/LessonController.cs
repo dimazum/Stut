@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StopStatAuth_6_0.Entities.Enums;
 using stutvds.Controllers.Base;
@@ -9,25 +11,30 @@ using stutvds.Models.ClientDto;
 
 namespace stutvds.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class LessonController: BaseController
     {
         private readonly DayLessonRepository _dayLessonRepository;
+        private readonly IMapper _mapper;
 
-        public LessonController(DayLessonRepository dayLessonRepository)
+
+        public LessonController(DayLessonRepository dayLessonRepository, IMapper mapper)
         {
             _dayLessonRepository = dayLessonRepository;
+            _mapper = mapper;
         }
         
         [HttpGet("daily")]
-        public async Task<IActionResult> GetDailyLesson()
+        public async Task<ActionResult<DailyLessonDto>> GetDailyLesson()
         {
             var lesson = await _dayLessonRepository.GetByUserIdAndDay(UserId, DateTimeOffset.Now);
             
             if (lesson != null)
             {
-                return Ok(lesson);
+                var mappedInt = _mapper.Map<DailyLessonDto>(lesson);
+                return Ok(mappedInt);
             }
 
             var now = DateTimeOffset.Now;
@@ -40,12 +47,21 @@ namespace stutvds.Controllers
                 Status = LessonStatus.Started,
                 UserId = UserId
             };
-
-            var created = await _dayLessonRepository.AddAsync(newLesson);
             
-            return Ok(created);
+            var created = await _dayLessonRepository.AddAsync(newLesson);
+            var mapped = _mapper.Map<DailyLessonDto>(created);
+            
+            return Ok(mapped);
         }
-        
+
+        [HttpGet("rewardPoints")]
+        public async Task<ActionResult<int>> GetRewardPoints()
+        {
+            var points = await _dayLessonRepository.GetNotRewardedPoints(UserId);
+            
+            return Ok(points);
+        }
+
         [HttpPost("start")]
         public async Task<IActionResult> StartLesson()
         {

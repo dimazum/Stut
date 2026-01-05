@@ -2,7 +2,7 @@
     <stu-language-picker></stu-language-picker>
     <ng-container *ngIf="userinfo$ | async as userinfo; else guest">
       <div (click)="openUserInfo()" class="nav-item truncate-user">{{ userinfo.user_name }}</div>
-      <div class="points-container">0</div>
+      <div class="points-container">{{ rewardPoints$ | async }}</div>
     </ng-container>
 
     <ng-template #guest>
