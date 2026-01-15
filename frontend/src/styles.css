@@ -17,15 +17,20 @@ a {
 }
 
 h1 {
-    font-size: 1.7rem !important;
-}
-
-h2 {
     font-size: 1.5rem !important;
 }
 
-h3 {
+h2 {
     font-size: 1.2rem !important;
+}
+
+h3 {
+    font-size: 1rem !important;
+}
+
+p {
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 .dirImg{
@@ -49,7 +54,7 @@ h3 {
     width: 100%;
     background: linear-gradient(90deg, #2ecc71, #27ae60, #1abc9c);
     color: white;
-    z-index: 100000;
+    z-index: 9000;
 }
 
 .desktop-header .header-container {
@@ -142,7 +147,8 @@ h3 {
 }
 
 .desktop-nav .nav-link:hover {
-    color: #ffd700;
+    color: rgb(228, 230, 230);
+    
 }
 
 
@@ -153,7 +159,7 @@ h3 {
     width: 100%;
     background: linear-gradient(90deg, #2ecc71, #27ae60, #1abc9c);
     border-bottom: 1px solid #eee;   
-    z-index: 1000;
+    z-index: 9000;
 }
 
 .mobile-header-container {
@@ -300,6 +306,89 @@ main {
 .not-logged-in-error{
     color: red;
     font-size: 16px;
+}
+
+.what-idea{
+    background-color: #9fbeeb8a;
+    padding: 10px;
+    font-size: 16px;
+    line-height: 1.4;
+    font-family: system-ui;
+    margin-bottom: 10px;
+}
+
+/* Common Buttons */
+.stu-button-l{
+    font-size: 15px;
+    padding: 3px;
+    border: solid 1px #198754;
+    background-color: #1fb683;
+    color: white;
+}
+
+.stu-button-l:hover{
+    background-color: #167e5b;
+    transition: background-color 0.3s ease;
+}
+
+
+/* Idea-Block */
+.idea-tooltip-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.idea-tooltip-button {
+    background: #1abc9c;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    border: none;
+    font-size: 12px;
+    padding: 1px;
+}
+
+.idea-tooltip-button:hover {
+    background: #0f5132;
+}
+
+.idea-tooltip-content {
+    position: absolute;
+    top: 50%;
+    left: 36px;
+    transform: translateY(-50%);
+    min-width: 320px;
+    max-width: 420px;
+    background: #198754;
+    color: #fff;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.4;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    z-index: 9001;
+}
+
+.idea-tooltip-wrapper:hover .idea-tooltip-content {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* стрелка */
+.idea-tooltip-content::before {
+    content: "";
+    position: absolute;
+    left: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent white transparent transparent;
 }
 
 

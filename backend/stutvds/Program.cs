@@ -143,7 +143,7 @@ builder.Services.AddDataAccessLayer();
 builder.Services.AddLogicLayer();
 
 builder.Services.AddAutoMapper(
-    typeof(MappingProfile).Assembly,
+    typeof(AutoMapperProfile).Assembly,
     typeof(LogicMappingProfile).Assembly
 );
 

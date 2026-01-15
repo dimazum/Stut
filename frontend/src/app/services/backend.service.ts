@@ -22,8 +22,8 @@ export class BackendService {
     return this.httpClient.get<Array<Array<string>>>(`${this.baseUrl}/stretching`);
   }
 
-  public getRandomArticle(): Observable<ArticleData> {
-    return this.httpClient.get<ArticleData>(`${this.baseUrl}/article/random`);
+  public getRandomArticle(category: string): Observable<ArticleData> {
+    return this.httpClient.get<ArticleData>(`${this.baseUrl}/article/random?category=${category}`);
   }
 
   public createTrigger(trigger: Trigger): Observable<TriggerResult> {
@@ -41,6 +41,10 @@ export class BackendService {
 
   public getTriggerTasks(triggerValue: string): Observable<Array<TriggerTaskResult>> {
     return this.httpClient.get<Array<TriggerTaskResult>>(`${this.baseUrl}/trigger/triggertasks/${triggerValue}`);
+  }
+
+  getTriggerExercises(): Observable<{ [key: string]: string[] }> {
+    return this.httpClient.get<{ [key: string]: string[] }>(`${this.baseUrl}/trigger/generate`);
   }
 
   public getCalendar(year: number, month: number): Observable<CalendarData> {

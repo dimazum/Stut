@@ -1,0 +1,21 @@
+﻿@using stutvds.Views.Shared.Models
+@{
+    Layout = "_Layout";
+}
+
+<h1>Дневной урок</h1>
+
+@await Html.PartialAsync("_IdeaBlock",
+    new IdeaBlockModel
+    {
+        Content = "Делайте упражнения каждый день, отслеживайте прогресс, самостоятельно подбирая себе урок." +
+                  " Сейчас вам представлен общий шаблон урока для всех органов артикуляции."
+    })
+
+<h2>Разогрев</h2>
+<stu-warm-up></stu-warm-up>
+
+<h2>Сложные слова (триггеры)</h2>
+<stu-trigger-block></stu-trigger-block>
+
+

@@ -1,14 +1,19 @@
 <div class="control-container">
     <div>
-        <button class="random-button" (click)="getRandomText()">Найти новый</button>
+        <button class="stu-button-l" (click)="getRandomText()">Новый текст</button>
     </div>
     <div>
-        Тема: {{topic}} 
+        <select [(ngModel)]="selectedCategory">
+        <option value="">-- Выберите категорию --</option>
+        <option *ngFor="let c of categories" [value]="c">
+            {{ c }}
+        </option>
+</select> 
     </div>
     <div><a [href]="source">Источник: {{source}}</a></div>
 
 </div>  
 <div class="text-container">
     <h2>{{ title }}</h2>
-    <div>{{ article }}</div>
+    <div class="text-content"> {{ article }}</div>
 </div>

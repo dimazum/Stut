@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using StopStatAuth_6_0.Entities.Enums;
 
 namespace stutvds.Models.ClientDto;
@@ -13,4 +14,5 @@ public class ArticleDto
     public Language Language { get; set; }
     public AgeGroup AgeGroup { get; set; }
     public DateTime CreatedAt { get; set; }
+    public List<string> Categories { get; set; }
 }

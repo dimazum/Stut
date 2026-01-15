@@ -19,8 +19,6 @@
     
     var userAgent = Context.Request.Headers["User-Agent"].ToString();
     var isBot = userAgent.Contains("Googlebot") || userAgent.Contains("Bingbot") || userAgent.Contains("Yandex");
-    
-    //var rewardPoints = DayLessonRepository.GetNotRewardedPoints()
 }
 
 <!DOCTYPE html>
@@ -62,6 +60,10 @@
                 </li>
 
                 <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Index", "dailyLesson")">Дневной урок</a>
+                </li>
+
+                <li class="nav-item">
                     <a class="nav-link" href="@Url.Action("Index", "calendar")">Календарь</a>
                 </li>
 
@@ -75,10 +77,10 @@
                         Упражнения
                     </span>
                     <ul class="submenu">
+                        <li><a href="@Url.Action("Index", "exercises")">Дикция и артикуляция</a></li>
+                        <li><a href="/Home/Exercises/Voice">Тембр голоса</a></li>
+                        <li><a href="/Home/Exercises/MuscleTension">Мышечные зажимы</a></li>
                         <li><a href="/Home/Exercises/Breathing">Дыхание</a></li>
-                        <li><a href="/Home/Exercises/Diction">Дикция</a></li>
-                        <li><a href="/Home/Exercises/Intonation">Интонация</a></li>
-                        <li><a href="/Home/Exercises/Voice">Голос</a></li>
                     </ul>
                 </li>
 
@@ -118,7 +120,6 @@
             <li><a href="@Url.Action("Index", "home")">Главная</a></li>
             <li><a href="@Url.Action("Index", "calendar")">Календарь</a></li>
             <li><a href="@Url.Action("Index", "texts")">Тексты</a></li>
-            <!-- <li><a href="/Home/Exercises">Упражнения</a></li> -->
             <li class="has-submenu">
                 <button class="submenu-toggle">
                     Упражнения
@@ -154,23 +155,23 @@ else
     <script type="module" src="http://localhost:4200/main.js"></script>
 }
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const burger = document.getElementById("burgerBtn");
-        const nav = document.getElementById("mobileNav");
-
-        burger.addEventListener("click", () => {
-            nav.classList.toggle("active");
-        });
-        
-        document.querySelectorAll(".submenu-toggle").forEach(btn => {
-            btn.addEventListener("click", () => {
-                const parent = btn.closest(".has-submenu");
-                parent.classList.toggle("active");
-            });
-        });
-    });
-</script>
+@* <script> *@
+@*     document.addEventListener("DOMContentLoaded", function () { *@
+@*         const burger = document.getElementById("burgerBtn"); *@
+@*         const nav = document.getElementById("mobileNav"); *@
+@* *@
+@*         burger.addEventListener("click", () => { *@
+@*             nav.classList.toggle("active"); *@
+@*         }); *@
+@*          *@
+@*         document.querySelectorAll(".submenu-toggle").forEach(btn => { *@
+@*             btn.addEventListener("click", () => { *@
+@*                 const parent = btn.closest(".has-submenu"); *@
+@*                 parent.classList.toggle("active"); *@
+@*             }); *@
+@*         }); *@
+@*     }); *@
+@* </script> *@
 @if (isBot)
 {
     <footer>

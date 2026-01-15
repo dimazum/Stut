@@ -1,0 +1,43 @@
+﻿@model SpeechApp.Models.ArticulationCategory
+
+<div class="articulation-block"
+     id="articulation-@Model.Category.Replace(" ", "").ToLower()"
+     style="display: none;">
+
+    <h2>@Model.Category</h2>
+    <p class="text-muted">@Model.Goal</p>
+
+    @foreach (var group in Model.Exercises)
+    {
+        <section class="exercise-group mb-4">
+            <h4>@group.Group</h4>
+            <p class="small text-muted">@group.Purpose</p>
+
+            @foreach (var ex in group.Exercises)
+            {
+                <div class="exercise-card card mb-2">
+                    <div class="card-body">
+                        <strong>@ex.Name</strong>
+                        <p>@ex.Instruction</p>
+
+                        <div class="exercise-meta small text-muted">
+                            @if (ex.DurationSeconds.HasValue)
+                            {
+                                <span>⏱ @ex.DurationSeconds сек.</span>
+                            }
+                            @if (ex.Repetitions.HasValue)
+                            {
+                                <span class="ms-2">🔁 @ex.Repetitions</span>
+                            }
+                        </div>
+
+                        @if (ex.Sounds?.Any() == true)
+                        {
+                            <div class="small">🔊 @string.Join(", ", ex.Sounds)</div>
+                        }
+                    </div>
+                </div>
+            }
+        </section>
+    }
+</div>

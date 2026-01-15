@@ -1,14 +1,13 @@
 ﻿using AutoMapper;
 using StopStatAuth_6_0.Entities;
 using stutvds.DAL.Entities;
-using stutvds.Logic.DTOs;
 using stutvds.Models.ClientDto;
 
 namespace stutvds
 {
-    public class MappingProfile : Profile
+    public class AutoMapperProfile : Profile
     {
-        public MappingProfile()
+        public AutoMapperProfile()
         {
             CreateMap<TriggerClientDto, TriggerEntity>();
             CreateMap<TriggerEntity, TriggerResultClientDto>();

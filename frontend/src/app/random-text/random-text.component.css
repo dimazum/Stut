@@ -9,22 +9,21 @@
 
 .control-container{
     display: flex;
+    align-items: center;
     gap: 30px;
     padding: 10px;
     border: solid 1px;
     margin: 5px;
+    font-size: 15px;
 }
 
-.random-button{
-    border: solid 1px;
-    padding: 2px 3px;
+.text-content {
+  line-height: 1.4;
+  white-space: pre-wrap; /* сохраняет переносы из TXT */
+  word-wrap: break-word; /* перенос длинных слов */
 }
 
-.random-button:hover{
-    background-color: rgb(230, 231, 231);
-    transition: background-color 0.3s ease;
 
-}
 
 /* Desktop */
 @media (min-width: 769px) {

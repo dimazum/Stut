@@ -10,6 +10,7 @@ export interface ArticleData {
   locale: string;
   ageGroup: number;
   createdAt: Date;
+  categories: string[];
 }
 
 export class RecognitionData {

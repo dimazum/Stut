@@ -14,6 +14,7 @@ using stutvds.DAL.Entities;
 using stutvds.Logic.DTOs;
 using stutvds.Logic.Services.Contracts;
 using stutvds.Logic.Services.Tasks;
+using stutvds.Models;
 using stutvds.Models.ClientDto;
 
 namespace stutvds.Controllers
@@ -25,16 +26,19 @@ namespace stutvds.Controllers
         private readonly TriggerRepository _triggerRepository;
         private readonly IMapper _mapper;
         private readonly TriggerTaskManager _triggerTaskManager;
+        private readonly TriggerGeneratorService _triggerService;
 
         public TriggerController(
             TriggerRepository triggerRepository,
             IMapper mapper,
-            TriggerTaskManager triggerTaskManager )
+            TriggerTaskManager triggerTaskManager,
+            TriggerGeneratorService triggerService)
         {
             ILogger logger;
             _triggerRepository = triggerRepository;
             _mapper = mapper;
             _triggerTaskManager = triggerTaskManager;
+            _triggerService = triggerService;
         }
 
         [HttpPost]
@@ -175,5 +179,45 @@ namespace stutvds.Controllers
 
             return Ok(words);
         } 
+        
+        
+        [HttpGet("generate")]
+        public ActionResult<Dictionary<string, List<string>>> GenerateTriggers()
+        {
+            var triggerWords = _triggerRepository
+                .GetLastTriggers(UserId, 3, CurrentLanguage)
+                .Select(x => x.Value)
+                .ToList();
+
+            if (!triggerWords.Any())
+            {
+                triggerWords = Triggers.GetRandomThreeTriggers_P();
+            }
+            
+            var result = new Dictionary<string, List<string>>();
+
+            foreach (var word in triggerWords)
+            {
+                // Генерируем 10 триггеров
+                var triggerExs = _triggerService.GenerateTriggers(word, 10);
+                var formattedLines = new List<string>();
+
+                foreach (var triggerWord in triggerExs)
+                {
+                    // Разделяем триггер и слово
+                    int spaceIndex = triggerWord.IndexOf(' ');
+                    string trigger = spaceIndex > 0 ? triggerWord.Substring(0, spaceIndex) : triggerWord;
+
+                    // Четыре повтора через запятую
+                    //string line = $"{trigger} {word}, но {word}";
+                    string line = $"{word}, но {word}";
+                    formattedLines.Add(line);
+                }
+
+                result[$"{word}"] = formattedLines;
+            }
+
+            return Ok(result);
+        }
     }
 }

@@ -47,5 +47,15 @@ namespace stutvds.DAL
 				.OrderBy(t => t.Value)
 				.ToList();
 		}
+		
+		public IEnumerable<TriggerEntity> GetLastTriggers(Guid userId, int number, Language language)
+		{
+			return _dbContext.Triggers
+				.Where(t => t.Language == language)
+				.Where(t => t.UserId == userId)
+				.OrderByDescending(t => t.CreatedAt)
+				.Take(number)
+				.ToList();
+		}
 	}
 }

@@ -1,7 +1,7 @@
 <div class="trigger-modal" [ngClass]="{ 'trigger-modal-open': isOpen }">
   <div class="trigger-modal-toggle-button"  *ngIf="(userinfo$ | async)?.logged_in"><div (click)="onToggle()"></div></div>
   <div class="trigger-container">
-    <h3 class="trigger-title">Триггеры</h3>
+    <h3 class="trigger-title">Сложно-произносимые слова</h3>
     <div class="trigger-content">
       <div class="trigger-item" *ngFor="let trigger of triggers" (click)="onClickTrigger(trigger)"
         >{{ trigger.value }}
