@@ -58,10 +58,14 @@ namespace stutvds.Controllers
         [HttpGet("random")]
         public async Task<ActionResult<ArticleDto>> GetRandomArticle(string category)
         {
+            if (category == null)
+            {
+                category = "Сказки";
+            }
+            
             category = ArticleCategoryMapper.ToEn(category);
-            //var randomText = await _pollinationsIs. GetDubaiFact();
 
-            if (string.IsNullOrEmpty(category) || category == "Countries")
+            if ( category == "Countries")
             {
                 var article = _articleRepository.GetRandomArticle(CurrentLanguage);
                 var dtoWithoutCategory =  _mapper.Map<ArticleDto>(article);

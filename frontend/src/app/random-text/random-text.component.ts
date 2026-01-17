@@ -31,7 +31,8 @@ export class RandomTextComponent implements OnInit {
       this.title = data.title;
       this.topic = data.topic;
       this.source = data.source;
-      this.categories = data.categories
+      this.categories = data.categories;
+      this.selectedCategory = data.initCategory;
     });
   }
 

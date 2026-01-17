@@ -11,6 +11,7 @@ export interface ArticleData {
   ageGroup: number;
   createdAt: Date;
   categories: string[];
+  initCategory: string;
 }
 
 export class RecognitionData {

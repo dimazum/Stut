@@ -15,4 +15,5 @@ public class ArticleDto
     public AgeGroup AgeGroup { get; set; }
     public DateTime CreatedAt { get; set; }
     public List<string> Categories { get; set; }
+    public string InitCategory { get; set; } = "Сказки";
 }

@@ -23,6 +23,37 @@
   word-wrap: break-word; /* перенос длинных слов */
 }
 
+.shape {
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  vertical-align: middle;
+
+  background:
+    radial-gradient(ellipse 20px 20px at 0 0, white 99%, transparent 100%),
+    #4caf50;
+
+  clip-path: polygon(
+    0 0,
+    calc(100% - 6px) 0,
+    100% 6px,
+    100% 100%,
+    0 100%
+  );
+}
+
+.inhale,
+.exhale{
+    width: 35px;
+}
+.pause{
+    width: 20px;
+}
+
+
+
+
+
 
 
 /* Desktop */
