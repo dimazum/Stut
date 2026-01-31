@@ -22,22 +22,22 @@ export class RandomTextComponent implements OnInit {
   public constructor(private backendServcie: BackendService) {}
 
   public ngOnInit(): void {
-    this.getArticle();
+    this.getArticle(true);
   }
 
-  private getArticle(): void {
+  private getArticle(init: boolean): void {
     this.backendServcie.getRandomArticle(this.selectedCategory).subscribe(data => {
       this.article = data.content;
       this.title = data.title;
       this.topic = data.topic;
       this.source = data.source;
       this.categories = data.categories;
-      this.selectedCategory = data.initCategory;
+      this.selectedCategory = init? data.initCategory : data.topic;
     });
   }
 
 
   getRandomText() {
-    this.getArticle();
+    this.getArticle(false);
   }
 }

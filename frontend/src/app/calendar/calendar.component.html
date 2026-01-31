@@ -1,7 +1,7 @@
 <div class="calendar-container" *ngIf="(userinfo$ | async)?.logged_in; else notLoggedIn">
   <div class="calendar-header">
     <button class="arrow-btn left" (click)="prevMonth()"></button>
-    <h2>{{ currentMonthName }} {{ currentYear }}</h2>
+    <div class="current-date">{{ currentMonthName }} {{ currentYear }}</div>
     <button class="arrow-btn" (click)="nextMonth()"></button>
   </div>
 

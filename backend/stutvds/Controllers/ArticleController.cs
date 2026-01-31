@@ -63,14 +63,15 @@ namespace stutvds.Controllers
                 category = "Сказки";
             }
             
-            category = ArticleCategoryMapper.ToEn(category);
+            var mappedCategory = ArticleCategoryMapper.ToEn(category);
 
-            if ( category == "Countries")
+            if ( mappedCategory == "Countries")
             {
                 var article = _articleRepository.GetRandomArticle(CurrentLanguage);
                 var dtoWithoutCategory =  _mapper.Map<ArticleDto>(article);
                 
                 dtoWithoutCategory.Categories = GetCategories();
+                dtoWithoutCategory.Topic = category;
             
                 return Ok(dtoWithoutCategory);
             }
@@ -96,7 +97,6 @@ namespace stutvds.Controllers
                 Content = text,
                 Topic = category,
                 Categories = GetCategories()
-                
             };
                 
             dto.Categories = GetCategories();
