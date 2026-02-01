@@ -1,0 +1,42 @@
+.control-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 10px;
+
+    button{
+        font-size: 20px;
+        padding: 5px;
+        border: solid 1px #ffd700;
+        background-color: #34979e;
+        color: #ffffff;
+        width: 250px;
+        height: 100px;
+        margin: 5px;
+        box-shadow: 0 6px 15px rgb(80 117 105 / 31%);
+        transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+}
+.control-container-2{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sub-title{
+    text-align: center;
+    padding-bottom: 15px;
+}
+
+.lesson-block{
+    margin: 10px;
+
+    p{
+        font-size: 12px;
+
+        b{
+            font-size: 16px;
+        }
+    }
+}

@@ -127,15 +127,15 @@ namespace stutvds.Controllers
 
             if (twoDayStreak)
             {
-                rewardPoints = 14;
+                rewardPoints = 7;
             }
             else if (oneDayStreak)
             {
-                rewardPoints = 12;
+                rewardPoints = 6;
             }
             else
             {
-                rewardPoints = 10;
+                rewardPoints = 5;
             }
             
             lesson.RewardPoints += rewardPoints;
