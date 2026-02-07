@@ -15,7 +15,20 @@ COMMIT_HASH=$(git rev-parse --short HEAD)
 export COMMIT_HASH
 echo "Commit hash: $COMMIT_HASH"
 
-docker-compose down
+echo "Stopping containers..."
+docker compose down
+
+# -----------------------------
+# 🧹 Docker cleanup
+# -----------------------------
+echo "Cleaning unused Docker resources..."
+docker image prune -f
+docker builder prune -f
+docker container prune -f
+docker volume prune -f
+
+# Если нужно агрессивно (удаляет ВСЕ неиспользуемые образы):
+# docker system prune -a -f
 
 # -----------------------------
 # 2. Build Angular в контейнере
