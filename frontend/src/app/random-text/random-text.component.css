@@ -50,6 +50,30 @@
     width: 20px;
 }
 
+.context-menu {
+  position: fixed;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  z-index: 2000;
+}
+
+.selected-word{
+    text-align: center;
+    padding: 2px 2px 7px 2px;
+}
+
+.overlay {
+  position:fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  z-index: 1000;
+}
 
 
 

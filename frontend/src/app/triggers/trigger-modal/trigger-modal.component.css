@@ -2,9 +2,21 @@
   position: fixed;
   top: 51px;
   bottom: 65px;
-  right: -250px;
+  right: -320px;
   display: flex;
   transition: transform 0.3s ease;
+  z-index: 2000;
+}
+
+.overlay {
+  position:fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  z-index: 1000;
 }
 
 .trigger-title{
@@ -34,7 +46,7 @@
   background-color: #f5f5dc;
   margin: 5px 10px;
   padding: 8px;
-  width: 230px;
+  width: 300px;
   overflow: auto;
   border-radius: 5px;
   flex: 1;
@@ -45,26 +57,13 @@
   cursor: pointer;
   position: relative;
   font-size: 18px;
-}
-
-.trigger-item-delete {
-  display: none;
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: .5rem;
-  height: .5rem;
-  background-color: red;
+  display: flex;
 }
 
 .trigger-button{
   background-color: #22b47a;
   border: #22b47a;
   color:white;
-}
-
-.trigger-item:hover .trigger-item-delete {
-  display: block;
 }
 
 .trigger-modal-toggle-button {
@@ -82,5 +81,85 @@
 }
 
 .trigger-modal-open {
-  transform: translateX(-250px);
+  transform: translateX(-320px);
+}
+
+.trigger-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.trigger-table td {
+  line-height: 0.8;
+}
+
+.trigger-table th:first-child,
+.trigger-table td:first-child {
+  width: 70%;
+}
+
+.trigger-table th:nth-child(2),
+.trigger-table td:nth-child(2) {
+  width: 5%;
+}
+
+.trigger-table th:nth-child(3),
+.trigger-table td:nth-child(3) {
+  width: 20%;
+}
+
+.trigger-table th:nth-child(4),
+.trigger-table td:nth-child(4) {
+  width: 5%;
+}
+
+.trigger-item-delete {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* линии крестика */
+.trigger-item-delete::before,
+.trigger-item-delete::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 14px;
+  height: 2px;
+  background-color: #888;
+  transform-origin: center;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.trigger-item-delete::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.trigger-item-delete::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.trigger-item-delete:hover::before,
+.trigger-item-delete:hover::after {
+  background-color: #e53935;
+  transform: translate(-50%, -50%) rotate(180deg);
+}
+
+.trigger-table th,
+.trigger-table td {
+  padding: 0 5px;
+  border-right: 1px solid #ddd;
+}
+
+/* Убираем правую границу у последней колонки */
+.trigger-table th:last-child,
+.trigger-table td:last-child {
+  border-right: none;
 }

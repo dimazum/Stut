@@ -24,7 +24,7 @@ export type LessonType =
 export class DailyLessonComponent {
 
   readonly LESSON_TYPE = LESSON_TYPE;
-  currentLessonType: LessonType = LESSON_TYPE.NONE
+  currentLessonType: LessonType = LESSON_TYPE.READ
 
   public setLessonType(type: LessonType){
     this.currentLessonType = type;

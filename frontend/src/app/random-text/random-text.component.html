@@ -78,7 +78,23 @@
     <div><a [href]="source">Источник: {{source}}</a></div>
 
 </div>  
+
 <div class="text-container">
-    <h2>{{ title }}</h2>
-    <div class="text-content"> {{ article }}</div>
+  <h2>{{ title }}</h2>
+
+  <div (click)="onTextClick($event)" class="text-content">
+
+      {{ article }}
+</div>
+
+<div class="overlay" [style.display]="contextMenuOpened ? 'block' : 'none'" (click)="closeContextMenu()"></div>
+
+<div
+  class="context-menu"
+  *ngIf="selectedWord"
+  [style.top.px]="menuPosition.y"
+  [style.left.px]="menuPosition.x"
+>
+    <div class="selected-word">{{selectedWord}}</div>
+    <button (click)="addTrigger()">В сложные слова</button>
 </div>

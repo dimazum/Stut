@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Trigger, TriggerResult } from '../../models/models';
 import { BackendService } from '../../services/backend.service';
-import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { EMPTY, Subscription, catchError, of, switchMap } from 'rxjs';
 import { StutEventSystem } from '../../services/stut-event-system';
 import { AuthService } from '../../services/auth.service';
@@ -10,7 +10,7 @@ import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'stu-trigger-modal',
   standalone: true,
-  imports: [ReactiveFormsModule, NgFor, NgClass, NgIf, AsyncPipe],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './trigger-modal.component.html',
   styleUrl: './trigger-modal.component.css',
 })
@@ -37,7 +37,9 @@ export class TriggerModalComponent implements OnInit, OnDestroy {
     this.subscription = this.authServeice.userinfo$.subscribe(x => 
       {
         if(x?.logged_in){
-          this.backendService.getTriggers().subscribe(data => (this.triggers = data));
+          this.backendService
+          .getTriggers()
+          .subscribe(data => (this.triggers = data));
         }
       }
     )
@@ -78,6 +80,12 @@ export class TriggerModalComponent implements OnInit, OnDestroy {
 
   public onToggle() {
     this.isOpen = !this.isOpen;
+
+    if(this.isOpen){
+      this.backendService
+          .getTriggers()
+          .subscribe(data => (this.triggers = data));
+    }
   }
 
   ngOnDestroy(): void {

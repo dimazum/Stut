@@ -1,12 +1,45 @@
+<div class="overlay" [style.display]="isOpen ? 'block' : 'none'" (click)="onToggle()"></div>
 <div class="trigger-modal" [ngClass]="{ 'trigger-modal-open': isOpen }">
   <div class="trigger-modal-toggle-button"  *ngIf="(userinfo$ | async)?.logged_in"><div (click)="onToggle()"></div></div>
   <div class="trigger-container">
-    <h3 class="trigger-title">Сложно-произносимые слова</h3>
+    <h3 class="trigger-title">Сложные слова</h3>
     <div class="trigger-content">
-      <div class="trigger-item" *ngFor="let trigger of triggers" (click)="onClickTrigger(trigger)"
-        >{{ trigger.value }}
+      <!-- <div class="trigger-item" *ngFor="let trigger of triggers" (click)="onClickTrigger(trigger)">
+        <div>{{ trigger.value }}</div>
+        <div>{{ trigger.difficulty }}</div>
+        <div>{{ trigger.createdAt | date:'dd.MM.yyyy'}}</div>
         <div (click)="onDelete(trigger)" class="trigger-item-delete"></div>
-      </div>
+
+      </div> -->
+        <table class="trigger-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let trigger of triggers" (click)="onClickTrigger(trigger)">
+            <td>{{ trigger.value }}</td>
+            <td>{{ trigger.difficulty }}</td>
+            <td>
+              {{ trigger.createdAt | date:'dd.MM.yyyy' }}
+              
+            </td>
+            <td>
+                <button
+                  type="button"
+                  class="trigger-item-delete"
+                  (click)="onDelete(trigger); $event.stopPropagation()">
+                </button>
+
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
     <form [formGroup]="triggerForm" (ngSubmit)="onCreate()" class="trigger-form">
         <input name="value" formControlName="value" formControlName="value" class="form-control mb-2" type="text" />
