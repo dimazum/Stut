@@ -89,13 +89,14 @@ namespace stutvds.Controllers
         {
             var lesson = await _dayLessonRepository.GetByIdAsync(request.Id);
 
-            if (lesson.Status != LessonStatus.Finished)
-            {
+            ////if (lesson.Status != LessonStatus.Finished)
+            //{
                 var readSeconds = (int)(DateTimeOffset.Now - lesson.StartRangeTime).TotalSeconds;
-                lesson.LeftInSec = Math.Max(0, lesson.LeftInSec - readSeconds);
-            }
+                var leftInSec = Math.Max(0, lesson.LeftInSec - readSeconds);
+                lesson.LeftInSec = leftInSec;
+            //}
             
-            lesson.Status = LessonStatus.Paused;
+            lesson.Status = leftInSec == 0 ? LessonStatus.Finished : LessonStatus.Paused;
             lesson.WordsSpoken = request.Words;
             lesson.WPS = request.Wps;
             await _dayLessonRepository.UpdateAsync(lesson);

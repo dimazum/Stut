@@ -59,7 +59,8 @@ namespace stutvds.Controllers
 
             var triggers = _triggerRepository.GetTriggers( UserId, CurrentLanguage);
 
-            return new JsonResult(triggers.Select(t => new
+            return new JsonResult(triggers
+                .Select(t => new
             {
                 t.Value,
                 t.CreatedAt,
@@ -77,7 +78,8 @@ namespace stutvds.Controllers
 
             var triggers = _triggerRepository.GetTriggers( UserId, CurrentLanguage);
 
-            return new JsonResult(triggers.Select(t => new
+            return new JsonResult(triggers
+                .Select(t => new
             {
                 t.Value,
                 CreatedAt = t.CreatedAt,

@@ -27,19 +27,14 @@
     transition: background-color 0.3s;
 }
 .start-btn.enabled {
-  background: linear-gradient(-45deg, #4caf50, #81c784, #66bb6a, #388e3c);
+  background: #4caf50;
   border: 1px solid #94be16;
-  background-size: 400% 400%;
-  animation: gradientMove s ease infinite;
-}
-@keyframes gradientMove {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
 }
 
+
+
 .start-btn:hover {
-  background: #45a049;
+  background: #cfc06a;
 }
 .start-btn.enabled:hover {
   background: #3ed745;
