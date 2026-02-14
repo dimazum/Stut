@@ -12,6 +12,8 @@ namespace stutvds.Data
         public DbSet<ArticleEntity> Articles { get; set; }
         public DbSet<DayLesson> DayLessons { get; set; }
         public DbSet<VoiceAnalysisEntity> VoiceAnalyses { get; set; }
+        public DbSet<Histogram> Histograms { get; set; }
+        public DbSet<CharItem> CharItems { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -33,6 +35,12 @@ namespace stutvds.Data
             modelBuilder.Entity<VoiceAnalysisEntity>()
                 .Property(v => v.MfccJson)
                 .HasColumnType("nvarchar(max)");
+            
+            modelBuilder.Entity<Histogram>()
+                .HasMany(h => h.Chars)
+                .WithOne(c => c.Histogram)
+                .HasForeignKey(c => c.HistogramId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

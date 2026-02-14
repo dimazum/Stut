@@ -23,26 +23,5 @@
 
 <div>Гистограмма</div>
 
-<div class="breath-line">
-  <div 
-    class="letter-column" 
-    *ngFor="let item of data; let i = index">
-
-    <div class="bar-container">
-      <div class="bar" [style.height.px]="splitHeight(item.air, data[i-1]?.air ?? 0, 0)"></div>
-      <div class="bar" [style.height.px]="splitHeight(item.air, data[i-1]?.air ?? 0, 1)"></div>
-      <div class="bar" [style.height.px]="splitHeight(item.air, data[i-1]?.air ?? 0, 2)"></div>
-      <div class="bar" [style.height.px]="splitHeight(item.air, data[i-1]?.air ?? 0, 3)"></div>
-
-    
-    </div>
-
-    <div class="letter">
-      {{ item.char }}
-    </div>
-
-  </div>
-</div>
-
-
-
+<app-histogram name="Hist1"></app-histogram>
+<app-histogram name="Hist2"></app-histogram>

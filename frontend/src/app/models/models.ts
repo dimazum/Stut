@@ -95,4 +95,13 @@ export interface VoiceAnalysisUpdateDto {
   shimmer: number;
 }
 
+export interface Histogram {
+  name: string;
+  chars: CharItem[];
+}
 
+export interface CharItem {
+  id: number
+  char: string;
+  air: number;
+}

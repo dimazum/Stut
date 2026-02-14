@@ -12,6 +12,7 @@ namespace stutvds.DAL
             serviceCollection.AddScoped<IArticleRepository, ArticleRepository>();
             serviceCollection.AddScoped<DayLessonRepository>();
             serviceCollection.AddScoped<VoiceAnalyseRepository>();
+            serviceCollection.AddScoped<HistogramRepository>();
         }
     }
 }

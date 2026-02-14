@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable, shareReplay, tap } from 'rxjs';
-import { ArticleData, AudioFile, CalendarData, DayLessonDto, Trigger, TriggerResult, TriggerTaskResult, VoiceAnalysisResult } from '../models/models';
+import { ArticleData, AudioFile, CalendarData, DayLessonDto, Histogram, Trigger, TriggerResult, TriggerTaskResult, VoiceAnalysisResult } from '../models/models';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -116,10 +116,19 @@ export class BackendService {
   }
 
   public deleteFile(fileName: string) {
-  return this.httpClient.delete(`/api/audio/${fileName}`);
+   return this.httpClient.delete(`/api/audio/${fileName}`);
   }
 
   public getVoiceAnalysisResults() {
-  return this.httpClient.get<VoiceAnalysisResult[]>(`/api/voiceAnalysis/last`);
+    return this.httpClient.get<VoiceAnalysisResult[]>(`/api/voiceAnalysis/last`);
   }
+
+  public getHistogram(name: string): Observable<Histogram>{
+    return this.httpClient.get<Histogram>(`${this.baseUrl}/histogram/list?name=${name}`);
+  }
+
+  public saveHistogram(histogram: Histogram): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/histogram/save`, histogram);
+}
+
 }

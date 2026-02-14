@@ -16,6 +16,7 @@ import { SubHeaderComponent } from './app/header/sub-header/sub-header.component
 import { TriggerBlockComponent } from './app/trigger-block/trigger-block.component';
 import { DailyLessonComponent } from './app/daily-lesson/daily-lesson.component';
 import { WarmUpComponent } from './app/warm-up/warm-up.component';
+import { HistogramComponent } from './app/histogram/histogram.component';
 
 
 bootstrapApplication(AppComponent, {
@@ -47,5 +48,8 @@ bootstrapApplication(AppComponent, {
 
   const warmUpEl = createCustomElement(WarmUpComponent, { injector });
   customElements.define('stu-warm-up', warmUpEl);
+
+  const histogramEl = createCustomElement(HistogramComponent, { injector });
+  customElements.define('stu-histogram', histogramEl);
 
 });

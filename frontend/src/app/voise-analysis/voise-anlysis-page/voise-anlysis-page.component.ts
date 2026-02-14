@@ -19,7 +19,6 @@ export class VoiseAnlysisPageComponent implements OnInit {
     this.backendService.getVoiceAnalysisResults()
       .subscribe(data =>{
         this.voiceResults = data;
-        console.log(this.voiceResults);
         
       } );
   }

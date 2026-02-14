@@ -1,68 +1,29 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { CharItem, Histogram } from '../models/models';
+import { BackendService } from '../services/backend.service';
+import { HistogramComponent } from "../histogram/histogram.component";
 
 @Component({
   selector: 'app-warm-up',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule, HistogramComponent],
   templateUrl: './warm-up.component.html',
   styleUrl: './warm-up.component.css'
 })
-export class WarmUpComponent {
+export class WarmUpComponent implements OnInit {
+ 
+  //Если мы удерживаем воздух мышцы напрягаются -получаем блок
+  //"Это база речи.
+  //научиться контролировать выдыхаемый воздух
+  //Развить аппарат чтобы громко говорить расслабленными мышцами"
+  //Нужно убрать зажимы мышц
 
-data = [
-  { char: '', air: 40 },
-  { char: '', air: 70 },
-  { char: '', air: 65 },
-  { char: 'п', air: 60 },
-  { char: 'р', air: 58 },
-  { char: 'и', air: 56 },
-  { char: 'в', air: 54 },
-  { char: 'е', air: 52 },
-  { char: 'т', air: 50 },
-  { char: ',', air: 46 },
-  { char: ' ', air: 42 },
-  { char: 'м', air: 40 },
-  { char: 'е', air: 38 },
-  { char: 'н', air: 36 },
-  { char: 'я', air: 34 },
-  { char: ' ', air: 32 },
-  { char: 'з', air: 30 },
-  { char: 'о', air: 28 },
-  { char: 'в', air: 26 },
-  { char: 'у', air: 24 },
-  { char: 'т', air: 22 },
-  { char: ' ', air: 20 },
-  { char: 'В', air: 18 },
-  { char: 'и', air: 16 },
-  { char: 'к', air: 14 },
-  { char: 'а', air: 12 },
-  { char: '.', air: 6 },
-  { char: ' ', air: 2 },
-
-
-  
-];
-
-splitHeight(current: number, prev: number, part: number){
-
-  if(part === 0){
-    return prev + (current - prev) * .25
+  constructor(private backendService :BackendService) {
+    
   }
-
-   if(part === 1){
-    return prev + (current - prev) * .5
+  ngOnInit(): void {
   }
-
-   if(part === 2){
-    return prev + (current - prev) * .75
-  }
-
-    if(part === 3){
-    return current
-  }
-
-  return 0
-}
 
 }

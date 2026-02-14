@@ -53,7 +53,9 @@ p {
     position: fixed;
     top: 0;
     width: 100%;
-    background: linear-gradient(90deg, #2ecc71, #27ae60, #1abc9c);
+    background: linear-gradient(17deg, #2ecc71 0, #449c73 40%, #1abc9c 60%, #1abc9c 100%);
+
+    /* background: linear-gradient(90deg, #2ecc71, #27ae60, #1abc9c); */
     color: white;
     z-index: 9000;
 }
@@ -292,17 +294,9 @@ p {
 }
 
 main {
-    padding: 75px 0;
+    padding: 75px 0 100px 0;
 }
 
-.read-rule{
-    background-color:beige;
-    font-size: 16px;
-    padding: 10px;  
-}
-.read-rule ol{
-    margin-bottom: 0;
-}
 
 .not-logged-in-error{
     color: red;
@@ -392,6 +386,17 @@ main {
     border-color: transparent white transparent transparent;
 }
 
+.slogan{
+    text-align: end;
+    font-family: cursive;
+    font-style: italic;
+    padding-bottom: 10px;
+}
+
+.home-item{
+    padding: 15px;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+}
 
 
 
