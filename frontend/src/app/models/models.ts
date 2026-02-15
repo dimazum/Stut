@@ -1,5 +1,4 @@
-import { Time } from "@angular/common";
-import { DailyLessonStatus } from "./enums";
+import { DailyLessonStatus } from './enums';
 
 export interface ArticleData {
   id: string;
@@ -93,4 +92,17 @@ export interface VoiceAnalysisUpdateDto {
   shimmer: number;
 }
 
+export interface ConfirmEmailDto {
+  userId: string | null;
+  token: string | null;
+}
 
+export interface SendResetPasswordDto {
+  email: string | null;
+}
+
+export interface ResetPasswordDto {
+  userId: string | null;
+  token: string | null;
+  password: string | null;
+}

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using StopStatAuth_6_0.Entities;
@@ -33,6 +34,11 @@ namespace stutvds.Data
             modelBuilder.Entity<VoiceAnalysisEntity>()
                 .Property(v => v.MfccJson)
                 .HasColumnType("nvarchar(max)");
+            
+            // TODO add migration?
+            // modelBuilder.Entity<IdentityUser>()
+            //     .HasIndex(u => u.NormalizedEmail)
+            //     .IsUnique();
         }
     }
 }

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { NgIf } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'stu-register',
@@ -14,12 +15,13 @@ import { AuthService } from '../../services/auth.service';
 export class RegisterComponent {
   public registerForm: FormGroup;
   public errorMessage: string = '';
-  @Output() close = new EventEmitter<void>();
+  @Output() public closeEvent: EventEmitter<void> = new EventEmitter<void>();
 
   public constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private router: Router
+    private readonly fb: FormBuilder,
+    private readonly authService: AuthService,
+    private readonly router: Router,
+    private readonly toasterService: ToastrService
   ) {
     this.registerForm = this.fb.group({
       username: ['', Validators.required],
@@ -31,11 +33,15 @@ export class RegisterComponent {
   public onSubmit() {
     if (this.registerForm.valid) {
       this.authService.register(this.registerForm.value).subscribe({
-        next: res => {
-          this.close.emit();
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        next: (res: any) => {
+          this.toasterService.info('Successfully registered. Verification email was sent');
+          this.closeEvent.emit();
+          // this.router.navigate(['/']);
           window.location.href = '/';
         },
-        error: err => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        error: (err: any) => {
           this.errorMessage = err.error?.message || 'Ошибка регистрации';
         },
       });

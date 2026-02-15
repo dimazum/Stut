@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { jwtDecode } from 'jwt-decode';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { ConfirmEmailDto, ResetPasswordDto, SendResetPasswordDto } from '../models/models';
 
 interface JwtPayload {
   unique_name?: string; // ClaimTypes.Name
@@ -26,16 +27,37 @@ export class AuthService {
   private usernameSubject = new BehaviorSubject<UserInfo | null>(this.getUserInfoFromToken());
   public userinfo$ = this.usernameSubject.asObservable();
 
-  public constructor( private httpClient: HttpClient) {}
+  public constructor(private httpClient: HttpClient) {}
 
   // регистрация
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public register(data: any): Observable<any> {
     return this.httpClient.post(`${this.baseUrl}/register`, data);
   }
 
+  // подтверждение email
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public confirmEmail(confirmEmailDto: ConfirmEmailDto): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/confirm-email`, confirmEmailDto);
+  }
+
+  // выслать email для смены пароля
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public sendResetPassword(data: SendResetPasswordDto): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/send-reset-password`, data);
+  }
+
+  // смена пароля
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public resetPassword(data: ResetPasswordDto): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/reset-password`, data);
+  }
+
   // логин
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public login(username: string, password: string): Observable<any> {
     return this.httpClient.post(`${this.baseUrl}/login`, { username, password }).pipe(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       tap((res: any) => {
         localStorage.setItem('jwt-token', res.token);
         const userInfo = this.parceJwtToken(res.token);
@@ -59,31 +81,31 @@ export class AuthService {
     if (!token) return null;
 
     try {
-       const userInfo = this.parceJwtToken(token);
-      
+      const userInfo = this.parceJwtToken(token);
+
       return userInfo ?? null;
     } catch {
       return null;
     }
   }
 
-  private parceJwtToken(token: string) : UserInfo | null{
+  private parceJwtToken(token: string): UserInfo | null {
     const decoded = jwtDecode<JwtPayload>(token);
 
-        let roleString: string = '';
+    let roleString: string = '';
 
-        if (typeof decoded.role === "string") {
-          roleString = decoded.role;
-        } else if (Array.isArray(decoded.role)) {
-          roleString = decoded.role.join(", ");
-        }
+    if (typeof decoded.role === 'string') {
+      roleString = decoded.role;
+    } else if (Array.isArray(decoded.role)) {
+      roleString = decoded.role.join(', ');
+    }
 
-        const userInfo : UserInfo = {
-          user_name : decoded.unique_name,
-          user_role : roleString,
-          logged_in : roleString.trim() !== ""
-        }
+    const userInfo: UserInfo = {
+      user_name: decoded.unique_name,
+      user_role: roleString,
+      logged_in: roleString.trim() !== '',
+    };
 
-        return userInfo;
+    return userInfo;
   }
 }

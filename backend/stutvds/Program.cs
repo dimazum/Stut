@@ -17,6 +17,8 @@ using stutvds;
 using stutvds.Consumers;
 using stutvds.DAL;
 using stutvds.Data;
+using stutvds.Emails;
+using stutvds.Emails.Senders;
 using stutvds.Integrations;
 using stutvds.Logic;
 using stutvds.Messages;
@@ -32,8 +34,13 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services
     .AddDefaultIdentity<IdentityUser>(options =>
     {
+        if (builder.Configuration.GetValue<bool>("Email:EnableEmailAuthentication"))
+        {
+            options.User.RequireUniqueEmail = true;
+        }
+        
         options.SignIn.RequireConfirmedAccount = false;
-        options.SignIn.RequireConfirmedEmail = false;
+        options.SignIn.RequireConfirmedEmail = true;
         options.SignIn.RequireConfirmedPhoneNumber = false;
     })
     .AddRoles<IdentityRole>()
@@ -137,10 +144,20 @@ builder.Services.AddMassTransit(x =>
 builder.Services.AddAuthorization();
 builder.Services.AddHttpContextAccessor();
 
-
 builder.Services.AddScoped<PollinationsIS>();
+builder.Services.AddSingleton<IRazorEmailRenderer, RazorEmailRenderer>();
+builder.Services.AddScoped<IEmailSender, SmtpEmailSender>();
 builder.Services.AddDataAccessLayer();
 builder.Services.AddLogicLayer();
+
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddScoped<IEmailSender, SmtpEmailSender>();
+}
+else
+{
+    builder.Services.AddScoped<IEmailSender, MailgunEmailSender>();
+}
 
 builder.Services.AddAutoMapper(
     typeof(MappingProfile).Assembly,

@@ -1,52 +1,26 @@
-<div class="overlay" (click)="close.emit()">
-  <form
-    [formGroup]="registerForm"
-    (ngSubmit)="onSubmit()"
-    class="register-form"
-    (click)="$event.stopPropagation()"
-  >
+<div class="overlay" (click)="closeEvent.emit()">
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form" (click)="$event.stopPropagation()">
     <!-- Кнопка закрытия -->
-    <button
-      type="button"
-      class="close-btn"
-      (click)="close.emit()"
-      aria-label="Close"
-    >
-      ✕
-    </button>
+    <button type="button" class="close-btn" (click)="closeEvent.emit()" aria-label="Close">✕</button>
 
     <h2>Регистрация</h2>
 
     <div class="form-group">
-      <label>Username</label>
-      <input
-        formControlName="username"
-        type="text"
-        placeholder="Введите имя пользователя"
-      />
+      <label for="username">Username</label>
+      <input id="username" formControlName="username" type="text" placeholder="Введите имя пользователя" />
     </div>
 
     <div class="form-group">
-      <label>Email</label>
-      <input
-        formControlName="email"
-        type="email"
-        placeholder="Введите email"
-      />
+      <label for="email">Email</label>
+      <input id="email" formControlName="email" type="email" placeholder="Введите email" />
     </div>
 
     <div class="form-group">
-      <label>Password</label>
-      <input
-        type="password"
-        formControlName="password"
-        placeholder="Введите пароль"
-      />
+      <label for="password">Password</label>
+      <input id="password" type="password" formControlName="password" placeholder="Введите пароль" />
     </div>
 
-    <button type="submit" [disabled]="registerForm.invalid">
-      Зарегистрироваться
-    </button>
+    <button type="submit" [disabled]="registerForm.invalid">Зарегистрироваться</button>
 
     <div *ngIf="errorMessage" class="error-message">
       {{ errorMessage }}

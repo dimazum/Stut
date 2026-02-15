@@ -17,7 +17,11 @@
       </div>
     </div>
 
-    <div class="nav-item dropdown" (click)="toggleVoiceAnalysisMenu()" (clickOutside)="voiceAnalysisMenuOpen = false" *ngIf="true">
+    <div
+      class="nav-item dropdown"
+      (click)="toggleVoiceAnalysisMenu()"
+      (clickOutside)="voiceAnalysisMenuOpen = false"
+      *ngIf="true">
       Анализ голоса
       <div class="dropdown-menu" *ngIf="voiceAnalysisMenuOpen">
         <a routerLink="/audio-files">Записи</a>

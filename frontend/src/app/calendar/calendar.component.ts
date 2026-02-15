@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
@@ -24,10 +24,10 @@ interface DayCell {
   styleUrls: ['./calendar.component.css'],
 })
 export class CalendarComponent implements OnInit, OnDestroy {
-  public userinfo$ = this.authServeice.userinfo$;
+  public userinfo$ = this.authService.userinfo$;
   public subscription!: Subscription;
 
-  public msg: string  = 'Пройдите регистрацию чтобы увидеть календарь'
+  public msg: string = 'Пройдите регистрацию чтобы увидеть календарь';
   public loggedIn: boolean = false;
 
   public calendarGrid: DayCell[][] = [];
@@ -38,17 +38,15 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   constructor(
     private backendService: BackendService,
-    private authServeice: AuthService
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
-  this.subscription = this.authServeice.userinfo$.subscribe(x => 
-      {
-        if(x?.logged_in){
-          this.loadCalendar();
-        }
+    this.subscription = this.authService.userinfo$.subscribe(x => {
+      if (x?.logged_in) {
+        this.loadCalendar();
       }
-    )
+    });
   }
 
   // ------------------ Загрузка календаря ------------------
@@ -57,7 +55,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     const month = this.currentMonthDate.getMonth();
 
     this.backendService.getCalendar(year, month).subscribe({
-      next: (data: CalendarData) => this.buildCalendar(data)
+      next: (data: CalendarData) => this.buildCalendar(data),
     });
   }
 
@@ -69,9 +67,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   private isSameDay(d1: Date, d2: Date): boolean {
-    return d1.getFullYear() === d2.getFullYear() &&
-           d1.getMonth() === d2.getMonth() &&
-           d1.getDate() === d2.getDate();
+    return d1.getFullYear() === d2.getFullYear() && d1.getMonth() === d2.getMonth() && d1.getDate() === d2.getDate();
   }
 
   // ------------------ Построение сетки ------------------
@@ -105,7 +101,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
         done: dayData?.done ?? false,
         rewarded: dayData?.rewarded ?? false,
         wordsRead: dayData?.wordsRead ?? 0,
-        isToday: this.isSameDay(dateObj, this.today)
+        isToday: this.isSameDay(dateObj, this.today),
       });
 
       if (week.length === 7) {
@@ -141,7 +137,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.backendService.rewardLesson(day.lessonId, checked).subscribe();
   }
 
-    ngOnDestroy(): void {
+  ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 }

@@ -3,11 +3,14 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <UserSecretsId>aspnet-stutvds-afb0092c-1c19-4185-bd39-5ebd7212e83c</UserSecretsId>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+    <PreserveCompilationReferences>true</PreserveCompilationReferences>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="MailKit" Version="4.14.1" />
     <PackageReference Include="MassTransit" Version="8.5.7" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="8.5.7" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.0" />
@@ -21,11 +24,14 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="MinVer" Version="6.0.0" PrivateAssets="all" />
+    <PackageReference Include="RazorLight" Version="2.3.1" />
+    <PackageReference Include="SendGrid" Version="9.29.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\stutvds.DAL\stutvds.DAL.csproj" />
     <ProjectReference Include="..\stutvds.Logic\stutvds.Logic.csproj" />
+    <EmbeddedResource Include="Emails\Templates\**\*.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -57,10 +63,19 @@
     <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map" />
     <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\LICENSE" />
     <_ContentIncludedByDefault Remove="wwwroot\js\site.js" />
+    <_ContentIncludedByDefault Remove="Controllers\MVC\Email\ResetPassword\Index.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
     <AdditionalFiles Include="Controllers\MVC\Admin\Index.cshtml" />
+    <AdditionalFiles Include="Controllers\MVC\ConfirmEmail\Index.cshtml" />
+    <AdditionalFiles Include="Controllers\MVC\ResetPassword\Index.cshtml" />
   </ItemGroup>
+
+<!--  <ItemGroup>-->
+<!--    <EmbeddedResource Include="Emails\Templates\ConfirmationEmail.cshtml" />-->
+<!--    <EmbeddedResource Include="Emails\Templates\ResetPasswordEmail.cshtml" />-->
+<!--    <EmbeddedResource Include="Emails\Templates\_Layout.cshtml" />-->
+<!--  </ItemGroup>-->
 
 </Project>
