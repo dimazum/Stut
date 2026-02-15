@@ -2,10 +2,9 @@
 <div class="sub-title">Выбирай как сегодня будешь улучшать речь:</div>
 <div class="control-container">
     <button (click)="setLessonType(LESSON_TYPE.READ)">Читать текст</button>
-    <div class="control-container-2">
-        <button (click)="setLessonType(LESSON_TYPE.JUST_REPEAT)">Сиди в телефоне и повторяй</button>
-        <button (click)="setLessonType(LESSON_TYPE.NO_VOICE)">Упражнения без голоса</button>
-    </div>
+    <button (click)="setLessonType(LESSON_TYPE.JUST_REPEAT)">Занимайся в фоне</button>
+    <button (click)="setLessonType(LESSON_TYPE.NO_VOICE)">Упражнения без голоса</button>
+
 </div>
 
 <div *ngIf="currentLessonType === LESSON_TYPE.READ "> 

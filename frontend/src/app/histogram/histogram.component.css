@@ -26,16 +26,12 @@
 
 .bar {
   width: 15px;
-  background: steelblue;
+  background: linear-gradient(120deg, #0dcaf0 0, #85d3e4 30%, #78cbdb 60%, #0dcaf0 100%);
   position: relative;
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  border-radius: 5px 5px 0 0;
-}
-
-.bar:hover {
-  background: darkblue;
+  border-radius: 10px 10px 0 0;
 }
 
 .label-input {

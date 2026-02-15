@@ -34,6 +34,10 @@ p {
     padding: 0 !important;
 }
 
+button{
+    border: none !important;
+}
+
 .dirImg{
     height: 35px;
     width: 35px;
@@ -54,8 +58,6 @@ p {
     top: 0;
     width: 100%;
     background: linear-gradient(17deg, #2ecc71 0, #449c73 40%, #1abc9c 60%, #1abc9c 100%);
-
-    /* background: linear-gradient(90deg, #2ecc71, #27ae60, #1abc9c); */
     color: white;
     z-index: 9000;
 }

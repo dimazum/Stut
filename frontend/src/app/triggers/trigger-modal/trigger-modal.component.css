@@ -61,9 +61,18 @@
 }
 
 .trigger-button{
-  background-color: #22b47a;
-  border: #22b47a;
+  background: linear-gradient(
+      120deg,
+      rgb(50 145 87) 0,
+      rgb(34 182 90) 30%,
+      rgb(66 168 105) 60%,
+      rgb(48 142 84) 100%
+  );
   color:white;
+
+  &:hover {
+            filter: brightness(1.1);
+        }
 }
 
 .trigger-modal-toggle-button {
