@@ -7,4 +7,5 @@ public class VoiceAnalysisUpdateDto
     public Guid SessionId { get; set; }
     public double Jitter { get; set; }
     public double Shimmer { get; set; }
+    public int WPM { get; set; }
 }

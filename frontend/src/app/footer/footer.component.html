@@ -8,23 +8,21 @@
     <!-- Блок статистики -->
     <div class="stats">
       <div>Прочитано слов: <strong>{{ wordsCounter }}</strong></div>
-      <div>Скорость: <strong>{{ speedCounter }} слов/мин</strong></div>
+      <div>Скорость: <strong>{{ voiceData?.wpm }} слов/мин</strong></div>
+    </div>
+
+    <div class="stats">
       <div class="timer-container">
         Осталось:
         <stu-timer [timeLeft]="timeLeftInSec" (finishedEvent)="onTimerFinished()"></stu-timer>
         <div class="lesson-status-label"></div>
       </div>
-    </div>
-
-    <div class="stats">
-      <div>Дрожание тона (jitter): <strong>{{ voiceData?.jitter }}</strong></div>
-      <div>Дрожание громкости (shimmer): <strong>{{ voiceData?.shimmer }}</strong></div>
       <div></div>
     </div>
 
     <!-- Textarea с распознанным текстом -->
     <div class="text-block">
-      <app-textarea-auto-clear [text]="text"></app-textarea-auto-clear>
+      <app-textarea-auto-clear [text]="recognisedText"></app-textarea-auto-clear>
     </div>
 
     <!-- Эквалайзер -->

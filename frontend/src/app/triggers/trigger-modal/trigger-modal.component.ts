@@ -19,7 +19,8 @@ export class TriggerModalComponent implements OnInit, OnDestroy {
   public triggers?: Array<TriggerResult>;
   public isOpen: boolean = false;
   public userinfo$ = this.authServeice.userinfo$;
-  public subscription!: Subscription;  
+  public subscription!: Subscription;
+  public selectedTrigger: string|null = null;
 
   public constructor(
     private fb: FormBuilder,
@@ -86,6 +87,21 @@ export class TriggerModalComponent implements OnInit, OnDestroy {
           .getTriggers()
           .subscribe(data => (this.triggers = data));
     }
+    else{
+      this.selectedTrigger = null;
+    }
+  }
+
+  public onTriggerSelect(trigger: string){
+    this.selectedTrigger = trigger;
+  }
+
+  public isTriggerSelected(trigger: string){
+    return this.selectedTrigger === trigger
+  }
+
+  public goToPracticeWord() {
+    window.location.href = `/practiceWord?trigger=${encodeURIComponent(this.selectedTrigger!)}`;
   }
 
   ngOnDestroy(): void {

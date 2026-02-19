@@ -59,17 +59,11 @@
                     <a class="nav-link" href="@Url.Action("Index", "home")">Главная</a>
                 </li>
 
-                <!-- Тренировка -->
-                <li class="nav-item has-submenu">
-                    <span class="nav-link">
-                        Тренировка
-                    </span>
-                    <ul class="submenu">
-                        <li><a href="@Url.Action("Index", "dailyLesson")">Ежедневный урок</a></li>
-                        <li><a href="@Url.Action("Index", "challenges")">Челленжи</a></li>
-                    </ul>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Index", "dailyLesson")">Дневной урок</a>
                 </li>
 
+                <!-- Тренировка -->
                 <li class="nav-item">
                     <a class="nav-link" href="@Url.Action("Index", "calendar")">Календарь</a>
                 </li>
@@ -86,7 +80,7 @@
                     <ul class="submenu">
                         <li><a href="@Url.Action("Index", "breathing")">Дыхание</a></li>
                         <li><a href="@Url.Action("Index", "exercises")">Дикция и артикуляция</a></li>
-                        <li><a href="/Home/Exercises/Voice">Тембр голоса</a></li>
+                        <li><a href="@Url.Action("Index", "practiceWord")">Тренировать слово</a></li>
                         <li><a href="/Home/Exercises/MuscleTension">Мышечные зажимы</a></li>
                     </ul>
                 </li>

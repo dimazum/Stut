@@ -11,10 +11,7 @@ using stutvds.Constants;
 using stutvds.Controllers.Base;
 using stutvds.DAL;
 using stutvds.DAL.Entities;
-using stutvds.Logic.DTOs;
-using stutvds.Logic.Services.Contracts;
 using stutvds.Logic.Services.Tasks;
-using stutvds.Models;
 using stutvds.Models.ClientDto;
 
 namespace stutvds.Controllers
@@ -131,15 +128,15 @@ namespace stutvds.Controllers
         }
         
         [HttpGet]
-        [Route("randomWord/{word}/{count}")]
-        public ActionResult GetRandomWord(string word, int count)
+        [Route("randomWord/{letter}/{count}")]
+        public ActionResult GetRandomWord(string letter, int count)
         {
             string words = string.Empty;
             string w = String.Empty;
             
             var random = new Random();
             
-            var l = word.ToLowerInvariant();
+            var l = letter.ToLowerInvariant();
             
             switch (l)
             {

@@ -123,12 +123,20 @@ export class BackendService {
     return this.httpClient.get<VoiceAnalysisResult[]>(`/api/voiceAnalysis/last`);
   }
 
-  public getHistogram(name: string): Observable<Histogram>{
-    return this.httpClient.get<Histogram>(`${this.baseUrl}/histogram/list?name=${name}`);
+  public getOrCreateHistogram(name: string, initText: string, saveToDb: boolean): Observable<Histogram>{
+    return this.httpClient.post<Histogram>(`${this.baseUrl}/histogram/getOrCreateHistogram`, {name, initText, saveToDb});
   }
 
   public saveHistogram(histogram: Histogram): Observable<any> {
     return this.httpClient.post(`${this.baseUrl}/histogram/save`, histogram);
 }
+
+  public addHistogramColumn(name: string, order: number): Observable<Histogram>{
+    return this.httpClient.get<Histogram>(`${this.baseUrl}/histogram/addcolumn?name=${name}&order=${order}`);
+  }
+
+  public remoHistogramColumn(name: string, order: number): Observable<Histogram>{
+    return this.httpClient.get<Histogram>(`${this.baseUrl}/histogram/removecolumn?name=${name}&order=${order}`);
+  }
 
 }

@@ -12,22 +12,21 @@ public class HistogramRepository : BaseRepository<Histogram>
     {
     }
     
-    public async Task AddOrUpdate(Histogram histogram)
+    public async Task<Histogram> AddOrUpdate(Histogram histogram)
     {
         var hist = await _dbContext.Histograms.AsNoTracking()
             .FirstOrDefaultAsync(h => h.Name == histogram.Name);
 
         if (hist == null)
         {
-            await AddAsync(histogram);
+           return await AddAsync(histogram);
         }
         else
         {
-            await UpdateByName(histogram);
+            return await UpdateByName(histogram);
         }
     }
-
-    public async Task UpdateByName(Histogram histogram)
+    public async Task<Histogram> UpdateByName(Histogram histogram)
     {
         var dbHistogram = await _dbContext.Histograms
             .Include(h => h.Chars)
@@ -42,17 +41,25 @@ public class HistogramRepository : BaseRepository<Histogram>
                 {
                     dbChar.Char = c.Char;
                     dbChar.Air = c.Air;
+                    dbChar.Order = c.Order;
+                }
+                else
+                {
+                    dbHistogram.Chars.Add(c);
                 }
             }
 
             await _dbContext.SaveChangesAsync();
         }
+
+        return dbHistogram;
     }
+    
 
     public async Task<Histogram> GetWithCharmsByName(string name)
     {
         return await _dbContext.Histograms
-            .Include(h => h.Chars)
+            .Include(h => h.Chars.OrderBy(x=>x.Order))
             .FirstOrDefaultAsync(h => h.Name == name);
     }
 }

@@ -35,6 +35,9 @@
 
 .trigger-form {
   margin: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 
@@ -53,14 +56,8 @@
   overflow-y: auto;
 }
 
-.trigger-item {
-  cursor: pointer;
-  position: relative;
-  font-size: 18px;
-  display: flex;
-}
 
-.trigger-button{
+.trigger-button-add{
   background: linear-gradient(
       120deg,
       rgb(50 145 87) 0,
@@ -69,10 +66,40 @@
       rgb(48 142 84) 100%
   );
   color:white;
+  height: 33px;
+  width: 55px;
 
   &:hover {
             filter: brightness(1.1);
         }
+}
+
+.trigger-button-practice{
+  margin: 0 10px 10px 10px;
+  background: linear-gradient(
+      120deg,
+      rgb(50 145 87) 0,
+      rgb(34 182 90) 30%,
+      rgb(66 168 105) 60%,
+      rgb(48 142 84) 100%
+  );
+  color:white;
+  height: 33px;
+  width: 100;
+
+  &:hover {
+            filter: brightness(1.1);
+        }
+
+          &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    filter: grayscale(0.5);
+    
+    &:hover {
+      filter: grayscale(0.5) brightness(1); /* убираем эффект при наведении */
+    }
+  }
 }
 
 .trigger-modal-toggle-button {
@@ -105,6 +132,10 @@
 .trigger-table th:first-child,
 .trigger-table td:first-child {
   width: 70%;
+  cursor: pointer;
+    &:hover {
+              background: #ddd;
+            }
 }
 
 .trigger-table th:nth-child(2),
@@ -172,3 +203,13 @@
 .trigger-table td:last-child {
   border-right: none;
 }
+
+.trigger-input{
+  width: 100%;
+  margin-right: 10px;
+}
+
+.selected{
+  background: #ddd;
+}
+

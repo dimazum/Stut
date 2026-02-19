@@ -12,13 +12,14 @@ import { Trigger } from '../models/models';
   styleUrl: './random-text.component.css',
 })
 export class RandomTextComponent implements OnInit {
-
+  private RandomTextDropdownKey = 'randomTextDropdown';
   public article = '';
   public title = '';
   public topic = '';
   public source = ''
   public categories: string[] = [];
   public selectedCategory = '';
+  public initCategory = '';
 
   selectedWord: string | null = null;
   menuPosition = { x: 0, y: 0 };
@@ -27,6 +28,8 @@ export class RandomTextComponent implements OnInit {
   public constructor(private backendServcie: BackendService) { }
 
   public ngOnInit(): void {
+    
+    this.selectedCategory = localStorage.getItem(this.RandomTextDropdownKey) ?? this.initCategory;
     this.getArticle(true);
   }
 
@@ -37,10 +40,9 @@ export class RandomTextComponent implements OnInit {
       this.topic = data.topic;
       this.source = data.source;
       this.categories = data.categories;
-      this.selectedCategory = init ? data.initCategory : data.topic;
+      this.initCategory = data.initCategory;
     })
   }
-
 
   getRandomText() {
     this.getArticle(false);
@@ -64,7 +66,6 @@ export class RandomTextComponent implements OnInit {
     };
   }
 
-
   closeContextMenu() {
     this.contextMenuOpened = false;
     this.selectedWord = null;
@@ -83,5 +84,9 @@ export class RandomTextComponent implements OnInit {
       .subscribe();
 
     this.closeContextMenu();
+  }
+
+  onSelectionChange(event: any): void {
+    localStorage.setItem(this.RandomTextDropdownKey, event.value);
   }
 }

@@ -3,7 +3,7 @@
         <button class="stu-button-l" (click)="getRandomText()">Новый текст</button>
     </div>
     <div>
-        <select [(ngModel)]="selectedCategory">
+        <select [(ngModel)]="selectedCategory" (change)="onSelectionChange($event.target)">
         <option value="">-- Выберите категорию --</option>
         <option *ngFor="let c of categories" [value]="c">
             {{ c }}

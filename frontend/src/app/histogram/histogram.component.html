@@ -1,14 +1,18 @@
 <div class="chart-scroll" #scrollContainer>
-  <div class="chart" #chartContainer>
+  <div class="chart" 
+    [style.height.px]="isDevMode ? 300 : 170"
+  #chartContainer>
   <div *ngFor="let bar of data; let i = index"
        class="bar-wrapper">
 
     <div class="bar"
          [style.height.px]="bar.air"
+         [style.border-top-left-radius.px]="bar.air > (data[i - 1]?.air ?? 0)  ? 10 : 0"
+         [style.border-top-right-radius.px]="bar.air > (data[i + 1]?.air ?? 0)  ? 10 : 0"
          (mousedown)="startDrag(i, $event)">
 
       <input
-        disabled="!isDevMode"
+        [disabled]="!isDevMode"
         class="label-input"
         [(ngModel)]="bar.char"
         maxlength="2"
@@ -25,6 +29,15 @@
       [max]="300"
       (mousedown)="$event.stopPropagation()"
     />
+    <button *ngIf="isDevMode" (click)="AddColumn(bar.order)"
+      class="height-input">+</button>
+
+    <button *ngIf="isDevMode" (click)="RemoveColumn(bar.order)"
+      class="height-input">-</button>
+
+    <div *ngIf="isDevMode" class="bar-heght">{{bar.air}}</div>
+    <div *ngIf="isDevMode" class="bar-heght">{{bar.order}}</div>
+
 
   </div>
 </div>

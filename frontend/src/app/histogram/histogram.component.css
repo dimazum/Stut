@@ -11,7 +11,6 @@
 }
 
 .chart {
-  height: 160px;
   display: flex;
   align-items: flex-end;
   gap: 2px;
@@ -31,7 +30,6 @@
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  border-radius: 10px 10px 0 0;
 }
 
 .label-input {
@@ -57,4 +55,8 @@
 .chart-scroll::-webkit-scrollbar-thumb {
   background: #888;
   border-radius: 4px;
+}
+
+.bar-heght{
+  font-size: 8px;
 }

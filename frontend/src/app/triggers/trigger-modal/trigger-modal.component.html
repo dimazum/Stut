@@ -2,7 +2,7 @@
 <div class="trigger-modal" [ngClass]="{ 'trigger-modal-open': isOpen }">
   <div class="trigger-modal-toggle-button"  *ngIf="(userinfo$ | async)?.logged_in"><div (click)="onToggle()"></div></div>
   <div class="trigger-container">
-    <h3 class="trigger-title">Сложные слова</h3>
+    <h3 class="trigger-title">Сложные слова (триггеры)</h3>
     <div class="trigger-content">
         <table class="trigger-table">
         <thead>
@@ -15,11 +15,12 @@
         </thead>
         <tbody>
           <tr *ngFor="let trigger of triggers" (click)="onClickTrigger(trigger)">
-            <td>{{ trigger.value }}</td>
+            <td (click)="onTriggerSelect(trigger.value)" [class.selected]="isTriggerSelected(trigger.value)">
+              <span class="trigger-item">{{ trigger.value }}</span>
+            </td>
             <td>{{ trigger.difficulty }}</td>
             <td>
               {{ trigger.createdAt | date:'dd.MM.yyyy' }}
-              
             </td>
             <td>
                 <button
@@ -34,8 +35,9 @@
       </table>
     </div>
     <form [formGroup]="triggerForm" (ngSubmit)="onCreate()" class="trigger-form">
-        <input name="value" formControlName="value" formControlName="value" class="form-control mb-2" type="text" />
-        <button class="form-control trigger-button" type="submit">Добавить</button>
+        <input name="value" formControlName="value" formControlName="value" class="stu-input trigger-input" type="text" />
+        <button class="form-control trigger-button-add" type="submit">+</button>
     </form>
+    <button (click)="goToPracticeWord()" [disabled]="!selectedTrigger" class="trigger-button-practice">Тренировать</button>
   </div>
 </div>

@@ -16,21 +16,23 @@ export class HistogramComponent {
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
 
   @Input() name: string = '';
+  @Input() initText: string = '';
+  @Input() saveToDb: boolean = true;
+
+  private _saveToDbBoolean: boolean = true;
+  
 
   draggingIndex: number | null = null;
   histogram! : Histogram;
   data: CharItem[] = [];
   public isDevMode: boolean = false;
-  //Если мы удерживаем воздух мышцы напрягаются -получаем блок
-  //"Это база речи.
-  //научиться контролировать выдыхаемый воздух
-  //Развить аппарат чтобы громко говорить расслабленными мышцами"
-  //Нужно убрать зажимы мышц
 
   constructor(private backendService :BackendService) {}
   ngOnInit(): void {
 
-    this.backendService.getHistogram(this.name)
+    //this._saveToDbBoolean = this.saveToDb === true || this.saveToDb === 'true';
+
+    this.backendService.getOrCreateHistogram(this.name, this.initText, this.saveToDb)
     .subscribe({
       next: (histogram) => {
         this.histogram = histogram;
@@ -91,17 +93,37 @@ ngAfterViewInit() {
 
     const containerRect = this.chart.nativeElement.getBoundingClientRect();
 
-    let newHeight = containerRect.bottom - event.clientY;
+    let newHeight = Math.round(containerRect.bottom - event.clientY);
 
     // Ограничение по контейнеру
     if (newHeight < 0) newHeight = 0;
     if (newHeight > containerRect.height)
-      newHeight = containerRect.height;
+    {
+        newHeight = containerRect.height;
+    }
 
     this.histogram.chars[this.draggingIndex].air = newHeight;
   }
 
   SaveHistogram(){
     this.backendService.saveHistogram(this.histogram).subscribe();
+  }
+
+  AddColumn(order :number){
+    this.backendService.addHistogramColumn(this.histogram.name, order).subscribe(x =>
+      {
+        this.histogram = x;
+        this.data = x.chars;
+      }
+    )
+  }
+
+  RemoveColumn(order :number){
+    this.backendService.remoHistogramColumn(this.histogram.name, order).subscribe(x =>
+      {
+        this.histogram = x;
+        this.data = x.chars;
+      }
+    )
   }
 }

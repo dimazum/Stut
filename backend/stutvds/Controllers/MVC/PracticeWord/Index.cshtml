@@ -1,0 +1,19 @@
+﻿@model string
+
+@{
+    Layout = "_Layout";
+}
+
+<h1>Тренируем сложное слово (триггер)</h1>
+<hr/>
+
+<p>Нажми кнопку внизу "Начать" и произнеси 500 раз слово "@Model" разными способами:</p>
+<p>На пунктах препинания делаем паузы, на паузах выдыхаем воздух!</p>
+<p>Способ 1:</p>
+<stu-histogram name="HistPW1" init-text="@Model @Model @Model @Model" save-to-db="false"></stu-histogram>
+
+<p>Способ 2:</p>
+<stu-histogram name="HistPW1" init-text="@Model" save-to-db="false"></stu-histogram>
+
+<p>Способ 3:</p>
+<stu-histogram name="HistPW1" init-text="@Model, а @Model" save-to-db="false"></stu-histogram>

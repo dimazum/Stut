@@ -93,6 +93,8 @@ export interface VoiceAnalysisUpdateDto {
   sessionId: string;
   jitter: number;
   shimmer: number;
+  wpm: number;
+
 }
 
 export interface Histogram {
@@ -103,5 +105,6 @@ export interface Histogram {
 export interface CharItem {
   id: number
   char: string;
+  order: number;
   air: number;
 }

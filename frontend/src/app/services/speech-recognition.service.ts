@@ -2,16 +2,13 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { startLessonSubject } from '../models/events';
 import { ReplaySubject, Subscription } from 'rxjs';
 import { RecognitionData } from '../models/models';
-import { DailyLessonStatus } from '../models/enums';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare let webkitSpeechRecognition: any;
 
 @Injectable({
   providedIn: 'root',
 })
 export class SpeechRecognitionService implements OnDestroy {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private recognition: any;
   private subscription?: Subscription;
   private isRecognitionEnabled = false;
@@ -19,7 +16,6 @@ export class SpeechRecognitionService implements OnDestroy {
   private wpm = 0; //скорость в минуту
   private wordsInCurrentWindow = 0; // слова за окно для подсчета скорости
   private lastResultTime = 0; // время последнего распознанного фрагмента
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private windowStartTime: any;
 
   public recognitionResult = new ReplaySubject<RecognitionData>(1);
@@ -30,10 +26,12 @@ export class SpeechRecognitionService implements OnDestroy {
     this.recognition.lang = 'ru-RU';
 
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     this.recognition.onresult = (event: any) => {
       const text = event.results[event.results.length - 1][0].transcript;
       const wordCount = text.trim().split(/\s+/).length;
+
+      console.log(text);
+
 
       const now = Date.now();
 
@@ -63,7 +61,6 @@ export class SpeechRecognitionService implements OnDestroy {
       rData.wordCount = this.totalWordCount;
       rData.wpm = speed;
 
-      console.log(text);
       
 
       this.recognitionResult.next(rData);
@@ -78,16 +75,17 @@ export class SpeechRecognitionService implements OnDestroy {
     this.recognition.onerror = (event: any) => {
       //console.error('Speech recognition error:', event.error);
 
-      if(event.error == 'no-speech'){
+      if(event.error == 'no-speech')
+      {
         const rData = new RecognitionData();
         rData.text = 'Нет голоса...';
         rData.wordCount = this.totalWordCount;
         rData.wpm = 0;
 
-      this.recognitionResult.next(rData);
+        this.recognitionResult.next(rData);
       }
 
-      // Можно перезапустить распознавание, если ошибка recoverable
+      // перезапустить распознавание, если ошибка recoverable
       if (this.isRecognitionEnabled
          && event.error !== 'not-allowed'
          && event.error !=='no-speech') {

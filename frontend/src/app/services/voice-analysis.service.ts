@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy, OnInit } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { VoiceAnalysisUpdateDto } from '../models/models';
@@ -8,48 +8,92 @@ import { AuthService } from './auth.service';
 @Injectable({
   providedIn: 'root'
 })
-export class VoiceAnalysisService implements OnInit, OnDestroy {
+export class VoiceAnalysisService implements OnDestroy {
+
   private hubConnection?: signalR.HubConnection;
-  public subscription!: Subscription;
-  private signalRConnected: boolean = false;
+  private authSubscription: Subscription;
 
   private voiceAnalysisSubject = new BehaviorSubject<VoiceAnalysisUpdateDto | null>(null);
-  public voiceAnalysis$: Observable<VoiceAnalysisUpdateDto | null> = this.voiceAnalysisSubject.asObservable();
+  public voiceAnalysis$: Observable<VoiceAnalysisUpdateDto | null> =
+    this.voiceAnalysisSubject.asObservable();
 
-  constructor(private authServeice: AuthService) {
-      this.subscription = this.authServeice.userinfo$.subscribe(x => 
-      {
-        if(x?.logged_in && !this.signalRConnected){
-          const url = environment.baseUrl + '/voice-analysis' ;
-          this.hubConnection = new signalR.HubConnectionBuilder()
-          .withUrl(url, {
-            accessTokenFactory: () => {
-              return localStorage.getItem('jwt-token') || '';
-            }
-          })
-          .withAutomaticReconnect()
-          .build();
+  constructor(private authService: AuthService) {
 
-          this.hubConnection.start()
-          .then(() => console.log('Connected to VoiceAnalysisHub'))
-          .catch((err) => console.error(err));
-
-          this.hubConnection.on('UpdateVoiceAnalysis', (data: VoiceAnalysisUpdateDto) => {
-           this.voiceAnalysisSubject.next(data);
-          });
-
-          this.signalRConnected = true;
-        }
+    this.authSubscription = this.authService.userinfo$.subscribe(user => {
+      if (user?.logged_in) {
+        this.startConnection();
+      } else {
+        this.stopConnection();
       }
-    )
+    });
   }
 
-  ngOnInit(): void {
+  private async startConnection(): Promise<void> {
 
+    if (this.hubConnection) {
+      return;
+    }
+
+    const url = environment.baseUrl + '/voice-analysis';
+
+    this.hubConnection = new signalR.HubConnectionBuilder()
+      .withUrl(url, {
+        accessTokenFactory: () => localStorage.getItem('jwt-token') || ''
+      })
+      .withAutomaticReconnect()
+      .build();
+
+    //Получение результата от сервера
+    this.hubConnection.on('UpdateVoiceAnalysis',
+      (data: VoiceAnalysisUpdateDto) => {
+        this.voiceAnalysisSubject.next(data);
+      }
+    );
+
+    try {
+      await this.hubConnection.start();
+      console.log('✅ Connected to VoiceAnalysisHub');
+    } catch (err) {
+      console.error('❌ SignalR connection error:', err);
+    }
+  }
+
+
+  // SEND STRING TO BACKEND
+  public async analyzeVoice(text: string): Promise<void> {
+
+    if (!this.hubConnection) {
+      console.warn('SignalR not connected');
+      return;
+    }
+
+    try {
+      await this.hubConnection.invoke('AnalyzeVoice', text);
+    } catch (err) {
+      console.error('Error sending text to hub:', err);
+    }
+  }
+
+  private async stopConnection(): Promise<void> {
+
+    if (!this.hubConnection) {
+      return;
+    }
+
+    try {
+      await this.hubConnection.stop();
+      console.log('SignalR disconnected');
+    } catch (err) {
+      console.error(err);
+    }
+
+    this.hubConnection = undefined;
+    this.voiceAnalysisSubject.next(null);
   }
 
   ngOnDestroy(): void {
-    this.hubConnection?.stop().catch(err => console.error(err));
+    this.stopConnection();
+    this.authSubscription.unsubscribe();
     this.voiceAnalysisSubject.complete();
   }
 }

@@ -26,13 +26,17 @@ export class FooterComponent implements OnInit, OnDestroy{
   public startBtnName = 'Начать';
   public wordsCounter = 0;
   public speedCounter? = 0;
-  public text = '';
+  public recognisedText = '';
+
   public dailyLesson? : DayLessonDto;
   public timeLeftInSec: number = 0;
   private recognitionSub?: Subscription;
   private voiceSubscription!: Subscription;
   private authSubscription!: Subscription;
   voiceData: VoiceAnalysisUpdateDto | null = null;
+
+  private inactivityTimer?: any;
+  private clearTimer?: any;
 
   public constructor(
     private speechRecognitionService: SpeechRecognitionService,
@@ -75,6 +79,7 @@ export class FooterComponent implements OnInit, OnDestroy{
 
     this.isEnabled = !this.isEnabled;
 
+    this.recognisedText = '';
 
     if (this.isEnabled) {   
 
@@ -89,7 +94,8 @@ export class FooterComponent implements OnInit, OnDestroy{
       this.startBtnName = 'Стоп';
 
       this.recognitionSub = this.speechRecognitionService.recognitionResult.subscribe(result => {
-        this.text = result.text ?? '';
+      this.changeRecognitionText(result.text ?? '')
+        
         this.wordsCounter = result.wordCount ?? 0;
         //this.speedCounter = result.wpm;
       });
@@ -129,9 +135,29 @@ export class FooterComponent implements OnInit, OnDestroy{
     //this.audioRecorderService.stopRecording().subscribe();
   }
 
-    ngOnDestroy(): void {
-     this.voiceSubscription.unsubscribe();
-     this.authSubscription.unsubscribe()
-     
+  changeRecognitionText(text: string) {
+
+    this.voiceService.analyzeVoice(text);
+
+    this.recognisedText = text;
+
+    // Сбрасываем предыдущие таймеры
+    clearTimeout(this.inactivityTimer);
+    clearTimeout(this.clearTimer);
+
+    // Таймер на 7 секунд без обновлений
+    this.inactivityTimer = setTimeout(() => {
+      // Через 1 секунду после 7 секунд бездействия очищаем
+      this.clearTimer = setTimeout(() => {
+        this.recognisedText = '';
+      }, 1000);
+    }, 7000);
+  }
+
+  ngOnDestroy(): void {
+    this.voiceSubscription.unsubscribe();
+    this.authSubscription.unsubscribe()
+    clearTimeout(this.inactivityTimer);
+    clearTimeout(this.clearTimer);
   }
 }

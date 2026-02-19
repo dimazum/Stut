@@ -16,6 +16,7 @@ public class CharItem:  Entity
 {
     public string Char { get; set; } = string.Empty;
     public float Air { get; set; }
+    public int Order { get; set; }
     public int HistogramId { get; set; }
     [ForeignKey("HistogramId")]
     public Histogram Histogram { get; set; } = null!;

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using stutvds.Controllers.Base;
 using stutvds.DAL.Entities;
 using stutvds.DAL.Repositories;
@@ -16,23 +17,6 @@ public class HistogramController : BaseController
 {
     private readonly HistogramRepository _histogramRepository;
     private readonly IMapper _mapper;
-
-    private readonly Dictionary<string, string> _histograms = new Dictionary<string, string>()
-    {
-        { "Hist1",
-            """
-            Привет, это тестовое предложение. 
-            Обрати внимание, что после вдоха, немного выдыхаем и плавно начинаем речь. 
-            На паузах, как на коротких, так и на длинных, воздух плавно выдыхаем не задерживая. 
-            На этой гистограмме видно как меняется количество воздуха в легких.
-            """},
-        { "Hist2",
-            """
-            Смотри, Вот так говорить нельзя. 
-            Главное не блокировать голосовыми связками выдох.
-            """}
-    };
-
 
     public HistogramController(HistogramRepository histogramRepository, IMapper mapper)
     {
@@ -48,49 +32,132 @@ public class HistogramController : BaseController
         return Ok();
     }
 
-    [HttpGet("{name}")]
-    public async Task<ActionResult<HistogramDto>> GetHistogram([FromQuery] string name)
+    [HttpPost("getOrCreateHistogram")]
+    public async Task<ActionResult<HistogramDto>> GetOrCreateHistogram([FromBody] GetOrCreateHistogramDto dto)
+    {
+        var histogram = await _histogramRepository.GetWithCharmsByName(dto.Name);
+        
+        if (histogram == null)
+        {
+            histogram = await InitHistogram(dto.Name, dto.InitText);
+            if (dto.SaveToDb)
+            {
+               // await _histogramRepository.AddOrUpdate(histogram);
+            }
+        }
+        
+        var histogramDto = _mapper.Map<HistogramDto>(histogram);
+        return Ok(histogramDto);
+    }
+    
+    [HttpGet("addcolumn")] 
+    public async Task<ActionResult<HistogramDto>> AddColumn([FromQuery] string name, [FromQuery] int order)
     {
         var histogram = await _histogramRepository.GetWithCharmsByName(name);
         
         if (histogram == null)
         {
-            histogram = await InitHistogram(name);
-            histogram = await _histogramRepository.AddAsync(histogram);
+            return NotFound(name);
         }
+        
+        var needToReorderChars = histogram.Chars.Where(x => x.Order > order).ToList();
+
+        foreach (var charItem in needToReorderChars)
+        {
+            charItem.Order++;
+        }
+        
+        histogram.Chars.Add(new CharItem()
+        {
+            Char = string.Empty,
+            Order = order + 1,
+            Air = 100,
+            HistogramId = histogram.Id
+        });
+        
+        var entity = await _histogramRepository.AddOrUpdate(histogram);
+        
+        var dto = _mapper.Map<HistogramDto>(entity);
+        return Ok(dto);
+    }
+    
+    [HttpGet("removecolumn")] 
+    public async Task<ActionResult<HistogramDto>> RemoveColumn([FromQuery] string name, [FromQuery] int order)
+    {
+        var histogram = await _histogramRepository.GetWithCharmsByName(name);
+        
+        if (histogram == null)
+        {
+            return NotFound(name);
+        }
+        
+        var currentCharItem = histogram.Chars.FirstOrDefault(x => x.Order == order);
+        
+        histogram.Chars.Remove(currentCharItem);
+        
+        var needToReorderChars = histogram.Chars.Where(x => x.Order > order).ToList();
+
+        foreach (var charItem in needToReorderChars)
+        {
+            charItem.Order--;
+        }
+
+        
+        await _histogramRepository.UpdateAsync(histogram);
         
         var dto = _mapper.Map<HistogramDto>(histogram);
         return Ok(dto);
     }
 
 
-    private async Task<Histogram> InitHistogram(string name)
+    private async Task<Histogram> InitHistogram(string name, string initText)
     {
         var histogram = new Histogram()
         {
             Name = name,
             Chars = new List<CharItem>()
         };
-        
-        var phrase = _histograms[name].ToCharArray();
+
+        var order = 0;
         
         histogram.Chars.Add(new CharItem()
         {
             Char = "",
-            Air = 100
+            Air = 40,
+            Order = order++
         });
         
         histogram.Chars.Add(new CharItem()
         {
             Char = "",
-            Air = 100
+            Air = 80,
+            Order = order++ 
         });
+        
+        histogram.Chars.Add(new CharItem()
+        {
+            Char = "",
+            Air = 120,
+            Order = order++ 
+        });
+        
+        histogram.Chars.Add(new CharItem()
+        {
+            Char = "",
+            Air = 112,
+            Order = order++ 
+        });
+
+        float startPhraseAir = 112 - 8; //84
+        
+        var phrase = initText;
+        
+        var d = (startPhraseAir - 20)/phrase.Length;
 
         for (var i = 0; i < phrase.Length; i++)
         {
             var currentChar = phrase[i].ToString();
 
-            // проверяем, что есть следующий символ
             if (i + 1 < phrase.Length)
             {
                 var nextChar = phrase[i + 1];
@@ -105,32 +172,27 @@ public class HistogramController : BaseController
             histogram.Chars.Add(new CharItem()
             {
                 Char = currentChar,
-                Air = 100
+                Air = startPhraseAir,
+                Order = order++ 
             });
+            
+            startPhraseAir = startPhraseAir -d;
         }
-
         
         histogram.Chars.Add(new CharItem()
         {
             Char = "",
-            Air = 100
+            Air = 13.4f,
+            Order = order++ 
         });
         
         histogram.Chars.Add(new CharItem()
         {
             Char = "",
-            Air = 100
+            Air = 6.66f,
+            Order = order
         });
 
         return histogram;
     }
-
-    // [HttpGet("all")]
-    // public async Task<IActionResult> GetAllHistograms()
-    // {
-    //     var histograms = await _context.Histograms
-    //         .Include(h => h.Chars)
-    //         .ToListAsync();
-    //     return Ok(histograms);
-    // }
 }

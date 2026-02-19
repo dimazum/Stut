@@ -12,5 +12,6 @@ public class CharDto
 {
     public int Id { get; set; }
     public string Char { get; set; }
+    public int Order { get; set; }
     public float Air { get; set; }
 }

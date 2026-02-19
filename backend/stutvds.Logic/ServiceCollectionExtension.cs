@@ -30,6 +30,7 @@ namespace stutvds.Logic
             
             serviceCollection.AddScoped<TriggerTaskManager>();
             serviceCollection.AddScoped<TriggerGeneratorService>();
+            serviceCollection.AddScoped<TriggerService>();
         }
     }
 }

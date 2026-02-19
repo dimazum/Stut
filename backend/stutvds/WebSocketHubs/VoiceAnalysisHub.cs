@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
+using stutvds.Models.ClientDto;
 
 namespace stutvds.WebSocketHubs;
 
@@ -42,4 +43,13 @@ public class VoiceAnalysisHub : Hub
     {
         await Groups.RemoveFromGroupAsync(Context.ConnectionId, sessionId);
     }
+    
+    public async Task AnalyzeVoice(string text)
+    {
+        var r = new Random();
+        var f = r.NextInt64();
+        var result = new VoiceAnalysisUpdateDto { WPM = (int)f};
+        await Clients.Caller.SendAsync("UpdateVoiceAnalysis", result);
+    }
+
 }
