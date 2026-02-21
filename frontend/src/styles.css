@@ -412,6 +412,47 @@ input.stu-input:focus {
     box-shadow: 0 0 8px rgba(102, 233, 113, 0.6);
 }
 
+/*Аккордион*/
+
+.accordion {
+  font-size: 14px;
+  font-style: italic;
+}
+
+.accordion summary {
+    width: 120px;
+  list-style: none;
+  cursor: pointer;
+  padding: 12px;
+  position: relative;
+  font-weight: 600;
+}
+
+.accordion summary::-webkit-details-marker {
+  display: none;
+}
+
+.accordion summary::after {
+  content: "▲";
+  position: absolute;
+  right: 12px;
+  transition: transform 0.3s ease;
+}
+
+.accordion[open] summary::after {
+  transform: rotate(180deg);
+}
+
+.accordion .content {
+  padding: 0 12px 12px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 
 
 /* Desktop */

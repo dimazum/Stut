@@ -108,7 +108,7 @@ public class HistogramController : BaseController
         var dto = _mapper.Map<HistogramDto>(histogram);
         return Ok(dto);
     }
-
+    
 
     private async Task<Histogram> InitHistogram(string name, string initText)
     {
@@ -119,52 +119,34 @@ public class HistogramController : BaseController
         };
 
         var order = 0;
-        
-        histogram.Chars.Add(new CharItem()
-        {
-            Char = "",
-            Air = 40,
-            Order = order++
-        });
-        
-        histogram.Chars.Add(new CharItem()
-        {
-            Char = "",
-            Air = 80,
-            Order = order++ 
-        });
-        
-        histogram.Chars.Add(new CharItem()
-        {
-            Char = "",
-            Air = 120,
-            Order = order++ 
-        });
-        
-        histogram.Chars.Add(new CharItem()
-        {
-            Char = "",
-            Air = 112,
-            Order = order++ 
-        });
 
-        float startPhraseAir = 112 - 8; //84
-        
-        var phrase = initText;
-        
-        var d = (startPhraseAir - 20)/phrase.Length;
+        histogram.Chars.Add(new CharItem { Char = "", Air = 40, Order = order++ });
+        histogram.Chars.Add(new CharItem { Char = "", Air = 80, Order = order++ });
+        histogram.Chars.Add(new CharItem { Char = "", Air = 120, Order = order++ });
+        histogram.Chars.Add(new CharItem { Char = "", Air = 112, Order = order++ });
 
-        for (var i = 0; i < phrase.Length; i++)
+        //Получаем список рун (Unicode-символов)
+        var runes = initText.EnumerateRunes().ToList();
+
+        int commaCount = runes.Count(r => r.Value == ',');
+
+        float startPhraseAir = 112 - 8;
+
+        var d = (startPhraseAir - 20 - (commaCount * 4)) / runes.Count;
+
+        for (int i = 0; i < runes.Count; i++)
         {
-            var currentChar = phrase[i].ToString();
+            var currentChar = runes[i].ToString();
+            var commaAir = 0;
 
-            if (i + 1 < phrase.Length)
+            if (i + 1 < runes.Count)
             {
-                var nextChar = phrase[i + 1];
+                var nextRune = runes[i + 1];
 
-                if (nextChar == ',' || nextChar == '.')
+                if (nextRune.Value == ',' || nextRune.Value == '.')
                 {
-                    currentChar += nextChar.ToString();
+                    commaAir = 4;
+                    currentChar += nextRune.ToString();
                     i++; // пропускаем запятую/точку
                 }
             }
@@ -173,25 +155,14 @@ public class HistogramController : BaseController
             {
                 Char = currentChar,
                 Air = startPhraseAir,
-                Order = order++ 
+                Order = order++
             });
-            
-            startPhraseAir = startPhraseAir -d;
+
+            startPhraseAir = startPhraseAir - d - commaAir;
         }
-        
-        histogram.Chars.Add(new CharItem()
-        {
-            Char = "",
-            Air = 13.4f,
-            Order = order++ 
-        });
-        
-        histogram.Chars.Add(new CharItem()
-        {
-            Char = "",
-            Air = 6.66f,
-            Order = order
-        });
+
+        histogram.Chars.Add(new CharItem { Char = "", Air = 13.4f, Order = order++ });
+        histogram.Chars.Add(new CharItem { Char = "", Air = 6.66f, Order = order });
 
         return histogram;
     }

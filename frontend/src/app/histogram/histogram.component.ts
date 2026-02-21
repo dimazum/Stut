@@ -19,9 +19,6 @@ export class HistogramComponent {
   @Input() initText: string = '';
   @Input() saveToDb: boolean = true;
 
-  private _saveToDbBoolean: boolean = true;
-  
-
   draggingIndex: number | null = null;
   histogram! : Histogram;
   data: CharItem[] = [];
@@ -30,7 +27,6 @@ export class HistogramComponent {
   constructor(private backendService :BackendService) {}
   ngOnInit(): void {
 
-    //this._saveToDbBoolean = this.saveToDb === true || this.saveToDb === 'true';
 
     this.backendService.getOrCreateHistogram(this.name, this.initText, this.saveToDb)
     .subscribe({

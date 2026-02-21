@@ -1,6 +1,6 @@
 <div class="overlay" [style.display]="isOpen ? 'block' : 'none'" (click)="onToggle()"></div>
 <div class="trigger-modal" [ngClass]="{ 'trigger-modal-open': isOpen }">
-  <div class="trigger-modal-toggle-button"  *ngIf="(userinfo$ | async)?.logged_in"><div (click)="onToggle()"></div></div>
+  <div class="trigger-modal-toggle-button"  *ngIf="(userinfo$ | async)?.logged_in"><div (click)="onToggle()">Триггеры</div></div>
   <div class="trigger-container">
     <h3 class="trigger-title">Сложные слова (триггеры)</h3>
     <div class="trigger-content">
@@ -28,7 +28,6 @@
                   class="trigger-item-delete"
                   (click)="onDelete(trigger); $event.stopPropagation()">
                 </button>
-
             </td>
           </tr>
         </tbody>
