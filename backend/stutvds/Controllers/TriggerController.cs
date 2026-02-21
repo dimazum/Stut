@@ -95,11 +95,13 @@ namespace stutvds.Controllers
         }
 
         [HttpPut]
-        [Route("change")]
-        public async Task<JsonResult> ChangeDifficulty(string trigger, int difficulty)
+        [Route("changedifficulty")]
+        public async Task<JsonResult> ChangeDifficulty(TriggerChangeDifficultyDto dto)
         {
-            var entity = await _triggerRepository.GetByName(trigger, UserId);
-            entity.Difficulty = difficulty;
+            var entity = await _triggerRepository.GetByName(dto.TriggerValue, UserId);
+            entity.Difficulty = dto.Difficulty;
+
+            await _triggerRepository.UpdateAsync(entity);
             
             var triggers =  _triggerRepository.GetTriggers(UserId, CurrentLanguage);
 

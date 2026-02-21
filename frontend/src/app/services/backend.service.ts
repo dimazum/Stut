@@ -34,7 +34,10 @@ export class BackendService {
     return this.httpClient.get<Array<TriggerResult>>(`${this.baseUrl}/trigger`);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public changeTriggerDifficulty(triggerValue: string, difficulty: number): Observable<Array<TriggerResult>> {
+    return this.httpClient.put<Array<TriggerResult>>(`${this.baseUrl}/trigger/changedifficulty`, {triggerValue, difficulty});
+  }
+
   public deleteTrigger(triggerValue: string): Observable<any> {
     return this.httpClient.delete(`${this.baseUrl}/trigger/${triggerValue}`);
   }

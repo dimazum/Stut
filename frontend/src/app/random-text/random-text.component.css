@@ -54,9 +54,11 @@
 
 .context-menu {
   position: fixed;
+  display: flex;
+  flex-direction: column;
   background: white;
   border: 1px solid #ccc;
-  padding: 10px;
+  padding: 0 10px 10px 10px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
   z-index: 2000;
 }

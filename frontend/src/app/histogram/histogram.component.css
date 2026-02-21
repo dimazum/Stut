@@ -7,10 +7,10 @@
   width: 100%;
   overflow-x: auto;
   overflow-y: hidden;
-  margin-bottom: 20px;
 }
 
 .chart {
+  height: 170px;
   display: flex;
   align-items: flex-end;
   gap: 2px;
@@ -35,7 +35,6 @@
 .label-input {
   position: absolute;
   top: -40px;
-  width: 20px;
   text-align: center;
   border: none;
   background: none;

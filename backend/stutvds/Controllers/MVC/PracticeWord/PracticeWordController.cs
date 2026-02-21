@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using stutvds.Logic.Services;
 
 namespace stutvds.Controllers.MVC.PracticeWord
@@ -19,7 +20,7 @@ namespace stutvds.Controllers.MVC.PracticeWord
         
             if (string.IsNullOrEmpty(trigger))
             {
-                trigger = _triggerService.GetRandomTriggers();
+                trigger = _triggerService.GetRandomTriggers(1).First();
             }
         
             return View(model: trigger);

@@ -112,8 +112,8 @@
         cursor: pointer;
         border-radius: 6px 0 0 6px;
         writing-mode: vertical-rl;
-        font-size: 10px;
-        padding: 3px;
+        font-size: 12px;
+        padding: 3px 0;
         font-weight: 600;
     }
 }
@@ -143,11 +143,16 @@
 .trigger-table th:nth-child(2),
 .trigger-table td:nth-child(2) {
   width: 5%;
+  cursor: pointer;
+  &:hover {
+              background: #ddd;
+            }
 }
 
 .trigger-table th:nth-child(3),
 .trigger-table td:nth-child(3) {
   width: 20%;
+  font-size: 10px;
 }
 
 .trigger-table th:nth-child(4),

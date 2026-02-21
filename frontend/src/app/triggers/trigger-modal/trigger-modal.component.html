@@ -14,11 +14,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let trigger of triggers" (click)="onClickTrigger(trigger)">
-            <td (click)="onTriggerSelect(trigger.value)" [class.selected]="isTriggerSelected(trigger.value)">
+          <tr *ngFor="let trigger of triggers">
+            <td (dblclick)="onTriggerDbClicked(trigger.value)" (click)="onTriggerSelect(trigger.value)" [class.selected]="isTriggerSelected(trigger.value)">
               <span class="trigger-item">{{ trigger.value }}</span>
             </td>
-            <td>{{ trigger.difficulty }}</td>
+            <td (click)="onChangeDifficulty(trigger)"> {{trigger.difficulty == 0 ? '🟢' : '🔥'}}</td>
             <td>
               {{ trigger.createdAt | date:'dd.MM.yyyy' }}
             </td>

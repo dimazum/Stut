@@ -1,45 +1,16 @@
-<div class="chart-scroll" #scrollContainer>
-  <div class="chart" 
-    [style.height.px]="isDevMode ? 300 : 170"
-  #chartContainer>
+<div class="chart-scroll">
+  <div class="chart">
   <div *ngFor="let bar of data; let i = index"
        class="bar-wrapper">
-
     <div class="bar"
          [style.height.px]="bar.air"
          [style.border-top-left-radius.px]="bar.air > (data[i - 1]?.air ?? 0)  ? 10 : 0"
          [style.border-top-right-radius.px]="bar.air > (data[i + 1]?.air ?? 0)  ? 10 : 0"
-         (mousedown)="startDrag(i, $event)">
-
-      <input
-        [disabled]="!isDevMode"
-        class="label-input"
-        [(ngModel)]="bar.char"
-        maxlength="2"
-        (mousedown)="$event.stopPropagation()"
-      />
+         >
+    <span class="label-input">{{bar.char}}</span>
 
     </div>
-
-    <input *ngIf="isDevMode"
-      type="number"
-      class="height-input"
-      [(ngModel)]="bar.air"
-      [min]="0"
-      [max]="300"
-      (mousedown)="$event.stopPropagation()"
-    />
-    <button *ngIf="isDevMode" (click)="AddColumn(bar.order)"
-      class="height-input">+</button>
-
-    <button *ngIf="isDevMode" (click)="RemoveColumn(bar.order)"
-      class="height-input">-</button>
-
-    <div *ngIf="isDevMode" class="bar-heght">{{bar.air}}</div>
-    <div *ngIf="isDevMode" class="bar-heght">{{bar.order}}</div>
-
-
   </div>
 </div>
 </div>
-<button *ngIf="isDevMode" (click)="SaveHistogram()">Сохранить</button>
+<button (click)="updateText()" class="stu-button-l">Обновить</button>

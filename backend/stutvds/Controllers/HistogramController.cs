@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using stutvds.Controllers.Base;
 using stutvds.DAL.Entities;
 using stutvds.DAL.Repositories;
+using stutvds.Logic.Services;
 using stutvds.Models.ClientDto;
 
 namespace stutvds.Controllers;
@@ -17,11 +18,15 @@ public class HistogramController : BaseController
 {
     private readonly HistogramRepository _histogramRepository;
     private readonly IMapper _mapper;
+    private readonly TriggerService _triggerService;
 
-    public HistogramController(HistogramRepository histogramRepository, IMapper mapper)
+    public HistogramController(HistogramRepository histogramRepository,
+        IMapper mapper,
+        TriggerService triggerService)
     {
         _histogramRepository = histogramRepository;
         _mapper = mapper;
+        _triggerService = triggerService;
     }
 
     [HttpPost("save")]
@@ -35,19 +40,22 @@ public class HistogramController : BaseController
     [HttpPost("getOrCreateHistogram")]
     public async Task<ActionResult<HistogramDto>> GetOrCreateHistogram([FromBody] GetOrCreateHistogramDto dto)
     {
-        var histogram = await _histogramRepository.GetWithCharmsByName(dto.Name);
+        HistogramDto resultDto = null;
         
-        if (histogram == null)
+        if (!string.IsNullOrEmpty(dto.InitText))
         {
-            histogram = await InitHistogram(dto.Name, dto.InitText);
-            if (dto.SaveToDb)
-            {
-               // await _histogramRepository.AddOrUpdate(histogram);
-            }
+            resultDto =   await InitHistogram(dto.Name, dto.InitText);
+        }
+
+        else
+        {
+            var trigger = await _triggerService.GetRandomTriggerValue();
+            var text = $"\ud83d\udd12{trigger}, \ud83d\udd12{trigger}, \ud83d\udd12{trigger}, \ud83d\udd12{trigger}";
+            
+            resultDto =  await InitHistogram(dto.Name, text);
         }
         
-        var histogramDto = _mapper.Map<HistogramDto>(histogram);
-        return Ok(histogramDto);
+        return Ok(resultDto);
     }
     
     [HttpGet("addcolumn")] 
@@ -110,20 +118,20 @@ public class HistogramController : BaseController
     }
     
 
-    private async Task<Histogram> InitHistogram(string name, string initText)
+    private async Task<HistogramDto> InitHistogram(string name, string initText)
     {
-        var histogram = new Histogram()
+        var histogram = new HistogramDto()
         {
             Name = name,
-            Chars = new List<CharItem>()
+            Chars = new List<CharDto>()
         };
 
         var order = 0;
 
-        histogram.Chars.Add(new CharItem { Char = "", Air = 40, Order = order++ });
-        histogram.Chars.Add(new CharItem { Char = "", Air = 80, Order = order++ });
-        histogram.Chars.Add(new CharItem { Char = "", Air = 120, Order = order++ });
-        histogram.Chars.Add(new CharItem { Char = "", Air = 112, Order = order++ });
+        histogram.Chars.Add(new CharDto { Char = "", Air = 40, Order = order++ });
+        histogram.Chars.Add(new CharDto { Char = "", Air = 80, Order = order++ });
+        histogram.Chars.Add(new CharDto { Char = "", Air = 120, Order = order++ });
+        histogram.Chars.Add(new CharDto { Char = "", Air = 112, Order = order++ });
 
         //Получаем список рун (Unicode-символов)
         var runes = initText.EnumerateRunes().ToList();
@@ -151,7 +159,7 @@ public class HistogramController : BaseController
                 }
             }
 
-            histogram.Chars.Add(new CharItem()
+            histogram.Chars.Add(new CharDto()
             {
                 Char = currentChar,
                 Air = startPhraseAir,
@@ -161,8 +169,8 @@ public class HistogramController : BaseController
             startPhraseAir = startPhraseAir - d - commaAir;
         }
 
-        histogram.Chars.Add(new CharItem { Char = "", Air = 13.4f, Order = order++ });
-        histogram.Chars.Add(new CharItem { Char = "", Air = 6.66f, Order = order });
+        histogram.Chars.Add(new CharDto { Char = "", Air = 13.4f, Order = order++ });
+        histogram.Chars.Add(new CharDto { Char = "", Air = 6.66f, Order = order });
 
         return histogram;
     }

@@ -69,10 +69,6 @@ export class TriggerModalComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onClickTrigger(trigger: Trigger): void {
-    this.eventSystem.trigger$.next(trigger);
-  }
-
   public onDelete(trigger: Trigger) {
     this.backendService.deleteTrigger(trigger.value).subscribe(() => {
       this.backendService.getTriggers().subscribe(data => (this.triggers = data));
@@ -94,6 +90,18 @@ export class TriggerModalComponent implements OnInit, OnDestroy {
 
   public onTriggerSelect(trigger: string){
     this.selectedTrigger = trigger;
+  }
+
+  public onChangeDifficulty(trigger: TriggerResult){
+    let newDifficulty = trigger.difficulty == 0 ? 1: 0
+    this.backendService
+          .changeTriggerDifficulty(trigger.value, newDifficulty)
+          .subscribe(data => (this.triggers = data));
+
+  }
+
+  public onTriggerDbClicked(trigger: string){    
+    window.location.href = `/practiceWord?trigger=${encodeURIComponent(trigger)}`;
   }
 
   public isTriggerSelected(trigger: string){
