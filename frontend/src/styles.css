@@ -44,7 +44,12 @@ button{
     border-radius: 20%;
 }
 
+main {
+    padding: 50px 0 100px 0;
+}
+
 .stu-container {
+    padding-top: 75px;
     width: 80%;
     max-width: 1200px;
     margin: 0 auto;
@@ -295,23 +300,9 @@ button{
     transform: rotate(-135deg);
 }
 
-main {
-    padding: 75px 0 100px 0;
-}
-
-
 .not-logged-in-error{
     color: red;
     font-size: 16px;
-}
-
-.what-idea{
-    background-color: #9fbeeb8a;
-    padding: 10px;
-    font-size: 16px;
-    line-height: 1.4;
-    font-family: system-ui;
-    margin-bottom: 10px;
 }
 
 /* Common Buttons */
@@ -323,83 +314,44 @@ main {
     color: white;
 }
 
+.stu-button-l2 {
+    font-size: 20px;
+    padding: 10px;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    background: linear-gradient(
+        120deg,
+        rgb(50 145 87) 0,
+        rgb(34 182 90) 30%,
+        rgb(66 168 105) 60%,
+        rgb(48 142 84) 100%
+    );
+    height: 50px;
+    margin: 5px;
+    box-shadow: 0 6px 15px rgb(80 117 105 / 31%);
+    transition: all 0.2s ease;
+
+    &:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgb(80 117 105 / 45%);
+        filter: brightness(1.1);
+        cursor: pointer;
+    }
+}
+
 .stu-button-l:hover{
     background-color: #167e5b;
     transition: background-color 0.3s ease;
 }
 
 
-/* Idea-Block */
-.idea-tooltip-wrapper {
-    position: relative;
-    display: inline-block;
-}
-
-.idea-tooltip-button {
-    background: #1abc9c;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    text-align: center;
-    border: none;
-    font-size: 12px;
-    padding: 1px;
-}
-
-.idea-tooltip-button:hover {
-    background: #0f5132;
-}
-
-.idea-tooltip-content {
-    position: absolute;
-    top: 50%;
-    left: 36px;
-    transform: translateY(-50%);
-    min-width: 320px;
-    max-width: 420px;
-    background: #198754;
-    color: #fff;
-    padding: 12px 14px;
-    border-radius: 8px;
-    font-size: 14px;
-    line-height: 1.4;
-
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transition: opacity 0.2s ease;
-    z-index: 9001;
-}
-
-.idea-tooltip-wrapper:hover .idea-tooltip-content {
-    opacity: 1;
-    visibility: visible;
-}
-
-/* стрелка */
-.idea-tooltip-content::before {
-    content: "";
-    position: absolute;
-    left: -6px;
-    top: 50%;
-    transform: translateY(-50%);
-    border-width: 6px;
-    border-style: solid;
-    border-color: transparent white transparent transparent;
-}
-
-.slogan{
-    text-align: end;
-    font-family: cursive;
-    font-style: italic;
-    padding-bottom: 10px;
-}
-
 .home-item{
     padding: 15px;
     box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
 }
 
+/*Инпут*/
 input.stu-input {
     border: 1px solid #ccc;
     padding: 3px;
@@ -413,7 +365,6 @@ input.stu-input:focus {
 }
 
 /*Аккордион*/
-
 .accordion {
   font-size: 14px;
   font-style: italic;
@@ -454,6 +405,94 @@ input.stu-input:focus {
 }
 
 
+/*Home*/
+.home {
+    :root {
+        --primary: #2F6BFF;
+        --accent: #4CAF50;
+        --dark: #1E1E2F;
+        --gray: #6B7280;
+        --light: #F8FAFC;
+    }
+
+    h1 {
+    font-size: 32px !important
+}
+
+    h2 {
+        font-size: 22px !important;
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 5px;
+        color: var(--dark);
+
+        h2{
+            padding-bottom: 10px;
+        }
+    }
+
+    section {
+        padding: 80px 0;
+    }
+
+    .hero {
+        padding: 100px 0;
+    }
+
+    .hero p {
+        color: #7687a7;
+        font-size: 18px;
+    }
+
+    .stu-gray{
+        background: #eee;
+    }
+
+    .card-3 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 40px;
+        flex-wrap: wrap;
+        align-items: stretch; /* важно */
+    }
+
+    .card {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        transition: 0.3s;
+        flex: 1 1 270px;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    .progress-section {
+        background: white;
+    }
+
+    .steps {
+        display: flex;
+        gap: 20px;
+        margin-top: 40px;
+    }
+
+    .step {
+        background: white;
+        padding: 25px;
+        border-radius: 10px;
+        text-align: center;
+        font-weight: 600;
+    }
+}
 
 /* Desktop */
 @media (min-width: 769px) {

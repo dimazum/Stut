@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TimerComponent } from '../common/timer/timer.component';
 import { startLessonSubject, notLoggedInSubject } from '../models/events';
-import { NgClass, NgIf } from '@angular/common';
+import { CommonModule, NgClass, NgIf } from '@angular/common';
 import { SpeechRecognitionService } from '../services/speech-recognition.service';
 import { BackendService } from '../services/backend.service';
 import { TriggerModalComponent } from '../triggers/trigger-modal/trigger-modal.component';
@@ -13,11 +13,16 @@ import { DayLessonDto, VoiceAnalysisUpdateDto } from '../models/models';
 import { TextareaAutoClearComponent } from '../common/textarea-auto-clear/textarea-auto-clear.component';
 import { VoiceAnalysisService } from '../services/voice-analysis.service';
 import { AuthService } from '../services/auth.service';
+import { WpmService } from '../services/wpm.service';
 
 @Component({
   selector: 'stu-footer',
   standalone: true,
-  imports: [TextareaAutoClearComponent,TimerComponent, NgClass, TriggerModalComponent, VisualizerComponent, NgIf],
+  imports: [CommonModule,
+     TextareaAutoClearComponent,
+     TimerComponent,
+     TriggerModalComponent,
+      VisualizerComponent],
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.css'],
 })
@@ -25,7 +30,7 @@ export class FooterComponent implements OnInit, OnDestroy{
   public isEnabled = false;
   public startBtnName = 'Начать';
   public wordsCounter = 0;
-  public speedCounter? = 0;
+  public wpm$ = this.wpmService.wpm$;
   public recognisedText = '';
 
   public dailyLesson? : DayLessonDto;
@@ -44,6 +49,7 @@ export class FooterComponent implements OnInit, OnDestroy{
     private audioRecorderService : AudioRecorderService,
     private voiceService: VoiceAnalysisService,
     private authService: AuthService,
+    private wpmService: WpmService
 
   ) {}
 
@@ -94,9 +100,11 @@ export class FooterComponent implements OnInit, OnDestroy{
       this.startBtnName = 'Стоп';
 
       this.recognitionSub = this.speechRecognitionService.recognitionResult.subscribe(result => {
-      this.changeRecognitionText(result.text ?? '')
+        this.changeRecognitionText(result.text ?? '')
         
         this.wordsCounter = result.wordCount ?? 0;
+
+        this.wpmService.addText(result.text ?? '')
         //this.speedCounter = result.wpm;
       });
     } else {

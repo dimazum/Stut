@@ -16,6 +16,8 @@ namespace stutvds.Controllers
 
 		public IActionResult Index()
 		{
+			ViewData["offStuContainer"] = true;
+			
 			return View();
 		}
 

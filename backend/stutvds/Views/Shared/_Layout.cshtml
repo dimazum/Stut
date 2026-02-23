@@ -4,9 +4,9 @@
 @using stutvds.DAL.Repositories
 
 @inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment Env
-@inject DayLessonRepository DayLessonRepository
 
 @{
+    var offStuContainer = ViewData["offStuContainer"] as bool? == true;
     var manifest = new Dictionary<string, string>();
     if (!Env.IsDevelopment())
     {
@@ -141,7 +141,7 @@
     </nav>
 </header>
 
-<main class="stu-container">
+<main class="@(offStuContainer ?  null : "stu-container")">
     @RenderBody()
 </main>
 
