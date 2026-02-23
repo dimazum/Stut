@@ -8,8 +8,11 @@ echo "=============================="
 # -----------------------------
 # 1. Git pull
 # -----------------------------
+GIT_USER="dimazum"
+GIT_TOKEN="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"
+
 echo "Pulling latest changes..."
-git pull origin develop --tags
+git pull https://${GIT_USER}:${GIT_TOKEN}@github.com/dimazum/Stut.git develop --tags
 
 COMMIT_HASH=$(git rev-parse --short HEAD)
 export COMMIT_HASH
