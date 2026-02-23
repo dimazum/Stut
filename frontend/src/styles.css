@@ -158,7 +158,6 @@ main {
 
 .desktop-nav .nav-link:hover {
     color: rgb(228, 230, 230);
-    
 }
 
 
@@ -293,7 +292,7 @@ main {
 
 /* Активное состояние */
 .mobile-nav .has-submenu.active .submenu {
-    max-height: 500px; /* достаточно для всех пунктов */
+    max-height: 500px;
 }
 
 .mobile-nav .has-submenu.active .arrow {
@@ -305,7 +304,7 @@ main {
     font-size: 16px;
 }
 
-/* Common Buttons */
+/* Stu buttons */
 .stu-button-l{
     font-size: 15px;
     padding: 3px;
@@ -345,13 +344,12 @@ main {
     transition: background-color 0.3s ease;
 }
 
-
 .home-item{
     padding: 15px;
     box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
 }
 
-/*Инпут*/
+/*Stu input*/
 input.stu-input {
     border: 1px solid #ccc;
     padding: 3px;
@@ -364,7 +362,7 @@ input.stu-input:focus {
     box-shadow: 0 0 8px rgba(102, 233, 113, 0.6);
 }
 
-/*Аккордион*/
+/*how to do*/
 .accordion {
   font-size: 14px;
   font-style: italic;
@@ -417,7 +415,7 @@ input.stu-input:focus {
 
     h1 {
     font-size: 32px !important
-}
+    }
 
     h2 {
         font-size: 22px !important;

@@ -1,7 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
 @using Microsoft.Extensions.Hosting
 @using System.Text.Json
-@using stutvds.DAL.Repositories
 
 @inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment Env
 
@@ -30,7 +29,7 @@
     <meta name="description" content="@ViewData["Description"]" />
     <meta name="keywords" content="@ViewData["Keywords"]" />
 
-    <meta name="description" content="Онлайн-тренажер по улучшению речи, упражнения для дикции и уверенной коммуникации." />
+    <meta name="description" content="Онлайн-тренажер для лечения заикания." />
     
     @if (!Env.IsDevelopment())
     {
@@ -63,7 +62,6 @@
                     <a class="nav-link" href="@Url.Action("Index", "dailyLesson")">Дневной урок</a>
                 </li>
 
-                <!-- Тренировка -->
                 <li class="nav-item">
                     <a class="nav-link" href="@Url.Action("Index", "calendar")">Календарь</a>
                 </li>
@@ -72,16 +70,14 @@
                     <a class="nav-link" href="@Url.Action("Index", "texts")">Тексты</a>
                 </li>
 
-                <!-- Exercises -->
                 <li class="nav-item has-submenu">
                     <span class="nav-link">
                         Упражнения
                     </span>
                     <ul class="submenu">
+                        <li><a href="@Url.Action("Index", "practiceWord")">Тренировать слово</a></li>
                         <li><a href="@Url.Action("Index", "breathing")">Дыхание</a></li>
                         <li><a href="@Url.Action("Index", "exercises")">Дикция и артикуляция</a></li>
-                        <li><a href="@Url.Action("Index", "practiceWord")">Тренировать слово</a></li>
-                        <li><a href="/Home/Exercises/MuscleTension">Мышечные зажимы</a></li>
                     </ul>
                 </li>
 

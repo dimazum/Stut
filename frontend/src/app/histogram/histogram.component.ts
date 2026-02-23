@@ -40,5 +40,15 @@ export class HistogramComponent {
   updateText(){
     this.getHistogram('', '')
   }
+
+  getFirstBar(data: CharItem[], i: number ){
+    let prevAir = data[i - 1]?.air ?? 0;
+    return ((data[i].air - prevAir) * 0.33) + prevAir
+  }
+
+  getSecondBar(data: CharItem[], i: number ){
+    let prevAir = data[i - 1]?.air ?? 0;
+    return ((data[i].air - prevAir) * 0.66) + prevAir
+  }
 }
 

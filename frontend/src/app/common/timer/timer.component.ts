@@ -15,7 +15,6 @@ import { UntilDestroy } from '@ngneat/until-destroy';
 export class TimerComponent implements OnInit, OnDestroy {
   public timer?: Observable<number>;
   @Input() public timeLeft: number = 0;
-  //@Input() public lessonTimeInSec: number = 900;
   @Output() public finishedEvent = new EventEmitter();
 
   private subscription?: Subscription;

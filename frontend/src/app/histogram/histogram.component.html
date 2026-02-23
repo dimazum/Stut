@@ -1,16 +1,12 @@
 <div class="chart-scroll">
   <div class="chart">
-  <div *ngFor="let bar of data; let i = index"
-       class="bar-wrapper">
-    <div class="bar"
-         [style.height.px]="bar.air"
-         [style.border-top-left-radius.px]="bar.air > (data[i - 1]?.air ?? 0)  ? 10 : 0"
-         [style.border-top-right-radius.px]="bar.air > (data[i + 1]?.air ?? 0)  ? 10 : 0"
-         >
-    <span class="label-input">{{bar.char}}</span>
-
+  <div *ngFor="let bar of data; let i = index" class="bar-wrapper">
+    <div class="bar" [style.height.px]="getFirstBar(data, i)"></div>
+    <div class="bar" [style.height.px]="getSecondBar(data, i)">
+      <span class="label-input">{{bar.char}}</span>
     </div>
+    <div class="bar" [style.height.px]="bar.air"></div>
   </div>
 </div>
 </div>
-<button (click)="updateText()" class="stu-button-l">Обновить</button>
+<button (click)="updateText()" class="stu-button-l upd-btn">⟳</button>
