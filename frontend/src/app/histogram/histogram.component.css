@@ -22,7 +22,7 @@
 }
 
 .bar {
-  width: 5px;
+  width: 3px;
   background: linear-gradient(120deg, #0dcaf0 0, #85d3e4 30%, #78cbdb 60%, #0dcaf0 100%);
   position: relative;
   display: flex;
@@ -40,12 +40,6 @@
   font-weight: 600;
 }
 
-.height-input {
-  margin-top: 5px;
-  width: 15px;
-  text-align: center;
-}
-
 .chart-scroll::-webkit-scrollbar {
   height: 8px;
 }
@@ -55,9 +49,6 @@
   border-radius: 4px;
 }
 
-.bar-heght{
-  font-size: 8px;
-}
 
 .upd-btn{
   padding: 0 2px;

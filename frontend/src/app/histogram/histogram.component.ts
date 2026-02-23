@@ -41,14 +41,24 @@ export class HistogramComponent {
     this.getHistogram('', '')
   }
 
-  getFirstBar(data: CharItem[], i: number ){
+  getBar1(data: CharItem[], i: number ){
     let prevAir = data[i - 1]?.air ?? 0;
-    return ((data[i].air - prevAir) * 0.33) + prevAir
+    return ((data[i].air - prevAir) * 0.2) + prevAir
   }
 
-  getSecondBar(data: CharItem[], i: number ){
+  getBar2(data: CharItem[], i: number ){
     let prevAir = data[i - 1]?.air ?? 0;
-    return ((data[i].air - prevAir) * 0.66) + prevAir
+    return ((data[i].air - prevAir) * 0.4) + prevAir
+  }
+
+  getBar3(data: CharItem[], i: number ){
+    let prevAir = data[i - 1]?.air ?? 0;
+    return ((data[i].air - prevAir) * 0.6) + prevAir
+  }
+
+  getBar4(data: CharItem[], i: number ){
+    let prevAir = data[i - 1]?.air ?? 0;
+    return ((data[i].air - prevAir) * 0.8) + prevAir
   }
 }
 

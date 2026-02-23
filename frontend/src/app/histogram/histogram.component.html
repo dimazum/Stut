@@ -1,10 +1,12 @@
 <div class="chart-scroll">
   <div class="chart">
   <div *ngFor="let bar of data; let i = index" class="bar-wrapper">
-    <div class="bar" [style.height.px]="getFirstBar(data, i)"></div>
-    <div class="bar" [style.height.px]="getSecondBar(data, i)">
+    <div class="bar" [style.height.px]="getBar1(data, i)"></div>
+    <div class="bar" [style.height.px]="getBar2(data, i)"></div>
+    <div class="bar" [style.height.px]="getBar3(data, i)">
       <span class="label-input">{{bar.char}}</span>
     </div>
+    <div class="bar" [style.height.px]="getBar4(data, i)"></div>
     <div class="bar" [style.height.px]="bar.air"></div>
   </div>
 </div>
