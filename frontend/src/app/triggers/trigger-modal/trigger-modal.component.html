@@ -18,7 +18,7 @@
             <td (dblclick)="onTriggerDbClicked(trigger.value)" (click)="onTriggerSelect(trigger.value)" [class.selected]="isTriggerSelected(trigger.value)">
               <span class="trigger-item">{{ trigger.value }}</span>
             </td>
-            <td (click)="onChangeDifficulty(trigger)"> {{trigger.difficulty == 0 ? '🟢' : '🔥'}}</td>
+            <td (click)="onChangeDifficulty(trigger)"> {{trigger.difficulty == 0 ? '🟢' : trigger.difficulty == 1 ? '🟠' : '🔥'}}</td>
             <td>
               {{ trigger.createdAt | date:'dd.MM.yyyy' }}
             </td>

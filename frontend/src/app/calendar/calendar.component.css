@@ -36,13 +36,18 @@ table.calendar td {
 table.calendar th{
   border: 2px solid #cccccc;
   height: 40px;
-  background-color: #f5f5dc;
+  background: linear-gradient(
+      0deg,
+      #f5f5dc 0,
+      #e0e0c7 40%,
+      #c6c6ab 60%,
+      #a9a982 100%);
   text-align: center;
 }
 
 
 td.empty {
-  background-color: #e0dfdf;
+  background-color: ;
 }
 
 .cell{
@@ -74,7 +79,7 @@ button {
   width: 40px;
   height: 40px;
   background: transparent;
-  border: none;
+  border: solid 1px black !important;
   cursor: pointer;
 }
 

@@ -41,7 +41,7 @@ namespace stutvds.DAL
 			return _dbContext.Triggers
 				.Where(t => t.Language == language)
 				.Where(t => t.UserId == userId)
-				.OrderBy(t => t.CreatedAt)
+				.OrderByDescending(t => t.CreatedAt)
 				.ToList();
 		}
 		

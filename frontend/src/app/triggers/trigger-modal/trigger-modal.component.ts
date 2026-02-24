@@ -93,7 +93,12 @@ export class TriggerModalComponent implements OnInit, OnDestroy {
   }
 
   public onChangeDifficulty(trigger: TriggerResult){
-    let newDifficulty = trigger.difficulty == 0 ? 1: 0
+    let newDifficulty = 0;
+    if(trigger.difficulty < 2)
+    {
+        newDifficulty = ++trigger.difficulty
+    }
+    
     this.backendService
           .changeTriggerDifficulty(trigger.value, newDifficulty)
           .subscribe(data => (this.triggers = data));

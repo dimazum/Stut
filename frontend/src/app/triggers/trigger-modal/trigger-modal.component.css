@@ -113,7 +113,7 @@
         border-radius: 6px 0 0 6px;
         writing-mode: vertical-rl;
         font-size: 12px;
-        padding: 3px 0;
+        padding: 10px 0;
         font-weight: 600;
     }
 }
@@ -135,6 +135,10 @@
 .trigger-table td:first-child {
   width: 70%;
   cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 0;
     &:hover {
               background: #ddd;
             }
