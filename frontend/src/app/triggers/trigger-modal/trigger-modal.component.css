@@ -36,6 +36,7 @@
 .trigger-form {
   margin: 10px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -75,7 +76,6 @@
 }
 
 .trigger-button-practice{
-  margin: 0 10px 10px 10px;
   background: linear-gradient(
       120deg,
       rgb(50 145 87) 0,
@@ -85,7 +85,7 @@
   );
   color:white;
   height: 33px;
-  width: 100;
+  width: 100%;
 
   &:hover {
             filter: brightness(1.1);
@@ -217,10 +217,18 @@
 
 .trigger-input{
   width: 100%;
-  margin-right: 10px;
 }
 
 .selected{
   background: #ddd;
+}
+
+.trigger-buttons{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  padding-top: 5px;
 }
 

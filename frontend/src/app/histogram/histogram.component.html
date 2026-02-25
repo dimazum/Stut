@@ -1,14 +1,20 @@
-<div class="chart-scroll">
-  <div class="chart">
-  <div *ngFor="let bar of data; let i = index" class="bar-wrapper">
-    <div class="bar" [style.height.px]="getBar1(data, i)"></div>
-    <div class="bar" [style.height.px]="getBar2(data, i)"></div>
-    <div class="bar" [style.height.px]="getBar3(data, i)">
-      <span class="label-input">{{bar.char}}</span>
+<div>
+  <div class="trigger-container">
+    <span *ngFor = "let trigger of triggers"> {{trigger.value}} </span>
+
+  </div>
+  <div class="chart-scroll" >
+    <div class="chart">
+      <div *ngFor="let bar of data; let i = index" class="bar-wrapper">
+        <div class="bar" [style.height.px]="getBar(data, i, .2)"></div>
+        <div class="bar" [style.height.px]="getBar(data, i, .4)"></div>
+        <div class="bar" [style.height.px]="getBar(data, i, .6)">
+          <span class="label-input">{{bar.char}}</span>
+        </div>
+        <div class="bar" [style.height.px]="getBar(data, i, .8)"></div>
+        <div class="bar" [style.height.px]="bar.air"></div>
+      </div>
     </div>
-    <div class="bar" [style.height.px]="getBar4(data, i)"></div>
-    <div class="bar" [style.height.px]="bar.air"></div>
+    <button (click)="updateText()" class="upd-btn">⟳</button>
   </div>
 </div>
-</div>
-<button (click)="updateText()" class="stu-button-l upd-btn">⟳</button>

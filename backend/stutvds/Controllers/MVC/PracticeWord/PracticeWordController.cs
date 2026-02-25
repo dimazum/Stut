@@ -1,18 +1,19 @@
-﻿using System.Linq;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using stutvds.Logic.Services;
+using stutvds.Controllers.Base;
+using stutvds.DAL;
 
 namespace stutvds.Controllers.MVC.PracticeWord
 {
-    public class PracticeWordController : Controller
+    public class PracticeWordController : BaseController
     {
-        private readonly TriggerService _triggerService;
+        private TriggerRepository _triggerRepository;
 
-        public PracticeWordController(TriggerService triggerService)
+        public PracticeWordController(TriggerRepository triggerRepository)
         {
-            _triggerService = triggerService;
+            _triggerRepository = triggerRepository;
         }
-        public IActionResult Index(string trigger = null)
+        public async Task<IActionResult> Index(string trigger = null)
         {
             ViewData["Title"] = "Тренировка слова";
             ViewData["Description"] = "Тренируем слово, которое вызывает запинку/блок";
@@ -20,7 +21,7 @@ namespace stutvds.Controllers.MVC.PracticeWord
         
             if (string.IsNullOrEmpty(trigger))
             {
-                trigger = _triggerService.GetRandomTriggers(1).First();
+                //trigger = (await _triggerRepository.GetFirstTrigger(UserId, CurrentLanguage)).Value;
             }
         
             return View(model: trigger);

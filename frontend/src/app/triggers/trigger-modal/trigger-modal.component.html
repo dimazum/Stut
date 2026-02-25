@@ -35,8 +35,10 @@
     </div>
     <form [formGroup]="triggerForm" (ngSubmit)="onCreate()" class="trigger-form">
         <input name="value" formControlName="value" formControlName="value" class="stu-input trigger-input" type="text" />
-        <button class="form-control trigger-button-add" type="submit">+</button>
+        <div class="trigger-buttons">
+          <button class="form-control trigger-button-add" type="submit">+</button>
+          <button (click)="goToPracticeWord()" [disabled]="!selectedTrigger" class="trigger-button-practice">Тренировать</button>
+        </div>
     </form>
-    <button (click)="goToPracticeWord()" [disabled]="!selectedTrigger" class="trigger-button-practice">Тренировать</button>
   </div>
 </div>

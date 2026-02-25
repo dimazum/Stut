@@ -42,6 +42,13 @@ namespace stutvds.Controllers
         [Route("create")]
         public async Task<JsonResult> Create([FromBody]TriggerClientDto dto)
         {
+            var isExisted = await _triggerRepository.IfExistsAsync(x => x.Value == dto.Value);
+
+            if (isExisted)
+            {
+                throw new InvalidOperationException($"Trigger :'{dto.Value}' already exists.");
+            }
+            
             var entity = new TriggerEntity()
             {
                 Value = dto.Value,

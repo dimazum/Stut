@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, HostListener, Input, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CharItem, Histogram } from '../models/models';
+import { CharItem, Histogram, TriggerResult } from '../models/models';
 import { BackendService } from '../services/backend.service';
 
 @Component({
@@ -18,11 +18,14 @@ export class HistogramComponent {
 
   histogram! : Histogram;
   data: CharItem[] = [];
+  triggers: TriggerResult[] = [];
 
   constructor(private backendService :BackendService) {}
     ngOnInit(): void {
 
       this.getHistogram(this.name, this.initText);
+
+      this.backendService.getTriggers().subscribe(x => this.triggers = x);
   }
 
   getHistogram(name: string, text: string){
@@ -41,24 +44,8 @@ export class HistogramComponent {
     this.getHistogram('', '')
   }
 
-  getBar1(data: CharItem[], i: number ){
+  getBar(data: CharItem[], i: number, ratio: number ){
     let prevAir = data[i - 1]?.air ?? 0;
-    return ((data[i].air - prevAir) * 0.2) + prevAir
-  }
-
-  getBar2(data: CharItem[], i: number ){
-    let prevAir = data[i - 1]?.air ?? 0;
-    return ((data[i].air - prevAir) * 0.4) + prevAir
-  }
-
-  getBar3(data: CharItem[], i: number ){
-    let prevAir = data[i - 1]?.air ?? 0;
-    return ((data[i].air - prevAir) * 0.6) + prevAir
-  }
-
-  getBar4(data: CharItem[], i: number ){
-    let prevAir = data[i - 1]?.air ?? 0;
-    return ((data[i].air - prevAir) * 0.8) + prevAir
+    return ((data[i].air - prevAir) * ratio) + prevAir
   }
 }
-

@@ -62,5 +62,14 @@ namespace stutvds.DAL
 				.OrderBy(t => Guid.NewGuid())
 				.FirstOrDefaultAsync(t => t.Language == language);
 		}
+		
+		public async Task<TriggerEntity> GetFirstTrigger(Guid userId, Language language)
+		{
+			return _dbContext.Triggers
+				.Where(t => t.Language == language)
+				.Where(t => t.UserId == userId)
+				.OrderByDescending(t => t.CreatedAt)
+				.FirstOrDefault();
+		}
 	}
 }
