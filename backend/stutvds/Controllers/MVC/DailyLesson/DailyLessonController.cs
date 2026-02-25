@@ -21,9 +21,10 @@ namespace stutvds.Controllers.MVC.DailyLesson
 		
 		public async Task<IActionResult> Index()
 		{
-			var triggerVal =  _triggerService.GetRandomTriggers(10);
+			var trigger = (await _triggerRepository.GetFirstTrigger(UserId, CurrentLanguage)).Value;
+
 			
-			return View(model: triggerVal);
+			return View(model: trigger);
 		}
 	}
 }

@@ -1,5 +1,7 @@
 ﻿@{
     Layout = "_Layout";
+
+    var t = Model;
 }
 
 <h1>Дневной урок</h1>
@@ -18,10 +20,8 @@
         <p>Голос робота или самый низкий голос чтобы максимально растянуть голосовой аппарат</p>
     </details>
     
-    @foreach (var t in Model)
-    {
+  
         <stu-histogram name="HistBlock" init-text="🔒@t, 🔒@t, 🔒@t, 🔒@t" save-to-db="false"></stu-histogram>
-    }
 </div>
 
 <hr/>

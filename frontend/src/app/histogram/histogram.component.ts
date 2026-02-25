@@ -29,7 +29,7 @@ export class HistogramComponent {
   }
 
   getHistogram(name: string, text: string){
-    this.backendService.getOrCreateHistogram(name, text, false)
+    this.backendService.getHistogram(name, text, false)
     .subscribe({
       next: (histogram) => {
         this.histogram = histogram;

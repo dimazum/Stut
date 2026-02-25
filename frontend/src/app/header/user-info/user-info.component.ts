@@ -15,7 +15,7 @@ export class UserInfoComponent {
   constructor(private authService: AuthService) {}
 
   logout() {
-    this.authService.logout();
+    this.authService.logout().subscribe();
     this.close.emit();
   }
 }

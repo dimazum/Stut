@@ -14,6 +14,7 @@ namespace stutvds.Controllers
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Roles = "Admin, User")]
     public class LessonController: BaseController
     {
         private readonly DayLessonRepository _dayLessonRepository;

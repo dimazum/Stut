@@ -21,7 +21,7 @@ namespace stutvds.Controllers.MVC.PracticeWord
         
             if (string.IsNullOrEmpty(trigger))
             {
-                //trigger = (await _triggerRepository.GetFirstTrigger(UserId, CurrentLanguage)).Value;
+                trigger = (await _triggerRepository.GetFirstTrigger(UserId, CurrentLanguage)).Value;
             }
         
             return View(model: trigger);

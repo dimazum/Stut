@@ -53,8 +53,7 @@ export class VoiceAnalysisService implements OnDestroy {
 
     this.hubConnection = new signalR.HubConnectionBuilder()
       .withUrl(url, {
-        accessTokenFactory: () =>
-          localStorage.getItem('jwt-token') || ''
+        withCredentials: true
       })
       .withAutomaticReconnect()
       .build();

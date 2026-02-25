@@ -1,15 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { jwtDecode } from 'jwt-decode';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
-
-interface JwtPayload {
-  unique_name?: string; // ClaimTypes.Name
-  nameid?: string; // ClaimTypes.NameIdentifier
-  role?: string | string[]; //ClaimTypes.Roles
-  exp?: number;
-}
 
 interface UserInfo {
   user_name?: string;
@@ -18,72 +10,93 @@ interface UserInfo {
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AuthService {
+
   private baseUrl = environment.baseUrl + '/api/auth';
 
-  private usernameSubject = new BehaviorSubject<UserInfo | null>(this.getUserInfoFromToken());
-  public userinfo$ = this.usernameSubject.asObservable();
+  private userSubject = new BehaviorSubject<UserInfo | null>(null);
+  public userinfo$ = this.userSubject.asObservable();
 
-  public constructor( private httpClient: HttpClient) {}
-
-  // регистрация
-  public register(data: any): Observable<any> {
-    return this.httpClient.post(`${this.baseUrl}/register`, data);
+  constructor(private httpClient: HttpClient) {
+    this.initAuthState();
   }
 
-  // логин
-  public login(username: string, password: string): Observable<any> {
-    return this.httpClient.post(`${this.baseUrl}/login`, { username, password }).pipe(
-      tap((res: any) => {
-        localStorage.setItem('jwt-token', res.token);
-        const userInfo = this.parceJwtToken(res.token);
+  // =====================
+  // INIT AUTH ON APP START
+  // =====================
 
-        this.usernameSubject.next(userInfo ?? null);
+  private initAuthState(): void {
+    this.checkAuth().subscribe({
+      next: user => this.userSubject.next(user),
+      error: () => this.userSubject.next(null)
+    });
+  }
+
+  // =====================
+  // REGISTER
+  // =====================
+
+  register(data: any): Observable<any> {
+    return this.httpClient.post(
+      `${this.baseUrl}/register`,
+      data
+    );
+  }
+
+  // =====================
+  // LOGIN
+  // =====================
+
+  login(username: string, password: string): Observable<UserInfo> {
+    return this.httpClient.post<UserInfo>(
+      `${this.baseUrl}/login`,
+      { username, password },
+      { withCredentials: true }
+    ).pipe(
+      tap(user => {
+        this.userSubject.next(user);
       })
     );
   }
 
-  public logout() {
-    localStorage.removeItem('jwt-token');
-    this.usernameSubject.next(null);
+  // =====================
+  // LOGOUT
+  // =====================
+
+  logout(): Observable<any> {
+    return this.httpClient.post(
+      `${this.baseUrl}/logout`,
+      {},
+      { withCredentials: true }
+    ).pipe(
+      tap(() => {
+        this.userSubject.next(null);
+      })
+    );
   }
 
-  public isLoggedIn(): boolean {
-    return !!localStorage.getItem('jwt-token');
+  // =====================
+  // CHECK AUTH (MOST IMPORTANT ⭐)
+  // =====================
+
+  checkAuth(): Observable<UserInfo> {
+    return this.httpClient.get<UserInfo>(
+      `${this.baseUrl}/me`,
+      { withCredentials: true }
+    );
   }
 
-  private getUserInfoFromToken(): UserInfo | null {
-    const token = localStorage.getItem('jwt-token');
-    if (!token) return null;
+  // =====================
+  // HELPERS
+  // =====================
 
-    try {
-       const userInfo = this.parceJwtToken(token);
-      
-      return userInfo ?? null;
-    } catch {
-      return null;
-    }
+  isLoggedIn(): boolean {
+    return this.userSubject.value?.logged_in === true;
   }
 
-  private parceJwtToken(token: string) : UserInfo | null{
-    const decoded = jwtDecode<JwtPayload>(token);
-
-        let roleString: string = '';
-
-        if (typeof decoded.role === "string") {
-          roleString = decoded.role;
-        } else if (Array.isArray(decoded.role)) {
-          roleString = decoded.role.join(", ");
-        }
-
-        const userInfo : UserInfo = {
-          user_name : decoded.unique_name,
-          user_role : roleString,
-          logged_in : roleString.trim() !== ""
-        }
-
-        return userInfo;
+  get currentUser(): UserInfo | null {
+    return this.userSubject.value;
   }
 }

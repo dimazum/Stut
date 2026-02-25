@@ -42,7 +42,7 @@ export class AccountComponent implements OnInit, OnDestroy{
   }
 
   public logout() {
-    this.auth.logout();
+    this.auth.logout().subscribe();
   }
 
   public openUserInfo(){

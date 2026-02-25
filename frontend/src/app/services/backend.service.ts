@@ -27,19 +27,19 @@ export class BackendService {
   }
 
   public createTrigger(trigger: Trigger): Observable<TriggerResult> {
-    return this.httpClient.post<TriggerResult>(`${this.baseUrl}/trigger/create`, trigger);
+    return this.httpClient.post<TriggerResult>(`${this.baseUrl}/trigger/create`, trigger, { withCredentials: true });
   }
 
   public getTriggers(): Observable<Array<TriggerResult>> {
-    return this.httpClient.get<Array<TriggerResult>>(`${this.baseUrl}/trigger`);
+    return this.httpClient.get<Array<TriggerResult>>(`${this.baseUrl}/trigger`, { withCredentials: true });
   }
 
   public changeTriggerDifficulty(triggerValue: string, difficulty: number): Observable<Array<TriggerResult>> {
-    return this.httpClient.put<Array<TriggerResult>>(`${this.baseUrl}/trigger/changedifficulty`, {triggerValue, difficulty});
+    return this.httpClient.put<Array<TriggerResult>>(`${this.baseUrl}/trigger/changedifficulty`, {triggerValue, difficulty}, { withCredentials: true });
   }
 
   public deleteTrigger(triggerValue: string): Observable<any> {
-    return this.httpClient.delete(`${this.baseUrl}/trigger/${triggerValue}`);
+    return this.httpClient.delete(`${this.baseUrl}/trigger/${triggerValue}`, { withCredentials: true });
   }
 
   public getTriggerTasks(triggerValue: string): Observable<Array<TriggerTaskResult>> {
@@ -51,18 +51,18 @@ export class BackendService {
   }
 
   public getCalendar(year: number, month: number): Observable<CalendarData> {
-    return this.httpClient.get<CalendarData>(`${this.baseUrl}/calendar?year=${year}&month=${month}`);
+    return this.httpClient.get<CalendarData>(`${this.baseUrl}/calendar?year=${year}&month=${month}`, { withCredentials: true });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public startLesson(): Observable<DayLessonDto> {
   return this.httpClient
-    .post<DayLessonDto>(`${this.baseUrl}/lesson/start`, null);
+    .post<DayLessonDto>(`${this.baseUrl}/lesson/start`, null, { withCredentials: true });
   }
 
   public getDailyLesson(): Observable<DayLessonDto> {
     return this.httpClient
-      .get<DayLessonDto>(`${this.baseUrl}/lesson/daily`);
+      .get<DayLessonDto>(`${this.baseUrl}/lesson/daily`, { withCredentials: true });
   }
 
 
@@ -126,8 +126,8 @@ export class BackendService {
     return this.httpClient.get<VoiceAnalysisResult[]>(`/api/voiceAnalysis/last`);
   }
 
-  public getOrCreateHistogram(name: string, initText: string, saveToDb: boolean): Observable<Histogram>{
-    return this.httpClient.post<Histogram>(`${this.baseUrl}/histogram/getOrCreateHistogram`, {name, initText, saveToDb});
+  public getHistogram(name: string, initText: string, saveToDb: boolean): Observable<Histogram>{
+    return this.httpClient.post<Histogram>(`${this.baseUrl}/histogram/getHistogram`, {name, initText, saveToDb});
   }
 
   public saveHistogram(histogram: Histogram): Observable<any> {

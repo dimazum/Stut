@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using stutvds.Controllers.Base;
@@ -13,6 +14,7 @@ using stutvds.Models.ClientDto;
 namespace stutvds.Controllers;
 
 [ApiController]
+[Authorize(Roles = "Admin, User")]
 [Route("api/[controller]")]
 public class HistogramController : BaseController
 {
@@ -37,19 +39,18 @@ public class HistogramController : BaseController
         return Ok();
     }
 
-    [HttpPost("getOrCreateHistogram")]
-    public async Task<ActionResult<HistogramDto>> GetOrCreateHistogram([FromBody] GetOrCreateHistogramDto dto)
+    [HttpPost("getHistogram")]
+    public async Task<ActionResult<HistogramDto>> GetHistogram([FromBody] GetHistogramDto dto)
     {
         HistogramDto resultDto = null;
         
         if (!string.IsNullOrEmpty(dto.InitText))
         {
-            resultDto =   await InitHistogram(dto.Name, dto.InitText);
+            resultDto =  await InitHistogram(dto.Name, dto.InitText);
         }
-
         else
         {
-            var trigger = await _triggerService.GetRandomTriggerValue();
+            var trigger = await _triggerService.GetRandomTriggerValue(UserId, CurrentLanguage);
             var text = $"\ud83d\udd12{trigger}, \ud83d\udd12{trigger}, \ud83d\udd12{trigger}, \ud83d\udd12{trigger}";
             
             resultDto =  await InitHistogram(dto.Name, text);

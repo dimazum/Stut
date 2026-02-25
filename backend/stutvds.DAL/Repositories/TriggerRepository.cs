@@ -55,10 +55,11 @@ namespace stutvds.DAL
 				.ToList();
 		}
 
-		public async Task<TriggerEntity> GetRandomTrigger(Language language)
+		public async Task<TriggerEntity> GetRandomTrigger(Guid userId, Language language)
 		{
 			return await _dbContext
 				.Triggers
+				.Where(t => t.UserId == userId)
 				.OrderBy(t => Guid.NewGuid())
 				.FirstOrDefaultAsync(t => t.Language == language);
 		}

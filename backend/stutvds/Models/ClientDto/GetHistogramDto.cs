@@ -1,6 +1,6 @@
 ﻿namespace stutvds.Models.ClientDto;
 
-public class GetOrCreateHistogramDto
+public class GetHistogramDto
 {
     public string Name { get; set; }
     public string InitText { get; set; }

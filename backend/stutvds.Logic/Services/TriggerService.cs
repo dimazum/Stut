@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using StopStatAuth_6_0.Entities.Enums;
@@ -21,11 +22,11 @@ namespace stutvds.Logic.Services
             return Triggers.GetRandomTriggers(count);
         }
 
-        public async Task<string> GetRandomTriggerValue()
+        public async Task<string> GetRandomTriggerValue(Guid userId, Language language)
         {
             string triggerVal;
             
-            var trigger = await _triggerRepository.GetRandomTrigger(Language.Russian);
+            var trigger = await _triggerRepository.GetRandomTrigger(userId, language);
 
             if (trigger != null)
             {

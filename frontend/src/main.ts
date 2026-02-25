@@ -4,11 +4,9 @@ import './stu-utils.js';
  
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { authInterceptor } from './app/auth.interceptor';
 import { AppComponent } from './app/app.component';
 import { createCustomElement } from '@angular/elements';
 import { RandomTextComponent } from './app/random-text/random-text.component';
-import { LanguagePickerComponent } from './app/header/language-picker/language-picker.component';
 import { AccountComponent } from './app/header/account/account.component';
 import { NavItemComponent } from './app/header/nav-item/nav-item.component';
 import { CalendarComponent } from './app/calendar/calendar.component';
@@ -21,7 +19,7 @@ import { HistogramComponent } from './app/histogram/histogram.component';
 
 bootstrapApplication(AppComponent, {
 
-  providers: [provideHttpClient(withInterceptors([authInterceptor]))],
+  providers: [provideHttpClient()],
 }).then(appRef => {
   const injector = appRef.injector;
 
