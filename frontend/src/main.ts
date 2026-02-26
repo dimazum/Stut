@@ -41,9 +41,6 @@ bootstrapApplication(AppComponent, {
   const triggerBlockEl = createCustomElement(TriggerBlockComponent, { injector });
   customElements.define('stu-trigger-block', triggerBlockEl);
 
-  const dailyLessonkEl = createCustomElement(DailyLessonComponent, { injector });
-  customElements.define('stu-daily-lesson', dailyLessonkEl);
-
   const warmUpEl = createCustomElement(WarmUpComponent, { injector });
   customElements.define('stu-warm-up', warmUpEl);
 

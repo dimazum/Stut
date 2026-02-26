@@ -2,7 +2,6 @@
 
 @{
     Layout = "_Layout";
-    var t = Model;
 }
 
 <h1>Тренируем триггер (сложное слово)</h1>
@@ -25,7 +24,7 @@
         <p>Голос робота или самый низкий голос чтобы максимально растянуть голосовой аппарат</p>
         <p>Это самое полезное упражнение. Делайте его всегда когда есть время: когда сидите в телефоне, прогуливаетесь или делаете физическую работу.</p>
     </details>
-    <stu-histogram name="HistBlock" init-text="🔒@t, 🔒@t, 🔒@t, 🔒@t" save-to-db="false"></stu-histogram>
+    <stu-histogram name="HistBlock" init-trigger="@Model"></stu-histogram>
 </div>
 
 <hr>
@@ -37,7 +36,7 @@
         <p>*Вдох-немного выдохнули-<b>слово</b>-немного выдохнули-<b>слово</b>*...И так далее</p>
         <p>Здесь наоборот - без блока, не задерживаем воздух на паузе, постоянный выдох</p>
     </details>
-    <stu-histogram name="HistBP" init-text="@Model, @Model, @Model, @Model" save-to-db="false"></stu-histogram>
+    <stu-histogram name="HistBP" init-trigger="@Model"></stu-histogram>
 </div>
 <hr>
 <div>
@@ -51,5 +50,5 @@
         <p>*Вдох-немного выдохнули-<b>слово</b>-довыдох*...И так далее</p>
         <p>Одно слово на выдох</p>
     </details>
-    <stu-histogram name="HistDia" init-text="@Model" save-to-db="false"></stu-histogram>
+    <stu-histogram name="HistDia" init-trigger="@Model"></stu-histogram>
 </div>

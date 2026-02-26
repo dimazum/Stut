@@ -1,9 +1,22 @@
 <div>
   <div class="trigger-container">
-    <span *ngFor = "let trigger of triggers"> {{trigger.value}} </span>
-
+    <div (click)="onTriggerClick(trigger.value)"
+    class="trigger-item"
+    [style.filter]="isSelected(trigger.value) ? 'brightness(0.9)' : 'brightness(1)' "
+    *ngFor = "let trigger of triggers">
+       {{trigger.value}} {{trigger.difficulty == 0 ? '🟢' : trigger.difficulty == 1 ? '🟠' : '🔥'}}
+    </div>
   </div>
   <div class="chart-scroll" >
+    <div class="scale-container">
+      <div class="scale">
+        <div class="scale-item">0</div>
+        <div class="scale-item">25%</div>
+        <div class="scale-item">50%</div>
+        <div class="scale-item">75%</div>
+        <div class="scale-item">100%</div>
+      </div>
+    </div>
     <div class="chart">
       <div *ngFor="let bar of data; let i = index" class="bar-wrapper">
         <div class="bar" [style.height.px]="getBar(data, i, .2)"></div>
