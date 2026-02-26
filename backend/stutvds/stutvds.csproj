@@ -60,6 +60,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <AdditionalFiles Include="Controllers\MVC\AboutMethodology\Index.cshtml" />
     <AdditionalFiles Include="Controllers\MVC\Admin\Index.cshtml" />
     <AdditionalFiles Include="Controllers\MVC\Breathing\Index.cshtml" />
     <AdditionalFiles Include="Controllers\MVC\PracticeWord\Index.cshtml" />

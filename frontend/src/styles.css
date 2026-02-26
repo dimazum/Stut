@@ -364,36 +364,37 @@ input.stu-input:focus {
 }
 
 /*how to do*/
-.accordion {
+.how-to-do {
   font-size: 14px;
   font-style: italic;
+  padding: 10px;
 }
 
-.accordion summary {
+.how-to-do summary {
     width: 120px;
   list-style: none;
   cursor: pointer;
-  padding: 12px;
+  padding: 0 12px 12px 12px;
   position: relative;
   font-weight: 600;
 }
 
-.accordion summary::-webkit-details-marker {
+.how-to-do summary::-webkit-details-marker {
   display: none;
 }
 
-.accordion summary::after {
+.how-to-do summary::after {
   content: "▲";
   position: absolute;
   right: 12px;
   transition: transform 0.3s ease;
 }
 
-.accordion[open] summary::after {
+.how-to-do[open] summary::after {
   transform: rotate(180deg);
 }
 
-.accordion .content {
+.how-to-do .content {
   padding: 0 12px 12px;
   animation: fadeIn 0.3s ease;
 }

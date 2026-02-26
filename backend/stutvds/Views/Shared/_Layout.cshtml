@@ -66,18 +66,26 @@
                     <a class="nav-link" href="@Url.Action("Index", "calendar")">Календарь</a>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Index", "texts")">Тексты</a>
-                </li>
-
                 <li class="nav-item has-submenu">
                     <span class="nav-link">
                         Упражнения
                     </span>
                     <ul class="submenu">
+                        <li><a href="@Url.Action("Index", "texts")">Тексты</a></li>
                         <li><a href="@Url.Action("Index", "practiceWord")">Тренировать слово</a></li>
-                        <li><a href="@Url.Action("Index", "breathing")">Дыхание</a></li>
-                        <li><a href="@Url.Action("Index", "exercises")">Дикция и артикуляция</a></li>
+                        <li><a href="@Url.Action("Index", "inBackground")">Упражнения в фоне</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item has-submenu">
+                    <span class="nav-link">
+                        Методика
+                    </span>
+                    <ul class="submenu">
+                        <li><a href="@Url.Action("Index", "aboutMethodology")">О методике</a></li>
+                        <li><a href="@Url.Action("Index", "practiceWord")">Голос робота</a></li>
+                        <li><a href="@Url.Action("Index", "practiceWord")">Закрытые связки</a></li>
+                        <li><a href="@Url.Action("Index", "practiceWord")">Как читать текст</a></li>
                     </ul>
                 </li>
 
