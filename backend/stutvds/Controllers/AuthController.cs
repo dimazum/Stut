@@ -20,10 +20,16 @@ public class AuthController : ControllerBase
     private readonly IConfiguration _config;
     private readonly IEmailSender _emailSender;
     private readonly UserManager<IdentityUser> _userManager;
+    private readonly SignInManager<IdentityUser> _signInManager;
 
-    public AuthController(UserManager<IdentityUser> userManager, IConfiguration config, IEmailSender emailSender)
+    public AuthController(
+        UserManager<IdentityUser> userManager,
+        SignInManager<IdentityUser> signInManager,
+        IConfiguration config,
+        IEmailSender emailSender)
     {
         _userManager = userManager;
+        _signInManager = signInManager;
         _config = config;
         _emailSender = emailSender;
     }
@@ -57,10 +63,8 @@ public class AuthController : ControllerBase
         
             return Ok(new { message = "Registration successful. Please confirm your email." });
         }
-        else
-        {
-            return Ok(new { message = "User registered successfully" });
-        }
+        
+        return Ok(new { message = "User registered successfully" });
     }
 
     [HttpPost("confirm-email")]
@@ -103,30 +107,15 @@ public class AuthController : ControllerBase
         }
         
         var roles = await _userManager.GetRolesAsync(user);
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.UTF8.GetBytes(_config.GetSection("Jwt:Key").Get<string>());
         
-        var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.NameIdentifier, user.Id),
-            new Claim(ClaimTypes.Name, user.UserName)
-        };
-        
-        claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
-        
-        var tokenDescriptor = new SecurityTokenDescriptor
-        {
-            Subject = new ClaimsIdentity(claims),
-            // change value from 12 months to 1 hour in release
-            Expires = DateTime.UtcNow.AddMonths(12),
-            Issuer = _config["Jwt:Issuer"],
-            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-        };
+        await _signInManager.SignInAsync(user, true);
 
-        var token = tokenHandler.CreateToken(tokenDescriptor);
-        var jwt = tokenHandler.WriteToken(token);
-
-        return Ok(new { token = jwt });
+        return Ok(new UserInfoDto
+        {
+            user_name = user.UserName,
+            user_role = string.Join(",", roles),
+            logged_in = true
+        });
     }
     
     [HttpPost("send-reset-password")]
@@ -167,6 +156,58 @@ public class AuthController : ControllerBase
         
         return Ok();
     }
+    
+    [HttpPost("logout")]
+    public async Task<IActionResult> Logout()
+    {
+        await _signInManager.SignOutAsync();
+
+        return Ok(new { logged_out = true });
+    }
+    
+    [HttpGet("me")]
+    public async Task<IActionResult> Me()
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (userId == null)
+            return Unauthorized();
+
+        var user = await _userManager.FindByIdAsync(userId);
+
+        if (user == null)
+            return Unauthorized();
+
+        var roles = await _userManager.GetRolesAsync(user);
+
+        return Ok(new UserInfoDto
+        {
+            user_name = user.UserName,
+            user_role = string.Join(",", roles),
+            logged_in = true
+        });
+    }
+    
+    private string GenerateJwtToken(List<Claim> claims)
+    {
+        var key = Encoding.UTF8.GetBytes(
+            _config["Jwt:Key"]);
+
+        var tokenDescriptor = new SecurityTokenDescriptor
+        {
+            Subject = new ClaimsIdentity(claims),
+            Expires = DateTime.UtcNow.AddMonths(1),
+            Issuer = _config["Jwt:Issuer"],
+            SigningCredentials = new SigningCredentials(
+                new SymmetricSecurityKey(key),
+                SecurityAlgorithms.HmacSha256)
+        };
+
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+
+        return tokenHandler.WriteToken(token);
+    }
 
     public class LoginDto
     {
@@ -180,4 +221,11 @@ public class RegisterDto
     public string Username { get; set; }
     public string Email { get; set; }
     public string Password { get; set; }
+}
+
+public class UserInfoDto
+{
+    public string user_name { get; set; }
+    public string user_role { get; set; }
+    public bool logged_in { get; set; }
 }
