@@ -1,0 +1,11 @@
+@model stutvds.Emails.Models.ConfirmationEmailModel
+@{
+    // ReSharper disable once Razor.LayoutNotResolved
+    Layout = "stutvds.Emails.Templates._Layout.cshtml";
+}
+
+<p>Please confirm your email:</p>
+
+<p>
+    <a href="@Model.ConfirmationUrl">Confirm email</a>
+</p>

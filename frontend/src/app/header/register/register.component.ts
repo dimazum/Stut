@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { NgIf } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'stu-register',
@@ -19,7 +20,8 @@ export class RegisterComponent {
   public constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private readonly toasterService: ToastrService
   ) {
     this.registerForm = this.fb.group({
       username: ['', Validators.required],
@@ -32,6 +34,7 @@ export class RegisterComponent {
     if (this.registerForm.valid) {
       this.authService.register(this.registerForm.value).subscribe({
         next: res => {
+          this.toasterService.info('Successfully registered. Verification email was sent');
           this.close.emit();
           window.location.href = '/';
         },

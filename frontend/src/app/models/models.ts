@@ -103,8 +103,23 @@ export interface Histogram {
 }
 
 export interface CharItem {
-  id: number
+  id: number;
   char: string;
   order: number;
   air: number;
+}
+
+export interface ConfirmEmailDto {
+  userId: string | null;
+  token: string | null;
+}
+
+export interface SendResetPasswordDto {
+  email: string | null;
+}
+
+export interface ResetPasswordDto {
+  userId: string | null;
+  token: string | null;
+  password: string | null;
 }
