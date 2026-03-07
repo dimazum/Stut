@@ -1,11 +1,4 @@
-using System;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
 using MassTransit;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -14,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
 using RabbitMQ.Client;
 using stutvds;
 using stutvds.Consumers;
@@ -24,6 +16,8 @@ using stutvds.Integrations;
 using stutvds.Logic;
 using stutvds.Messages;
 using stutvds.WebSocketHubs;
+using stutvds.Emails;
+using stutvds.Emails.Senders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -65,6 +59,11 @@ builder.Services.AddCors(options =>
 builder.Services
     .AddIdentity<IdentityUser, IdentityRole>(options =>
     {
+        if (builder.Configuration.GetValue<bool>("Email:EnableEmailAuthentication"))
+        {
+            options.SignIn.RequireConfirmedAccount = true;
+        }
+        
         options.SignIn.RequireConfirmedAccount = false;
     })
     .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -134,6 +133,18 @@ builder.Services.AddAutoMapper(
     typeof(AutoMapperProfile).Assembly,
     typeof(LogicMappingProfile).Assembly
 );
+
+builder.Services.AddSingleton<IRazorEmailRenderer, RazorEmailRenderer>();
+builder.Services.AddScoped<IEmailSender, SmtpEmailSender>();
+
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddScoped<IEmailSender, SmtpEmailSender>();
+}
+else
+{
+    builder.Services.AddScoped<IEmailSender, MailgunEmailSender>();
+}
 
 var app = builder.Build();
 

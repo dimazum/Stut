@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { ConfirmEmailDto, ResetPasswordDto, SendResetPasswordDto } from '../models/models';
 
 interface UserInfo {
   user_name?: string;
@@ -10,10 +11,9 @@ interface UserInfo {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-
   private baseUrl = environment.baseUrl + '/api/auth';
 
   private userSubject = new BehaviorSubject<UserInfo | null>(null);
@@ -30,7 +30,7 @@ export class AuthService {
   private initAuthState(): void {
     this.checkAuth().subscribe({
       next: user => this.userSubject.next(user),
-      error: () => this.userSubject.next(null)
+      error: () => this.userSubject.next(null),
     });
   }
 
@@ -39,10 +39,7 @@ export class AuthService {
   // =====================
 
   register(data: any): Observable<any> {
-    return this.httpClient.post(
-      `${this.baseUrl}/register`,
-      data
-    );
+    return this.httpClient.post(`${this.baseUrl}/register`, data);
   }
 
   // =====================
@@ -50,15 +47,13 @@ export class AuthService {
   // =====================
 
   login(username: string, password: string): Observable<UserInfo> {
-    return this.httpClient.post<UserInfo>(
-      `${this.baseUrl}/login`,
-      { username, password },
-      { withCredentials: true }
-    ).pipe(
-      tap(user => {
-        this.userSubject.next(user);
-      })
-    );
+    return this.httpClient
+      .post<UserInfo>(`${this.baseUrl}/login`, { username, password }, { withCredentials: true })
+      .pipe(
+        tap(user => {
+          this.userSubject.next(user);
+        })
+      );
   }
 
   // =====================
@@ -66,11 +61,7 @@ export class AuthService {
   // =====================
 
   logout(): Observable<any> {
-    return this.httpClient.post(
-      `${this.baseUrl}/logout`,
-      {},
-      { withCredentials: true }
-    ).pipe(
+    return this.httpClient.post(`${this.baseUrl}/logout`, {}, { withCredentials: true }).pipe(
       tap(() => {
         this.userSubject.next(null);
       })
@@ -82,10 +73,22 @@ export class AuthService {
   // =====================
 
   checkAuth(): Observable<UserInfo> {
-    return this.httpClient.get<UserInfo>(
-      `${this.baseUrl}/me`,
-      { withCredentials: true }
-    );
+    return this.httpClient.get<UserInfo>(`${this.baseUrl}/me`, { withCredentials: true });
+  }
+
+  // =====================
+  // EMAIL
+  // =====================
+  public confirmEmail(confirmEmailDto: ConfirmEmailDto): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/confirm-email`, confirmEmailDto);
+  }
+
+  public sendResetPassword(data: SendResetPasswordDto): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/send-reset-password`, data);
+  }
+
+  public resetPassword(data: ResetPasswordDto): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/reset-password`, data);
   }
 
   // =====================

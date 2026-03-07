@@ -8,12 +8,14 @@
     <ng-template #guest>
       <div class="nav-item" (click)="showRegisterPopup()">Регистрация</div>
       <div class="nav-item" (click)="showLoginPopup()">Логин</div>
+      <div class="nav-item" (click)="showResetPasswordPopup()">Забыли пароль?</div>
     </ng-template>
   </div>
 
   <stu-login *ngIf="showLogin" (close)="showLogin = false"></stu-login>
   <stu-register *ngIf="showRegister" (close)="showRegister = false"></stu-register>
+  <stu-send-reset-password *ngIf="showResetPassword" (close)="showResetPassword = false"></stu-send-reset-password>
   <stu-user-info *ngIf="showUserInfo" (close)="showUserInfo = false"></stu-user-info>
 
-  
+
 

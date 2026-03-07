@@ -1,7 +1,7 @@
 import 'zone.js';// for debug in razor
 import './styles.css'; //for debug in razor
 import './stu-utils.js';
- 
+
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { AppComponent } from './app/app.component';
@@ -15,12 +15,11 @@ import { TriggerBlockComponent } from './app/trigger-block/trigger-block.compone
 import { DailyLessonComponent } from './app/daily-lesson/daily-lesson.component';
 import { WarmUpComponent } from './app/warm-up/warm-up.component';
 import { HistogramComponent } from './app/histogram/histogram.component';
+import { ConfirmEmailComponent } from './app/email/confirm-email/confirm-email.component';
+import { ResetPasswordComponent } from './app/email/reset-password/reset-password.component';
+import { appConfig } from './app/app.config';
 
-
-bootstrapApplication(AppComponent, {
-
-  providers: [provideHttpClient()],
-}).then(appRef => {
+bootstrapApplication(AppComponent, appConfig).then(appRef => {
   const injector = appRef.injector;
 
   const textEl = createCustomElement(RandomTextComponent, { injector });
@@ -47,4 +46,9 @@ bootstrapApplication(AppComponent, {
   const histogramEl = createCustomElement(HistogramComponent, { injector });
   customElements.define('stu-histogram', histogramEl);
 
+  const confirmEmailEl = createCustomElement(ConfirmEmailComponent, { injector });
+  customElements.define('stu-confirm-email', confirmEmailEl);
+
+  const resetPasswordEl = createCustomElement(ResetPasswordComponent, { injector });
+  customElements.define('stu-reset-password', resetPasswordEl);
 });

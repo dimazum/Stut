@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <UserSecretsId>aspnet-stutvds-afb0092c-1c19-4185-bd39-5ebd7212e83c</UserSecretsId>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+    <PreserveCompilationReferences>true</PreserveCompilationReferences>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,11 +23,14 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="MinVer" Version="6.0.0" PrivateAssets="all" />
+    <PackageReference Include="MailKit" Version="4.14.1" />
+    <PackageReference Include="RazorLight" Version="2.3.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\stutvds.DAL\stutvds.DAL.csproj" />
     <ProjectReference Include="..\stutvds.Logic\stutvds.Logic.csproj" />
+    <EmbeddedResource Include="Emails\Templates\**\*.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -64,6 +69,8 @@
     <AdditionalFiles Include="Controllers\MVC\Admin\Index.cshtml" />
     <AdditionalFiles Include="Controllers\MVC\Breathing\Index.cshtml" />
     <AdditionalFiles Include="Controllers\MVC\PracticeWord\Index.cshtml" />
+    <AdditionalFiles Include="Controllers\MVC\ConfirmEmail\Index.cshtml" />
+    <AdditionalFiles Include="Controllers\MVC\ResetPassword\Index.cshtml" />
   </ItemGroup>
 
 </Project>
