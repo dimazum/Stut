@@ -1,0 +1,47 @@
+.account {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.nav-item{
+    padding-right: 10px;
+    cursor: pointer;
+}
+
+.nav-item:hover{
+    color: rgb(228, 230, 230);
+}
+
+.points-container{
+    background-color: #198754;
+    padding: 2px 3px;
+    border-radius: 3px;
+    font-size: 14px;
+    font-family: monospace;
+    width: 40px;
+    height: 25px;
+    text-align: center;
+}
+
+/* Desktop */
+@media (min-width: 769px) {
+    .nav-item{
+      padding-right: 10px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .nav-item{
+      padding-right: 8px;
+    }
+
+    .truncate-user{
+      width: 70px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 14px;
+    }
+}

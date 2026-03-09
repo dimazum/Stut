@@ -1,0 +1,33 @@
+<div class="calendar-container" *ngIf="(userinfo$ | async)?.logged_in; else notLoggedIn">
+  <div class="calendar-header">
+    <button class="arrow-btn left" (click)="prevMonth()"></button>
+    <div class="current-date">{{ currentMonthName }} {{ currentYear }}</div>
+    <button class="arrow-btn" (click)="nextMonth()"></button>
+  </div>
+
+  <table class="calendar">
+    <thead>
+      <tr>
+        <th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let week of calendarGrid">
+        <td *ngFor="let day of week" [class.empty]="!day.date">
+          <div class="cell" *ngIf="day.date" [class.today]="day.isToday" [class.done]="day.done">
+            <div class="day-number">{{ day.date.getDate() }}</div>
+            <div> Слов: {{ day.wordsRead }}</div>
+
+            <!-- <input type="checkbox" [checked]="day.rewarded" (change)="onRewardChange(day, $event)" /> -->
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #notLoggedIn>
+  <div class="not-logged-in-error">
+    Пожалуйста, зарегистрируйтесь или войдите в систему, чтобы увидеть календарь.
+  </div>
+</ng-template>

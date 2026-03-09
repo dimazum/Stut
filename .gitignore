@@ -393,3 +393,8 @@ testem.log
 .DS_Store
 Thumbs.db
 
+# Python virtual environment
+.venv/
+
+/backend/stutvds/wwwroot/angular/
+/letsencrypt/

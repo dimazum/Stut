@@ -1,6 +1,12 @@
-FROM node:18-alpine as build
+# frontend/Dockerfile
+FROM node:18-bullseye
+
 WORKDIR /app
+
+# Только зависимости (кэшируются)
+COPY package*.json ./
+RUN npm ci
+
+# Исходники
 COPY . .
-RUN npm install -g @angular/cli
-RUN npm install
-CMD ["ng", "serve", "--host", "0.0.0.0"]
+

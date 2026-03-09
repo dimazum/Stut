@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using System.Linq;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 using StopStatAuth_6_0.Entities;
 using stutvds.DAL.Entities;
 
@@ -11,9 +11,9 @@ namespace stutvds.Data
         public DbSet<TriggerEntity> Triggers { get; set; }
         public DbSet<ArticleEntity> Articles { get; set; }
         public DbSet<DayLesson> DayLessons { get; set; }
-        // public DbSet<QuestionEntity> Questions { get; set; }
-        // public DbSet<TwisterTemplateEntity> TwisterTemplates { get; set; }
-        // public DbSet<TriggerTemplateEntity> TriggerTemplates { get; set; }
+        public DbSet<VoiceAnalysisEntity> VoiceAnalyses { get; set; }
+        public DbSet<Histogram> Histograms { get; set; }
+        public DbSet<CharItem> CharItems { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -31,17 +31,16 @@ namespace stutvds.Data
             modelBuilder.Entity<ArticleEntity>()
                 .Property(e => e.Content)
                 .HasMaxLength(200000);
-
-            // modelBuilder.Entity<ApplicationUser>()
-            //.HasMany( x => x.Triggers)
-            //.WithOne(f => f.ApplicationUser)
-            //.HasForeignKey(p => p.ApplicationUserId);
-
-            // modelBuilder.Entity<TriggerEntity>()
-            //     .HasOne(p => p.ApplicationUser)
-            //     .WithMany(b => b.Triggers);
-
-            //modelBuilder.Entity<TriggerEntity>().Property(u => u.ApplicationUserId).HasColumnName("ApplicationUserId1");
+            
+            modelBuilder.Entity<VoiceAnalysisEntity>()
+                .Property(v => v.MfccJson)
+                .HasColumnType("nvarchar(max)");
+            
+            modelBuilder.Entity<Histogram>()
+                .HasMany(h => h.Chars)
+                .WithOne(c => c.Histogram)
+                .HasForeignKey(c => c.HistogramId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

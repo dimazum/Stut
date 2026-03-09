@@ -1,37 +1,41 @@
 <header>
   <div class="left-group">
     <div class="nav-item" routerLink="/">Тренажер для речи</div>
-    <div class="nav-item" routerLink="/calendar-page">Календарь</div>
-<!-- Уроки с выпадающим меню -->
-    <div class="nav-item dropdown"
-      (click)="toggleLessonsMenu($event)"
-      (clickOutside)="lessonsMenuOpen=false"
-      *ngIf="true">
-        Уроки
-        <div class="dropdown-menu" *ngIf="lessonsMenuOpen">
-          <a routerLink="/lessons/larynx">Гортань</a>
-          <a routerLink="/lessons/lesson1">Урок1</a>
-          <a routerLink="/lessons/lesson2">Урок2</a>
-          <a routerLink="/lessons/lesson3">Урок3</a>
-          <a routerLink="/lessons/lesson4">Урок4</a>
-          <a routerLink="/lessons/lesson5">Урок5</a>
-          <a routerLink="/lessons/lesson6">Урок6</a>
-          <a routerLink="/lessons/lesson7">Урок7</a>
-        </div>
-     </div>
+    <div class="nav-item" *ngIf="(userinfo$ | async)?.logged_in" routerLink="/calendar-page">Календарь</div>
+    <!-- Уроки с выпадающим меню -->
+    <div class="nav-item dropdown" (click)="toggleLessonsMenu()" (clickOutside)="lessonsMenuOpen = false" *ngIf="true">
+      Уроки
+      <div class="dropdown-menu" *ngIf="lessonsMenuOpen">
+        <a routerLink="/lessons/larynx">Гортань</a>
+        <a routerLink="/lessons/lesson1">Урок1</a>
+        <a routerLink="/lessons/lesson2">Урок2</a>
+        <a routerLink="/lessons/lesson3">Урок3</a>
+        <a routerLink="/lessons/lesson4">Урок4</a>
+        <a routerLink="/lessons/lesson5">Урок5</a>
+        <a routerLink="/lessons/lesson6">Урок6</a>
+        <a routerLink="/lessons/lesson7">Урок7</a>
+      </div>
+    </div>
+
+    <div class="nav-item dropdown" (click)="toggleVoiceAnalysisMenu()" (clickOutside)="voiceAnalysisMenuOpen = false" *ngIf="true">
+      Анализ голоса
+      <div class="dropdown-menu" *ngIf="voiceAnalysisMenuOpen">
+        <a routerLink="/audio-files">Записи</a>
+        <a routerLink="/voice-analysis">Диаграммы</a>
+      </div>
+    </div>
 
     <div class="nav-item" routerLink="/exercises">Exercises</div>
     <div class="nav-item" routerLink="/twisters">Twisters</div>
     <div class="nav-item" routerLink="/triggers">Triggers</div>
- 
-    <div class="nav-item">Admin</div>
+    <div class="nav-item" routerLink="/admin-page">Admin</div>
   </div>
 
   <div class="account">
-    <app-language-picker></app-language-picker>
+    <stu-language-picker></stu-language-picker>
 
-    <ng-container *ngIf="username$ | async as username; else guest">
-      <span class="nav-item">👋, {{ username }}!</span>
+    <ng-container *ngIf="userinfo$ | async as userinfo; else guest">
+      <span class="nav-item">👋, {{ userinfo.user_name }}!</span>
       <button class="nav-item logout-btn" (click)="logout()">Выйти</button>
     </ng-container>
 

@@ -36,7 +36,6 @@ namespace stutvds.Controllers.Base
         {
             get
             {
-                var t = CultureInfo.CurrentCulture.Name;
                 var requestCultureFeature = HttpContext?.Features.Get<IRequestCultureFeature>();
 
                 if (requestCultureFeature != null)

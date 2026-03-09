@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StopStatAuth_6_0.Entities.Enums;
 using stutvds.Controllers.Base;
@@ -9,24 +10,21 @@ using stutvds.DAL.Repositories;
 namespace stutvds.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
-    public class CalendarController : BaseController
+    [Route("api/calendar")]
+    public class CalendarApiController : BaseController
     {
         private readonly DayLessonRepository _dayLessonRepository;
 
-        public CalendarController(DayLessonRepository dayLessonRepository)
+        public CalendarApiController(DayLessonRepository dayLessonRepository)
         {
             _dayLessonRepository = dayLessonRepository;
         }
         
-        [HttpGet("get")]
-        public async Task<ActionResult<CalendarData>> GetCalendar()
+        [HttpGet]
+        [Authorize(Roles = "Admin, User")]
+        public async Task<ActionResult<CalendarData>> GetCalendar(int year, int month)
         {
-            var today = DateTime.Today;
-            int year = today.Year;
-            int month = today.Month - 1; // JS/Angular ожидает 0-based месяц
-            
-            var lessons = await _dayLessonRepository.GetAllByUserIdAndMonth(UserId, today);
+            var lessons = await _dayLessonRepository.GetAllByUserIdAndMonth(UserId, year, month + 1);
 
             var days = new List<DayData>();
 
@@ -35,21 +33,21 @@ namespace stutvds.Controllers
                 days.Add(new DayData
                 {
                     LessonId = lesson.Id,
-                    Date = lesson.Date.ToString("yyyy-MM-dd"),
-                    Done = lesson.Status == LessonStatus.Finished || lesson.Status == LessonStatus.Rewarded,
-                    Rewarded = lesson.Status == LessonStatus.Rewarded,
+                    Date = lesson.StartTime.ToString("yyyy-MM-dd"),
+                    Done = lesson.Status == LessonStatus.Finished,
+                    Rewarded = lesson.Rewarded,
                     WordsRead = lesson.WordsSpoken
                 });
             }
 
-            var calendar = new CalendarData
+            var calendarDate = new CalendarData
             {
                 Year = year,
                 Month = month,
                 Days = days
             };
 
-            return Ok(calendar);
+            return Ok(calendarDate);
         }
     }
 }

@@ -1,52 +1,181 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.Extensions.Hosting
+@using System.Text.Json
+
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment Env
+
+@{
+    var offStuContainer = ViewData["offStuContainer"] as bool? == true;
+    var manifest = new Dictionary<string, string>();
+    if (!Env.IsDevelopment())
+    {
+        manifest = JsonSerializer.Deserialize<Dictionary<string,string>>(
+            System.IO.File.ReadAllText(
+                System.IO.Path.Combine(Env.WebRootPath, "angular/manifest.json")
+            )
+        );
+    }
+    
+    var userAgent = Context.Request.Headers["User-Agent"].ToString();
+    var isBot = userAgent.Contains("Googlebot") || userAgent.Contains("Bingbot") || userAgent.Contains("Yandex");
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Stuttering</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <title>@ViewData["Title"] | SpeechFlow</title>
+    <meta name="description" content="@ViewData["Description"]" />
+    <meta name="keywords" content="@ViewData["Keywords"]" />
+
+    <meta name="description" content="Онлайн-тренажер для лечения заикания." />
+    
+    @if (!Env.IsDevelopment())
+    {
+        <link rel="stylesheet" href="/angular/@manifest["styles"]" />
+    }
+    else
+    {
+        <link rel="stylesheet" href="http://localhost:4200/styles.css" />
+    }
+
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Stuttering</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <partial name="_LoginPartial" />
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                         @* <li class="nav-item"> *@
-                         @*    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Triggers">Triggers</a> *@
-                         @* </li> *@
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - stutvds - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+<header class="desktop-header">
+    <div class="header-container">
+        <div class="logo">
+            <a href="@Url.Action("Index", "Home")">
+                <img src="~/images/logo.png" alt="SpeechFlow" />
+                <span>SpeechFlow</span>
+            </a>
         </div>
+
+        <nav class="desktop-nav">
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Index", "home")">Главная</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Index", "dailyLesson")">Дневной урок</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Index", "calendar")">Календарь</a>
+                </li>
+
+                <li class="nav-item has-submenu">
+                    <span class="nav-link">
+                        Упражнения
+                    </span>
+                    <ul class="submenu">
+                        <li><a href="@Url.Action("Index", "texts")">Тексты</a></li>
+                        <li><a href="@Url.Action("Index", "practiceWord")">Тренировать слово</a></li>
+                        <li><a href="@Url.Action("Index", "inBackground")">Упражнения в фоне</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item has-submenu">
+                    <span class="nav-link">
+                        Методика
+                    </span>
+                    <ul class="submenu">
+                        <li><a href="@Url.Action("Index", "aboutMethodology")">О методике</a></li>
+                        <li><a href="@Url.Action("Index", "practiceWord")">Голос робота</a></li>
+                        <li><a href="@Url.Action("Index", "practiceWord")">Закрытые связки</a></li>
+                        <li><a href="@Url.Action("Index", "practiceWord")">Как читать текст</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/Home/VoiceAnalisys">Анализ голоса</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/Home/AboutProject">О проекте</a>
+                </li>
+            @if (User.IsInRole("Admin"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Index", "admin")">Admin</a>
+                </li>
+            }
+            </ul>
+        </nav>
+        <app-account></app-account>
+    </div>
+</header>
+
+<!-- Mobile header -->
+<header class="mobile-header">
+    <div class="mobile-header-container">
+        <div class="mobile-logo">
+            <a href="@Url.Action("Index", "home")">
+                <img src="~/images/logo.png" alt="SpeechFlow" />
+                <span>SpeechFlow</span>
+            </a>
+        </div>
+        <div class="mobile-account">
+            <app-account></app-account>
+        </div>
+        <button class="burger" id="burgerBtn" aria-label="Меню">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+    <nav class="mobile-nav" id="mobileNav">
+        <ul>
+            <li><a href="@Url.Action("Index", "home")">Главная</a></li>
+            <li><a href="@Url.Action("Index", "dailyLesson")">Дневной урок</a></li>
+            <li><a href="@Url.Action("Index", "calendar")">Календарь</a></li>
+            <li><a href="@Url.Action("Index", "texts")">Тексты</a></li>
+            <li class="has-submenu">
+                <button class="submenu-toggle">
+                    Упражнения
+                    <span class="arrow"></span>
+                </button>
+
+                <ul class="submenu">
+                    <li><a href="@Url.Action("Index", "breathing")">Дыхание</a></li>
+                    <li><a href="/Home/Exercises/Diction">Дикция</a></li>
+                    <li><a href="/Home/Exercises/Intonation">Интонация</a></li>
+                    <li><a href="/Home/Exercises/Voice">Голос</a></li>
+                </ul>
+            </li>
+            <li><a href="/Home/VoiceAnalisys">Анализ голоса</a></li>
+            <li><a href="/Home/AboutProject">О проекте</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main class="@(offStuContainer ?  null : "stu-container")">
+    @RenderBody()
+</main>
+
+<app-root></app-root>
+
+@if (!Env.IsDevelopment())
+{
+    <script src="/angular/@manifest["polyfills"]" type="module"></script>
+    <script src="/angular/@manifest["main"]" type="module"></script>
+}
+else
+{
+    <script type="module" src="http://localhost:4200/main.js"></script>
+}
+
+@if (isBot)
+{
+    <footer>
+        <p>© @DateTime.Now.Year — SpeechFlow</p>
+        <nav>
+            <a href="/home">Главная</a>
+            <a href="/about">О проекте</a>
+        </nav>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @RenderSection("Scripts", required: false)
+}
 </body>
 </html>

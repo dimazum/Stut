@@ -1,42 +1,54 @@
-import { Component, ElementRef, HostListener } from "@angular/core";
-import { LanguagePickerComponent } from "./language-picker/language-picker.component";
-import { NavigationEnd, RouterLink } from "@angular/router";
-import { AuthService } from "../services/AuthService";
-import { AsyncPipe, NgIf } from "@angular/common";
-import { ClickOutsideDirective } from "../directives/click-outside.directive.";
+import { Component, ElementRef, OnInit } from '@angular/core';
+import { LanguagePickerComponent } from './language-picker/language-picker.component';
+import { NavigationEnd, RouterLink, RouterOutlet } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Router } from '@angular/router';
-import { filter } from "rxjs";
+import { filter } from 'rxjs';
+import { ClickOutsideDirective } from '../directives/click-outside.directive';
+import { BackendService } from '../services/backend.service';
 
 @Component({
-    selector: 'app-header',
-    standalone: true,
-    imports:[LanguagePickerComponent, RouterLink, NgIf,AsyncPipe, ClickOutsideDirective],
-    templateUrl: './header.component.html',
-    styleUrl: './header.component.css'
-  })
-export class HeaderComponent{
+  selector: 'stu-header',
+  standalone: true,
+  imports: [LanguagePickerComponent, RouterLink, NgIf, AsyncPipe, ClickOutsideDirective, ClickOutsideDirective, RouterOutlet],
+  templateUrl: './header.component.html',
+  styleUrl: './header.component.css',
+})
+export class HeaderComponent implements OnInit {
+  
+  public userinfo$ = this.auth.userinfo$;
+  public lessonsMenuOpen = false;
+  public voiceAnalysisMenuOpen = false;
 
-  username$ = this.auth.username$;
-  lessonsMenuOpen = false;
-
-constructor(private auth: AuthService,  private eRef: ElementRef, private router: Router) {
-
-this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe(() => {        
-        this.lessonsMenuOpen = false; // закрыть меню при переходе
-      });
+  public constructor(
+    private auth: AuthService,
+    private eRef: ElementRef,
+    private router: Router,
+    private backendService: BackendService
+  ) {
+    this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => {
+      this.lessonsMenuOpen = false; // закрыть меню при переходе
+      this.voiceAnalysisMenuOpen = false;
+    });
   }
 
-  logout() {
-    this.auth.logout();
+  public ngOnInit(): void {
   }
 
-  toggleLessonsMenu(event: Event) {
+  public logout() {
+    this.auth.logout().subscribe();
+  }
+
+  public toggleLessonsMenu() {
     this.lessonsMenuOpen = !this.lessonsMenuOpen;
   }
 
-  closeMenu(){
+   public toggleVoiceAnalysisMenu() {
+    this.voiceAnalysisMenuOpen = !this.voiceAnalysisMenuOpen;
+  }
+
+  public closeMenu() {
     this.lessonsMenuOpen = false;
   }
 }

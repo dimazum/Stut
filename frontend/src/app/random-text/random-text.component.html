@@ -1,2 +1,35 @@
-<div>{{title}}</div>
-<div>{{article}}</div>
+<div class="control-container">
+    <div>
+        <button class="stu-button-l" (click)="getRandomText()">Новый текст</button>
+    </div>
+    <div>
+        <select [(ngModel)]="selectedCategory" (change)="onSelectionChange($event.target)">
+        <option value="">-- Выберите категорию --</option>
+        <option *ngFor="let c of categories" [value]="c">
+            {{ c }}
+        </option>
+</select> 
+    </div>
+    <div><a [href]="source">Источник: {{source}}</a></div>
+
+</div>  
+
+<div class="text-container">
+  <h2>{{ title }}</h2>
+
+  <div (click)="onTextClick($event)" class="text-content">
+
+      {{ article }}
+</div>
+
+<div class="overlay" [style.display]="contextMenuOpened ? 'block' : 'none'" (click)="closeContextMenu()"></div>
+
+<div
+  class="context-menu"
+  *ngIf="selectedWord"
+  [style.top.px]="menuPosition.y"
+  [style.left.px]="menuPosition.x"
+>
+    <div class="selected-word">{{selectedWord}}</div>
+    <button class="stu-button-l" (click)="addTrigger()">В сложные слова</button>
+</div>

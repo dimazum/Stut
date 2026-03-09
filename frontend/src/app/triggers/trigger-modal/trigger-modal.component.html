@@ -1,29 +1,44 @@
-<div class="trigger-modal" [ngClass]="{'trigger-modal-open': isOpen}">
-    <div class="trigger-modal-toggle-button"><div (click)="onToggle()"></div></div>
-    <div class="triger-container">
-        <div class="triger-content">
-            <span class="trigger-item" *ngFor="let trigger of triggers" (click)="onClickTrigger(trigger)">{{trigger.value}},
-                <div (click)="onDelete(trigger)" class="trigger-item-delete">
-                </div>
-            </span>
-        </div>
-
-        <form [formGroup]="triggerForm" (ngSubmit)="onCreate()" class="trigger-form">
-            <div class="trigger-top-form">
-                <div>
-                    <select formControlName="difficulty" class="form-select dm-select">
-                        <option ngValue="1" [selected]="true">1</option>
-                        <option ngValue="2">2</option>
-                        <option ngValue="3">3</option>
-                    </select>
-                </div>
-                <div>
-                    <input formControlName="value" class="form-control dm-input ms-1" type="text">
-                </div>
-            </div>
-            <div class="trigger-botton-form">
-                <button class="form-control dm-input" type="submit">Создать</button>
-            </div>
-        </form>
+<div class="overlay" [style.display]="isOpen ? 'block' : 'none'" (click)="onToggle()"></div>
+<div class="trigger-modal" [ngClass]="{ 'trigger-modal-open': isOpen }">
+  <div class="trigger-modal-toggle-button"  *ngIf="(userinfo$ | async)?.logged_in"><div (click)="onToggle()">Триггеры</div></div>
+  <div class="trigger-container">
+    <h3 class="trigger-title">Сложные слова (триггеры)</h3>
+    <div class="trigger-content">
+        <table class="trigger-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let trigger of triggers">
+            <td (dblclick)="onTriggerDbClicked(trigger.value)" (click)="onTriggerSelect(trigger.value)" [class.selected]="isTriggerSelected(trigger.value)">
+              <span class="trigger-item">{{ trigger.value }}</span>
+            </td>
+            <td (click)="onChangeDifficulty(trigger)"> {{trigger.difficulty == 0 ? '🟢' : trigger.difficulty == 1 ? '🟠' : '🔥'}}</td>
+            <td>
+              {{ trigger.createdAt | date:'dd.MM.yyyy' }}
+            </td>
+            <td>
+                <button
+                  type="button"
+                  class="trigger-item-delete"
+                  (click)="onDelete(trigger); $event.stopPropagation()">
+                </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+    <form [formGroup]="triggerForm" (ngSubmit)="onCreate()" class="trigger-form">
+        <input name="value" formControlName="value" formControlName="value" class="stu-input trigger-input" type="text" />
+        <div class="trigger-buttons">
+          <button class="form-control trigger-button-add" type="submit">+</button>
+          <button (click)="goToPracticeWord()" [disabled]="!selectedTrigger" class="trigger-button-practice">Тренировать</button>
+        </div>
+    </form>
+  </div>
 </div>

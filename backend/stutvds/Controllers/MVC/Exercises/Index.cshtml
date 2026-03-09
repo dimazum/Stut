@@ -1,0 +1,64 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+@model IEnumerable<SpeechApp.Models.ArticulationCategory>
+
+@{
+    ViewData["Title"] = "Артикуляция";
+}
+
+<h1>Артикуляционная гимнастика</h1>
+
+<!-- КНОПКИ -->
+<div class="btn-group mb-4" role="group">
+    <button class="btn btn-outline-primary"
+            onclick="showBlock('губная артикуляция')">
+        Губы
+    </button>
+    <button class="btn btn-outline-primary"
+            onclick="showBlock('переднеязычная артикуляция')">
+        Передний язык
+    </button>
+    <button class="btn btn-outline-primary"
+            onclick="showBlock('заднеязычная артикуляция')">
+        Корень языка
+    </button>
+</div>
+
+<!-- ВСЕ БЛОКИ СРАЗУ -->
+@foreach (var category in Model)
+{
+    @await Html.PartialAsync("Articulation/_ArticulationBlock", category)
+}
+
+---
+
+## 3️⃣ JS для переключения
+
+```html
+<script>
+    function normalizeId(name) {
+        return 'articulation-' + name
+            .toLowerCase()
+            .replace(/\s+/g, '');
+    }
+
+    function showBlock(name) {
+        document.querySelectorAll('.articulation-block')
+            .forEach(b => b.style.display = 'none');
+
+        const id = normalizeId(name);
+        const active = document.getElementById(id);
+
+        if (active) {
+            active.style.display = 'block';
+        }
+    }
+
+    // показать первый блок по умолчанию
+    document.addEventListener('DOMContentLoaded', () => {
+        const first = document.querySelector('.articulation-block');
+        if (first) first.style.display = 'block';
+    });
+</script>

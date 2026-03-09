@@ -1,0 +1,73 @@
+﻿@model SpeechApp.Models.ArticulationCategory
+
+@{
+    ViewData["Title"] = Model.Category;
+}
+
+<h1>@Model.Category</h1>
+<p><strong>Цель:</strong> @Model.Goal</p>
+
+@if (Model.Sounds?.Any() == true)
+{
+    <p><strong>Звуки:</strong> @string.Join(", ", Model.Sounds)</p>
+}
+
+<hr />
+
+@foreach (var group in Model.Exercises)
+{
+    <section class="exercise-group">
+        <h2>@group.Group</h2>
+        <p class="text-muted">@group.Purpose</p>
+
+        @foreach (var ex in group.Exercises)
+        {
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">@ex.Name</h5>
+
+                    <p><strong>Как выполнять:</strong> @ex.Instruction</p>
+
+                    @if (ex.DurationSeconds.HasValue)
+                    {
+                        <p>⏱ @ex.DurationSeconds сек.</p>
+                    }
+
+                    @if (ex.Repetitions.HasValue)
+                    {
+                        <p>🔁 Повторов: @ex.Repetitions</p>
+                    }
+
+                    @if (ex.Sounds?.Any() == true)
+                    {
+                        <p>🔊 Звуки: @string.Join(", ", ex.Sounds)</p>
+                    }
+
+                    @if (ex.Tips?.Any() == true)
+                    {
+                        <p><strong>Подсказки:</strong></p>
+                        <ul>
+                            @foreach (var tip in ex.Tips)
+                            {
+                                <li>@tip</li>
+                            }
+                        </ul>
+                    }
+
+                    @if (ex.CommonMistakes?.Any() == true)
+                    {
+                        <p class="text-danger"><strong>Типичные ошибки:</strong></p>
+                        <ul>
+                            @foreach (var mistake in ex.CommonMistakes)
+                            {
+                                <li>@mistake</li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+        }
+    </section>
+
+    <hr />
+}

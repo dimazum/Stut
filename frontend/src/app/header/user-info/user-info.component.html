@@ -1,0 +1,16 @@
+<div class="overlay" (click)="close.emit()">
+  <div class="login-form" (click)="$event.stopPropagation()">
+
+    <button
+      type="button"
+      class="close-btn"
+      (click)="close.emit()"
+      aria-label="Close"
+    >
+      ✕
+    </button>
+
+    <h2>Информация о сессии</h2>
+    <button class="logout-btn" (click)="logout()">Выйти</button>
+  </div>
+</div>

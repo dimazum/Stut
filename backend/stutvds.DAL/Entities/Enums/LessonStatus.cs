@@ -4,7 +4,7 @@
     {
         None,
         Started,
-        Finished,
-        Rewarded
+        Paused,
+        Finished
     }
 }

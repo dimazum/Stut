@@ -1,4 +1,6 @@
-﻿namespace StopStatAuth_6_0.Entities.Base
+﻿using System.Collections.Generic;
+
+namespace StopStatAuth_6_0.Entities.Base
 {
     public abstract class EntityBase<TId> : IEntityBase<TId>
     {
@@ -26,8 +28,8 @@
 
             if (item.IsTransient() || IsTransient())
                 return false;
-            else
-                return item == this;
+            
+            return EqualityComparer<TId>.Default.Equals(Id, item.Id);
         }
 
         public override int GetHashCode()
@@ -45,10 +47,13 @@
 
         public static bool operator ==(EntityBase<TId> left, EntityBase<TId> right)
         {
-            if (Equals(left, null))
-                return Equals(right, null) ? true : false;
-            else
-                return left.Equals(right);
+            if (ReferenceEquals(left, right))
+                return true;
+                
+            if (left is null || right is null)
+                return false;
+            
+            return left.Equals(right);
         }
 
         public static bool operator !=(EntityBase<TId> left, EntityBase<TId> right)

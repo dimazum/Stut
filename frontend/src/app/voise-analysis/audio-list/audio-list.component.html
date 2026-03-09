@@ -1,0 +1,29 @@
+<table *ngIf="files.length > 0">
+  <thead>
+    <tr>
+      <th>Файл</th>
+      <th>Дата</th>
+      <th>Управление</th>
+      <th>Прогресс</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let file of files">
+      <td>{{ file.fileName }}</td>
+      <td>{{ file.uploadedAt | date:'dd.MM.yyyy HH:mm:ss' }}</td>
+     <td>
+        <button (click)="play(file)">▶</button>
+        <button (click)="pause()">⏸</button>
+        <button (click)="stop()">⏹</button>
+        <button (click)="delete(file)">🗑️</button>
+    </td>
+      
+      <td>
+        <input type="range"
+               [value]="getProgress()"
+               (input)="seek($event)"
+               min="0" max="100">
+      </td>
+    </tr>
+  </tbody>
+</table>

@@ -11,8 +11,6 @@ using stutvds.Constants;
 using stutvds.Controllers.Base;
 using stutvds.DAL;
 using stutvds.DAL.Entities;
-using stutvds.Logic.DTOs;
-using stutvds.Logic.Services.Contracts;
 using stutvds.Logic.Services.Tasks;
 using stutvds.Models.ClientDto;
 
@@ -25,22 +23,32 @@ namespace stutvds.Controllers
         private readonly TriggerRepository _triggerRepository;
         private readonly IMapper _mapper;
         private readonly TriggerTaskManager _triggerTaskManager;
+        private readonly TriggerGeneratorService _triggerService;
 
         public TriggerController(
             TriggerRepository triggerRepository,
             IMapper mapper,
-            TriggerTaskManager triggerTaskManager )
+            TriggerTaskManager triggerTaskManager,
+            TriggerGeneratorService triggerService)
         {
             ILogger logger;
             _triggerRepository = triggerRepository;
             _mapper = mapper;
             _triggerTaskManager = triggerTaskManager;
+            _triggerService = triggerService;
         }
 
         [HttpPost]
         [Route("create")]
         public async Task<JsonResult> Create([FromBody]TriggerClientDto dto)
         {
+            var isExisted = await _triggerRepository.IfExistsAsync(x => x.Value == dto.Value);
+
+            if (isExisted)
+            {
+                throw new InvalidOperationException($"Trigger :'{dto.Value}' already exists.");
+            }
+            
             var entity = new TriggerEntity()
             {
                 Value = dto.Value,
@@ -55,7 +63,8 @@ namespace stutvds.Controllers
 
             var triggers = _triggerRepository.GetTriggers( UserId, CurrentLanguage);
 
-            return new JsonResult(triggers.Select(t => new
+            return new JsonResult(triggers
+                .Select(t => new
             {
                 t.Value,
                 t.CreatedAt,
@@ -73,7 +82,8 @@ namespace stutvds.Controllers
 
             var triggers = _triggerRepository.GetTriggers( UserId, CurrentLanguage);
 
-            return new JsonResult(triggers.Select(t => new
+            return new JsonResult(triggers
+                .Select(t => new
             {
                 t.Value,
                 CreatedAt = t.CreatedAt,
@@ -92,11 +102,13 @@ namespace stutvds.Controllers
         }
 
         [HttpPut]
-        [Route("change")]
-        public async Task<JsonResult> ChangeDifficulty(string trigger, int difficulty)
+        [Route("changedifficulty")]
+        public async Task<JsonResult> ChangeDifficulty(TriggerChangeDifficultyDto dto)
         {
-            var entity = await _triggerRepository.GetByName(trigger, UserId);
-            entity.Difficulty = difficulty;
+            var entity = await _triggerRepository.GetByName(dto.TriggerValue, UserId);
+            entity.Difficulty = dto.Difficulty;
+
+            await _triggerRepository.UpdateAsync(entity);
             
             var triggers =  _triggerRepository.GetTriggers(UserId, CurrentLanguage);
 
@@ -125,15 +137,15 @@ namespace stutvds.Controllers
         }
         
         [HttpGet]
-        [Route("randomWord/{word}/{count}")]
-        public ActionResult GetRandomWord(string word, int count)
+        [Route("randomWord/{letter}/{count}")]
+        public ActionResult GetRandomWord(string letter, int count)
         {
             string words = string.Empty;
             string w = String.Empty;
             
             var random = new Random();
             
-            var l = word.ToLowerInvariant();
+            var l = letter.ToLowerInvariant();
             
             switch (l)
             {
@@ -175,5 +187,45 @@ namespace stutvds.Controllers
 
             return Ok(words);
         } 
+        
+        
+        [HttpGet("generate")]
+        public ActionResult<Dictionary<string, List<string>>> GenerateTriggers()
+        {
+            var triggerWords = _triggerRepository
+                .GetLastTriggers(UserId, 3, CurrentLanguage)
+                .Select(x => x.Value)
+                .ToList();
+
+            if (!triggerWords.Any())
+            {
+                triggerWords = Triggers.GetRandomThreeTriggers_P();
+            }
+            
+            var result = new Dictionary<string, List<string>>();
+
+            foreach (var word in triggerWords)
+            {
+                // Генерируем 10 триггеров
+                var triggerExs = _triggerService.GenerateTriggers(word, 10);
+                var formattedLines = new List<string>();
+
+                foreach (var triggerWord in triggerExs)
+                {
+                    // Разделяем триггер и слово
+                    int spaceIndex = triggerWord.IndexOf(' ');
+                    string trigger = spaceIndex > 0 ? triggerWord.Substring(0, spaceIndex) : triggerWord;
+
+                    // Четыре повтора через запятую
+                    //string line = $"{trigger} {word}, но {word}";
+                    string line = $"{word}, но {word}";
+                    formattedLines.Add(line);
+                }
+
+                result[$"{word}"] = formattedLines;
+            }
+
+            return Ok(result);
+        }
     }
 }

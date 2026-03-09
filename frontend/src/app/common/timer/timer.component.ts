@@ -1,60 +1,69 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Observable, Subscription, timer } from 'rxjs';
 import { startLessonSubject } from '../../models/events';
-import { DatePipe, DecimalPipe  } from '@angular/common';
+import { DecimalPipe } from '@angular/common';
+import { UntilDestroy } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
-  selector: 'app-timer',
+  selector: 'stu-timer',
   standalone: true,
-  imports: [DatePipe, DecimalPipe ],
+  imports: [DecimalPipe],
   templateUrl: './timer.component.html',
-  styleUrl: './timer.component.css'
+  styleUrl: './timer.component.css',
 })
-export class TimerComponent implements OnInit, OnDestroy{
-  timer? : Observable<number>;
-  @Output() onFinished = new EventEmitter();
-  private subscription?: Subscription;
-  private finished : boolean  = false;
+export class TimerComponent implements OnInit, OnDestroy {
+  public timer?: Observable<number>;
+  @Input() public timeLeft: number = 0;
+  @Output() public finishedEvent = new EventEmitter();
 
-  get minutes(): number {
-    return Math.floor(this.timeLeft / 60);
+  private subscription?: Subscription;
+  private finished: boolean = false;
+
+  public get minutes(): number {
+    return Math.floor(this.timeLeft/ 60);
   }
 
-  get seconds(): number {
+  public get seconds(): number {
     return this.timeLeft % 60;
   }
 
-  ngOnInit(): void {  
-    startLessonSubject.subscribe((isEnabled) => isEnabled ? this.startTimer() : this.stopTimer())
+  public ngOnInit(): void {
+    startLessonSubject.subscribe(x =>{
+      this.timeLeft = x?.secondsRemaining ?? this.timeLeft;
+
+      if(x?.enabled){
+        this.startTimer()
+      }
+      else{
+          this.stopTimer()
+      }
+    });
+    
 
     this.timer = timer(1000, 1000);
   }
 
-  timeLeft: number = 900;
-
-
-  startTimer() {
-    this.subscription= this.timer?.subscribe(() => {
-          if (this.timeLeft > 0) {
-              this.timeLeft--;
-          }
-          else if (this.timeLeft == 0 && !this.finished){
-            this.finished = true;
-            this.onFinished.next(null);
-          }
-      });
+  public startTimer() {
+    this.subscription = this.timer?.subscribe(() => {
+      if (this.timeLeft > 0) {
+        this.timeLeft--;
+      } else if (this.timeLeft == 0 && !this.finished) {
+        this.finished = true;
+        this.finishedEvent.next(null);
+      }
+    });
   }
 
-  stopTimer(){
+  public stopTimer() {
     this.subscription?.unsubscribe();
   }
 
-  resetTimer() {
-    this.timeLeft = 900;
+  public resetTimer() {
+    this.timeLeft = 0;
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subscription?.unsubscribe();
   }
 }
-

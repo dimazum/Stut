@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using StopStatAuth_6_0.Entities;
 using StopStatAuth_6_0.Entities.Enums;
-using stutvds.DAL.Contracts;
 using stutvds.DAL.Entities;
 using stutvds.DAL.Repositories;
-using stutvds.DAL.Repositories.Contracts;
 using stutvds.Data;
 
 namespace stutvds.DAL
@@ -44,8 +41,36 @@ namespace stutvds.DAL
 			return _dbContext.Triggers
 				.Where(t => t.Language == language)
 				.Where(t => t.UserId == userId)
-				.OrderBy(t => t.Value)
+				.OrderByDescending(t => t.CreatedAt)
 				.ToList();
+		}
+		
+		public IEnumerable<TriggerEntity> GetLastTriggers(Guid userId, int number, Language language)
+		{
+			return _dbContext.Triggers
+				.Where(t => t.Language == language)
+				.Where(t => t.UserId == userId)
+				.OrderByDescending(t => t.CreatedAt)
+				.Take(number)
+				.ToList();
+		}
+
+		public async Task<TriggerEntity> GetRandomTrigger(Guid userId, Language language)
+		{
+			return await _dbContext
+				.Triggers
+				.Where(t => t.UserId == userId)
+				.OrderBy(t => Guid.NewGuid())
+				.FirstOrDefaultAsync(t => t.Language == language);
+		}
+		
+		public async Task<TriggerEntity> GetFirstTrigger(Guid userId, Language language)
+		{
+			return _dbContext.Triggers
+				.Where(t => t.Language == language)
+				.Where(t => t.UserId == userId)
+				.OrderByDescending(t => t.CreatedAt)
+				.FirstOrDefault();
 		}
 	}
 }

@@ -1,0 +1,40 @@
+<div class="overlay" (click)="close.emit()">
+  <div class="login-form" (click)="$event.stopPropagation()">
+
+    <button
+      type="button"
+      class="close-btn"
+      (click)="close.emit()"
+      aria-label="Close"
+    >
+      ✕
+    </button>
+
+    <h2>Логин</h2>
+
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Имя</label>
+        <input [(ngModel)]="username" name="username" required />
+      </div>
+
+      <div class="form-group">
+        <label>Пароль</label>
+        <input
+          [(ngModel)]="password"
+          name="password"
+          type="password"
+          required
+        />
+      </div>
+
+      <button type="submit">Логин</button>
+
+      <p class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </p>
+    </form>
+    <a href="">Забыли пароль?</a>
+
+  </div>
+</div>

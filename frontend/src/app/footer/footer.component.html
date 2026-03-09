@@ -1,24 +1,36 @@
-<div class="footer">
+<footer class="footer">
+  <div class="footer-container">
+    <!-- Кнопка Старт -->
+    <button class="start-btn" (click)="startListening()" [class.enabled]="isEnabled">
+      {{ startBtnName }}
+    </button>
 
-    <div class="speech-trigger-container">
-        <div class="start-speech-container"><button [ngClass] = "{'active' : isEnabled}" (click)="startListening()">{{startBtnName}}</button></div>
-        <div class="speech-container">
-            <div class="speech-left-block">
-                <div class="words-qty-container">
-                    <div>Прочитано: <span>{{wordsCounter}}</span>/1000</div>
-                    <button class="speech-container-buttom" title="Сбросить"><div>R</div></button>
-                </div>   
-                <div class="average-words-qty-container">
-                    <div>Скорость: <span>{{speedCounter}}</span> слов/мин</div>
-                    <button class="speech-container-buttom" title="Сбросить"><div>R</div></button>
-                </div>
-            </div>
-            <div class="speech-right-block">{{text}}</div>
-        </div>
-        <div class="timer-container">
-            <app-timer (onFinished)="onTimerFinished()"></app-timer>
-        </div>      
+    <!-- Блок статистики -->
+    <div class="stats">
+      <div>Прочитано слов: <strong>{{ wordsCounter }}</strong></div>
+      <div>Скорость: <strong>{{ wpm$ | async }} слов/мин</strong></div>
     </div>
-</div>
 
-<app-trigger-modal></app-trigger-modal>
+    <div class="stats">
+      <div class="timer-container">
+        Осталось:
+        <stu-timer [timeLeft]="timeLeftInSec" (finishedEvent)="onTimerFinished()"></stu-timer>
+        <div class="lesson-status-label"></div>
+      </div>
+      <div></div>
+    </div>
+
+    <!-- Textarea с распознанным текстом -->
+    <div class="text-block">
+      <app-textarea-auto-clear [text]="recognisedText"></app-textarea-auto-clear>
+    </div>
+
+    <!-- Эквалайзер -->
+    <div class="equalizer">
+      <app-visualizer></app-visualizer>
+    </div>
+
+  </div>
+
+</footer>
+<stu-trigger-modal></stu-trigger-modal>

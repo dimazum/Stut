@@ -1,0 +1,43 @@
+.lesson-header{
+    background-color: #2ecb70;
+    color: white;
+    padding: 3px 10px;
+    border: solid 1px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.breath-line {
+  display: flex;
+  align-items: flex-end;
+  height: 200px; /* максимальная высота графика */
+}
+
+.letter-column {
+  position: relative;
+  width: 12px;
+  display: flex;
+  justify-content: center;
+}
+
+.bar-container{
+    display: flex;
+    width: 12px;
+    align-items: flex-end;
+}
+
+.bar {
+  width: 3px;
+  background: #4cafab;
+  border-radius: 85% 0 0 0;
+}
+
+.letter {
+  position: absolute;
+  bottom: 100%;   /* ставим над столбиком */
+  transform: translateY(-4px); /* небольшой отступ */
+  font-family: 'Roboto Mono', monospace;
+}
+
+
+

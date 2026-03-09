@@ -1,0 +1,107 @@
+.text-container{
+    margin: 0 auto;
+    text-align: justify;
+    font-family: Roboto;
+    font-size: 22px;
+    font-weight: 400;
+    padding-top: 10px;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+    padding: 15px;
+}
+
+.control-container{
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    padding: 10px;
+    border: solid 1px;
+    margin: 5px;
+    font-size: 15px;
+}
+
+.text-content {
+  line-height: 1.4;
+  white-space: pre-wrap; /* сохраняет переносы из TXT */
+  word-wrap: break-word; /* перенос длинных слов */
+}
+
+.shape {
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  vertical-align: middle;
+
+  background:
+    radial-gradient(ellipse 20px 20px at 0 0, white 99%, transparent 100%),
+    #4caf50;
+
+  clip-path: polygon(
+    0 0,
+    calc(100% - 6px) 0,
+    100% 6px,
+    100% 100%,
+    0 100%
+  );
+}
+
+.inhale,
+.exhale{
+    width: 35px;
+}
+.pause{
+    width: 20px;
+}
+
+.context-menu {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 0 10px 10px 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  z-index: 2000;
+}
+
+.selected-word{
+    text-align: center;
+    padding: 2px 2px 7px 2px;
+}
+
+.overlay {
+  position:fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  z-index: 1000;
+}
+
+
+
+
+
+
+/* Desktop */
+@media (min-width: 769px) {
+    .text-container {
+        font-size: 22px;
+    }
+    .control-container{
+        flex-direction: row;
+        row-gap: 30px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .text-container {
+        font-size: 19px; 
+    }
+    .control-container{
+        flex-direction: column;
+        row-gap: 10px;
+    }
+}

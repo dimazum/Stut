@@ -29,6 +29,8 @@ namespace stutvds.Logic
             serviceCollection.AddScoped<ITriggerTask, TriggerTask4>();
             
             serviceCollection.AddScoped<TriggerTaskManager>();
+            serviceCollection.AddScoped<TriggerGeneratorService>();
+            serviceCollection.AddScoped<TriggerService>();
         }
     }
 }

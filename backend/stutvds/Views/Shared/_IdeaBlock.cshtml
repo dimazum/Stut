@@ -1,0 +1,20 @@
+﻿@model stutvds.Views.Shared.Models.IdeaBlockModel
+
+@{
+    var tooltipId = $"idea-tooltip-{Model.Id}";
+}
+
+<div class="idea-tooltip-wrapper">
+    <button type="button"
+            class="idea-tooltip-button"
+            aria-describedby="@tooltipId">
+        В чем идея
+    </button>
+
+    <div id="@tooltipId" class="idea-tooltip-content">
+        <strong>@Model.Title</strong>
+        <div class="idea-tooltip-text">
+            @Model.Content
+        </div>
+    </div>
+</div>
