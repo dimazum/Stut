@@ -25,10 +25,10 @@ docker compose down
 # 🧹 Docker cleanup
 # -----------------------------
 # echo "Cleaning unused Docker resources..."
-# docker image prune -f
-# docker builder prune -f
-# docker container prune -f
-# docker volume prune -f
+docker image prune -f
+docker builder prune -f
+docker container prune -f
+docker volume prune -f
 
 # Если нужно агрессивно (удаляет ВСЕ неиспользуемые образы):
 # docker system prune -a -f
