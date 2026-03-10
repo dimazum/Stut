@@ -22,3 +22,7 @@ SERVER
 ls -l ./backend/stutvds/wwwroot/angular
 - логи бэка
 docker logs -f prod-backend-1
+
+#Traefik
+admin
+traefik

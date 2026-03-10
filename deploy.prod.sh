@@ -20,6 +20,8 @@ export APP_ENV=Production
 
 echo "Cleaning docker build cache..."
 
+docker compose -p prod -f docker-compose.yml -f docker-compose.prod.yml down
+
 docker image prune -f
 docker builder prune -f
 
