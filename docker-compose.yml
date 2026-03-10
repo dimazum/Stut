@@ -34,7 +34,7 @@ services:
       - "traefik.http.routers.traefik-dashboard.entrypoints=websecure"
       - "traefik.http.routers.traefik-dashboard.tls.certresolver=le"
       - "traefik.http.routers.traefik-dashboard.service=api@internal"
-      - "traefik.http.middlewares.dashboard-auth.basicauth.users=admin:$apr1$LZZSAaBF$.lVCR6kZMENSWCGpLQGtJ."
+      - "traefik.http.middlewares.dashboard-auth.basicauth.users=admin:$$apr1$$j801xo4j$$psVjjf0i/.qYlEJKtH/yN/"
       - "traefik.http.routers.traefik-dashboard.middlewares=dashboard-auth"
 
   # ========================
