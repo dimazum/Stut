@@ -1,0 +1,18 @@
+﻿services:
+
+  backend:
+    labels:
+      - "traefik.enable=true"
+
+      - "traefik.http.routers.backend-prod.rule=Host(`stut.mooo.com`)"
+      - "traefik.http.routers.backend-prod.entrypoints=websecure"
+      - "traefik.http.routers.backend-prod.tls.certresolver=le"
+
+      - "traefik.http.services.backend-prod.loadbalancer.server.port=80"
+
+  stut.database:
+    volumes:
+      - sql_prod_data:/var/opt/mssql
+
+volumes:
+  sql_prod_data:

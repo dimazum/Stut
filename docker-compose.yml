@@ -1,12 +1,12 @@
 ﻿version: "3.9"
 
 services:
+
   # ========================
-  # Traefik
+  # Traefik (один на сервер)
   # ========================
   traefik:
     image: traefik:v3.0
-    container_name: traefik
     command:
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
@@ -17,103 +17,84 @@ services:
       - "--certificatesresolvers.le.acme.email=dimazum@mail.ru"
       - "--certificatesresolvers.le.acme.storage=/letsencrypt/acme.json"
       - "--api.dashboard=true"
+
     ports:
       - "80:80"
       - "443:443"
+
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./letsencrypt:/letsencrypt
+
     restart: unless-stopped
     labels:
+      # Traefik Dashboard
       - "traefik.enable=true"
       - "traefik.http.routers.traefik-dashboard.rule=Host(`traefik.stut.mooo.com`)"
       - "traefik.http.routers.traefik-dashboard.entrypoints=websecure"
       - "traefik.http.routers.traefik-dashboard.tls.certresolver=le"
       - "traefik.http.routers.traefik-dashboard.service=api@internal"
-      - "traefik.http.middlewares.dashboard-auth.basicauth.users=admin:$$apr1$$H6uskkkW$$IgXLP6ewTrSuBkTrqE8wj/"
+      - "traefik.http.middlewares.dashboard-auth.basicauth.users=admin:$$apr1$$j801xo4j$$psVjjf0i/.qYlEJKtH/yN/"
       - "traefik.http.routers.traefik-dashboard.middlewares=dashboard-auth"
 
-
   # ========================
-  # Backend (.NET 10)
+  # Backend (.NET)
   # ========================
   backend:
     build: backend
     environment:
-      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_ENVIRONMENT=${APP_ENV}
       - COMMIT_HASH=${COMMIT_HASH}
       - RABBITMQ_HOST=rabbitmq
+
     volumes:
       - audio_data:/app/Uploads
+
     depends_on:
       - rabbitmq
-    ports:
-      - "5000:80"  # для дебага
-    labels:
-      - "traefik.enable=true"
+      - stut.database
 
-      # API
-      - "traefik.http.routers.backend-api.rule=Host(`stut.mooo.com`) && PathPrefix(`/api`)"
-      - "traefik.http.routers.backend-api.entrypoints=websecure"
-      - "traefik.http.routers.backend-api.tls.certresolver=le"
-
-      # voice-analysis
-      - "traefik.http.routers.backend-voice.rule=Host(`stut.mooo.com`) && PathPrefix(`/voice-analysis`)"
-      - "traefik.http.routers.backend-voice.entrypoints=websecure"
-      - "traefik.http.routers.backend-voice.tls.certresolver=le"
-
-      # FRONTEND
-      - "traefik.http.routers.backend-frontend.rule=Host(`stut.mooo.com`)"
-      - "traefik.http.routers.backend-frontend.entrypoints=websecure"
-      - "traefik.http.routers.backend-frontend.tls.certresolver=le"
-
-      - "traefik.http.services.backend.loadbalancer.server.port=80"
-
-  # ========================
-  # Voice Analyzer
-  # ========================
-  voice-analyzer:
-    build: ./voice-analyzer
-    container_name: voice.analyzer
-    environment:
-      - RABBITMQ_HOST=rabbitmq
-    volumes:
-      - audio_data:/audio
-    ports:
-      - "8001:8000"  # для дебага
-    depends_on:
-      - rabbitmq
     restart: unless-stopped
+
+  # ========================
+  # Voice Analyzer (removed temporary)
+  # ========================
+  # voice-analyzer:
+  #   build: ./voice-analyzer
+  #   environment:
+  #     - RABBITMQ_HOST=rabbitmq
+
+  #   volumes:
+  #     - audio_data:/audio
+
+  #   depends_on:
+  #     - rabbitmq
+
+  #   restart: unless-stopped
 
   # ========================
   # RabbitMQ
   # ========================
   rabbitmq:
     image: rabbitmq:3-management
-    container_name: rabbitmq
     environment:
       - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=guest
-    ports:
-      - "5672:5672"     # AMQP
-      - "15672:15672"   # Management UI
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
     restart: unless-stopped
 
   # ========================
-  # SQL SERVER DB
+  # SQL Server
   # ========================
   stut.database:
     image: mcr.microsoft.com/mssql/server:2017-latest
-    container_name: stut.database
     environment:
       - SA_PASSWORD=Pass@word
       - ACCEPT_EULA=Y
-    ports:
-      - "5434:1433"
     volumes:
-      - ./data:/var/opt/mssql/data
+      - sql_data:/var/opt/mssql
+    restart: unless-stopped
 
   # ========================
   # Frontend Builder (Angular)
@@ -122,16 +103,16 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    container_name: frontend-builder
     volumes:
       - ./backend/stutvds/wwwroot/angular:/app/wwwroot/angular
     command:
       sh -c "rm -rf /app/wwwroot/angular/* &&
+             npm ci &&
              npm run build:prod &&
              cp -r /app/dist/angular1/browser/* /app/wwwroot/angular/"
     restart: "no"
 
-
 volumes:
   audio_data:
   rabbitmq_data:
+  sql_data:
