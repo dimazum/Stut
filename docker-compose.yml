@@ -37,7 +37,6 @@ services:
       - ASPNETCORE_ENVIRONMENT=${APP_ENV}
       - COMMIT_HASH=${COMMIT_HASH}
       - RABBITMQ_HOST=rabbitmq
-      - ConnectionStrings__Database=Server=stut.database;Database=stut;User Id=sa;Password=Pass@word;
 
     volumes:
       - audio_data:/app/Uploads
