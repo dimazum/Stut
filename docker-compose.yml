@@ -48,20 +48,20 @@ services:
     restart: unless-stopped
 
   # ========================
-  # Voice Analyzer
+  # Voice Analyzer (removed temporary)
   # ========================
-  voice-analyzer:
-    build: ./voice-analyzer
-    environment:
-      - RABBITMQ_HOST=rabbitmq
+  # voice-analyzer:
+  #   build: ./voice-analyzer
+  #   environment:
+  #     - RABBITMQ_HOST=rabbitmq
 
-    volumes:
-      - audio_data:/audio
+  #   volumes:
+  #     - audio_data:/audio
 
-    depends_on:
-      - rabbitmq
+  #   depends_on:
+  #     - rabbitmq
 
-    restart: unless-stopped
+  #   restart: unless-stopped
 
   # ========================
   # RabbitMQ
