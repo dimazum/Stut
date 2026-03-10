@@ -24,5 +24,8 @@ ls -l ./backend/stutvds/wwwroot/angular
 docker logs -f prod-backend-1
 
 #Traefik
+https://traefik.stut.mooo.com/
+login:
 admin
+pass:
 traefik
