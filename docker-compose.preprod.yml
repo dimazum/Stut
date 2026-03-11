@@ -10,8 +10,11 @@
 
       - "traefik.http.services.backend-preprod.loadbalancer.server.port=80"
 
-    ports:
-      - "5001:80"
+      - "traefik.docker.network=traefik_proxy"
+
+    networks:
+      - default
+      - traefik_proxy
 
   stut.database:
     volumes:
@@ -19,3 +22,7 @@
 
 volumes:
   sql_preprod_data:
+
+networks:
+  traefik_proxy:
+    external: true

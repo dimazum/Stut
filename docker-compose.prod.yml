@@ -10,9 +10,19 @@
 
       - "traefik.http.services.backend-prod.loadbalancer.server.port=80"
 
+      - "traefik.docker.network=traefik_proxy"
+
+    networks:
+      - default
+      - traefik_proxy
+
   stut.database:
     volumes:
       - sql_prod_data:/var/opt/mssql
 
 volumes:
   sql_prod_data:
+
+networks:
+  traefik_proxy:
+    external: true
