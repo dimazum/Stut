@@ -42,7 +42,6 @@ export class SendResetPasswordComponent {
           next: (res: any) => {
             this.toasterService.info('Письмо на смену пароля отправлено');
             this.closeEvent.emit();
-            // this.router.navigate(['/']);
             window.location.href = '/';
           },
           // eslint-disable-next-line @typescript-eslint/no-explicit-any

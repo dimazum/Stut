@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ConfirmEmailDto } from '../../models/models';
 
@@ -13,10 +12,7 @@ import { ConfirmEmailDto } from '../../models/models';
   styleUrl: './confirm-email.component.css',
 })
 export class ConfirmEmailComponent implements OnInit {
-  public constructor(
-    private readonly authService: AuthService,
-    private readonly router: Router
-  ) {}
+  public constructor(private readonly authService: AuthService) {}
 
   public ngOnInit(): void {
     const params = new URLSearchParams(window.location.search);
@@ -33,15 +29,10 @@ export class ConfirmEmailComponent implements OnInit {
       token: token,
     };
 
-    this.authService
-      .confirmEmail(request)
-      .pipe(untilDestroyed(this))
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .subscribe({
-        next: () => {
-          this.router.navigate(['/']);
-        },
-        // error: err => {},
-      });
+    this.authService.confirmEmail(request).pipe(untilDestroyed(this)).subscribe();
+  }
+
+  public backToMainPage() {
+    window.location.href = '/';
   }
 }

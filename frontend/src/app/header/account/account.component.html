@@ -1,21 +1,18 @@
-  <div class="account">
-    <stu-language-picker></stu-language-picker>
-    <ng-container *ngIf="userinfo$ | async as userinfo; else guest">
-      <div (click)="openUserInfo()" class="nav-item truncate-user">{{ userinfo.user_name }}</div>
-      <!-- <div class="points-container">{{ rewardPoints$ | async }}</div> -->
-    </ng-container>
+<div class="account">
+  <stu-language-picker></stu-language-picker>
+  <ng-container *ngIf="userinfo$ | async as userinfo; else guest">
+    <div (click)="openUserInfo()" class="nav-item truncate-user">{{ userinfo.user_name }}</div>
+    <!-- <div class="points-container">{{ rewardPoints$ | async }}</div> -->
+  </ng-container>
 
-    <ng-template #guest>
-      <div class="nav-item" (click)="showRegisterPopup()">Регистрация</div>
-      <div class="nav-item" (click)="showLoginPopup()">Логин</div>
-      <div class="nav-item" (click)="showResetPasswordPopup()">Забыли пароль?</div>
-    </ng-template>
-  </div>
+  <ng-template #guest>
+    <div class="nav-item" (click)="showRegisterPopup()">Регистрация</div>
+    <div class="nav-item" (click)="showLoginPopup()">Логин</div>
+    <div class="nav-item" (click)="showResetPasswordPopup()">Забыли пароль?</div>
+  </ng-template>
+</div>
 
-  <stu-login *ngIf="showLogin" (close)="showLogin = false"></stu-login>
-  <stu-register *ngIf="showRegister" (close)="showRegister = false"></stu-register>
-  <stu-send-reset-password *ngIf="showResetPassword" (close)="showResetPassword = false"></stu-send-reset-password>
-  <stu-user-info *ngIf="showUserInfo" (close)="showUserInfo = false"></stu-user-info>
-
-
-
+<stu-login *ngIf="showLogin" (close)="showLogin = false"></stu-login>
+<stu-register *ngIf="showRegister" (close)="showRegister = false"></stu-register>
+<stu-send-reset-password *ngIf="showResetPassword" (closeEvent)="showResetPassword = false"></stu-send-reset-password>
+<stu-user-info *ngIf="showUserInfo" (close)="showUserInfo = false"></stu-user-info>

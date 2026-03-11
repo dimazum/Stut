@@ -42,7 +42,7 @@ public class AuthController : ControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterDto model)
     {
-        bool enableEmailAuthentication = bool.TryParse(_config["Email:EnableEmailAuthentication"], out _);
+        bool enableEmailAuthentication = _config.GetValue<bool>("Email:EnableEmailAuthentication");
         
         var user = new IdentityUser
         {
@@ -83,7 +83,7 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginDto model)
     {
-        bool enableEmailAuthentication = bool.TryParse(_config["Email:EnableEmailAuthentication"], out _);
+        bool enableEmailAuthentication = _config.GetValue<bool>("Email:EnableEmailAuthentication");
         
         var user = await _userManager.FindByNameAsync(model.Username);
 
