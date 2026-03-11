@@ -66,4 +66,10 @@
     <AdditionalFiles Include="Controllers\MVC\PracticeWord\Index.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot/**/*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
