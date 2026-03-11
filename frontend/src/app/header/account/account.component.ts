@@ -14,7 +14,15 @@ import { SendResetPasswordComponent } from '../../email/send-reset-password/send
 @Component({
   selector: 'app-account',
   standalone: true,
-  imports: [NgIf, AsyncPipe, LoginComponent, RegisterComponent, LanguagePickerComponent, UserInfoComponent, SendResetPasswordComponent],
+  imports: [
+    NgIf,
+    AsyncPipe,
+    LoginComponent,
+    RegisterComponent,
+    LanguagePickerComponent,
+    UserInfoComponent,
+    SendResetPasswordComponent,
+  ],
   templateUrl: './account.component.html',
   styleUrl: './account.component.css',
 })
@@ -28,22 +36,26 @@ export class AccountComponent implements OnInit, OnDestroy {
   public showUserInfo = false;
   private subscription!: Subscription;
 
-  constructor(
+  public constructor(
     private auth: AuthService,
     private backendService: BackendService
   ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.subscription = notLoggedInSubject.subscribe(_ => {
       this.showLoginPopup();
     });
   }
 
-  showLoginPopup() {
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  public showLoginPopup() {
     this.showLogin = true;
   }
 
-  showRegisterPopup() {
+  public showRegisterPopup() {
     this.showRegister = true;
   }
 
@@ -57,9 +69,5 @@ export class AccountComponent implements OnInit, OnDestroy {
 
   public openUserInfo() {
     this.showUserInfo = !this.showUserInfo;
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 }

@@ -82,7 +82,6 @@ export class ResetPasswordComponent implements OnInit {
           next: (res: any) => {
             this.toasterService.info('Password was reset successfully');
             this.closeEvent.emit();
-            // this.router.navigate(['/']);
             window.location.href = '/';
           },
           // eslint-disable-next-line @typescript-eslint/no-explicit-any

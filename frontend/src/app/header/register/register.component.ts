@@ -15,7 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 export class RegisterComponent {
   public registerForm: FormGroup;
   public errorMessage: string = '';
-  @Output() close = new EventEmitter<void>();
+  @Output() public close = new EventEmitter<void>();
 
   public constructor(
     private fb: FormBuilder,
