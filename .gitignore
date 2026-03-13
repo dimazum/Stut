@@ -398,3 +398,5 @@ Thumbs.db
 
 /backend/stutvds/wwwroot/angular/
 /letsencrypt/
+
+.env

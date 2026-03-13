@@ -9,6 +9,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=${APP_ENV}
       - COMMIT_HASH=${COMMIT_HASH}
       - RABBITMQ_HOST=rabbitmq
+      - Mailgun__ApiKey=${Mailgun__ApiKey}
 
     volumes:
       - audio_data:/app/Uploads
