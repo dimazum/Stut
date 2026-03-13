@@ -10,6 +10,7 @@ services:
       - COMMIT_HASH=${COMMIT_HASH}
       - RABBITMQ_HOST=rabbitmq
       - Mailgun__ApiKey=${Mailgun__ApiKey}
+      - ConnectionStrings__Database=${ConnectionStrings__Database}
 
     volumes:
       - audio_data:/app/Uploads
