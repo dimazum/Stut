@@ -19,6 +19,8 @@
   stut.database:
     volumes:
       - sql_prod_data:/var/opt/mssql
+    ports:
+      - "5434:1433"
 
 volumes:
   sql_prod_data:

@@ -9,6 +9,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=${APP_ENV}
       - COMMIT_HASH=${COMMIT_HASH}
       - RABBITMQ_HOST=rabbitmq
+      - Mailgun__ApiKey=${Mailgun__ApiKey}
 
     volumes:
       - audio_data:/app/Uploads
@@ -35,7 +36,7 @@ services:
     image: mcr.microsoft.com/mssql/server:2017-latest
 
     environment:
-      - SA_PASSWORD=Pass@word
+      - SA_PASSWORD=${DB_PASSWORD}
       - ACCEPT_EULA=Y
 
     volumes:
