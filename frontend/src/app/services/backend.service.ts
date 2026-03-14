@@ -14,14 +14,6 @@ export class BackendService {
 
   public constructor(private httpClient: HttpClient) {}
 
-  public getTwisters(): Observable<Array<Array<string>>> {
-    return this.httpClient.get<Array<Array<string>>>(`${this.baseUrl}/twisters`);
-  }
-
-  public getExercises(): Observable<Array<Array<string>>> {
-    return this.httpClient.get<Array<Array<string>>>(`${this.baseUrl}/stretching`);
-  }
-
   public getRandomArticle(category: string): Observable<ArticleData> {
     return this.httpClient.get<ArticleData>(`${this.baseUrl}/article/random?category=${category}`);
   }
@@ -34,20 +26,16 @@ export class BackendService {
     return this.httpClient.get<Array<TriggerResult>>(`${this.baseUrl}/trigger`, { withCredentials: true });
   }
 
+  public getLastTriggers(): Observable<Array<TriggerResult>> {
+    return this.httpClient.get<Array<TriggerResult>>(`${this.baseUrl}/trigger/last`, { withCredentials: true });
+  }
+
   public changeTriggerDifficulty(triggerValue: string, difficulty: number): Observable<Array<TriggerResult>> {
     return this.httpClient.put<Array<TriggerResult>>(`${this.baseUrl}/trigger/changedifficulty`, {triggerValue, difficulty}, { withCredentials: true });
   }
 
   public deleteTrigger(triggerValue: string): Observable<any> {
     return this.httpClient.delete(`${this.baseUrl}/trigger/${triggerValue}`, { withCredentials: true });
-  }
-
-  public getTriggerTasks(triggerValue: string): Observable<Array<TriggerTaskResult>> {
-    return this.httpClient.get<Array<TriggerTaskResult>>(`${this.baseUrl}/trigger/triggertasks/${triggerValue}`);
-  }
-
-  getTriggerExercises(): Observable<{ [key: string]: string[] }> {
-    return this.httpClient.get<{ [key: string]: string[] }>(`${this.baseUrl}/trigger/generate`);
   }
 
   public getCalendar(year: number, month: number): Observable<CalendarData> {

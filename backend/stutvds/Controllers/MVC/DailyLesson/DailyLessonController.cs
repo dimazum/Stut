@@ -21,9 +21,13 @@ namespace stutvds.Controllers.MVC.DailyLesson
 		
 		public async Task<IActionResult> Index()
 		{
-			var trigger = (await _triggerRepository.GetFirstTrigger(UserId, CurrentLanguage)).Value;
-
+			string trigger = null;
 			
+			if (IsAuthenticated)
+			{
+				trigger = (await _triggerRepository.GetFirstTrigger(UserId, CurrentLanguage)).Value;
+			}
+
 			return View(model: trigger);
 		}
 	}

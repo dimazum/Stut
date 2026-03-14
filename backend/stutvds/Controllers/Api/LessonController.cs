@@ -20,7 +20,6 @@ namespace stutvds.Controllers
         private readonly DayLessonRepository _dayLessonRepository;
         private readonly IMapper _mapper;
 
-
         public LessonController(DayLessonRepository dayLessonRepository, IMapper mapper)
         {
             _dayLessonRepository = dayLessonRepository;

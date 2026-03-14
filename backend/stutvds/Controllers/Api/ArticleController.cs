@@ -24,7 +24,7 @@ namespace stutvds.Controllers
     [Route("api/[controller]")]
     public class ArticleController : BaseController
     {
-        private const string ArticlePath = "data/readData/ru";
+        private const string ArticlePath = "data/ru/readData";
         
         private readonly IArticleRepository _articleRepository;
         private readonly IWikiService _wikiService;

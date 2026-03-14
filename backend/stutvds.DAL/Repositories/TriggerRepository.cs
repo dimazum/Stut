@@ -15,31 +15,17 @@ namespace stutvds.DAL
 		public TriggerRepository(ApplicationDbContext dbContext): base(dbContext)
 		{
 		}
-
-		public async Task<TriggerEntity> GetTriggerByNameAsync(string name, Guid userId)
-		{
-			return await _dbContext.Triggers.FirstOrDefaultAsync(t => t.Value == name && t.UserId == userId );
-		}
 		
 		public async Task<TriggerEntity> GetByName(string name, Guid userId)
 		{
 			return await _dbContext.Triggers.FirstAsync(t => t.Value == name && t.UserId == userId );
 		}
 
-		public IEnumerable<TriggerEntity> GetDefaultTriggers(Language language)
-		{
-			return _dbContext.Triggers
-				.Where(t => t.IsDefault == true)
-				.Where(t => t.TriggerType == TriggerType.Short)
-				.Where(t => t.Language == language)
-				.OrderBy(t => t.Value)
-				.ToList();
-		}
-
 		public IEnumerable<TriggerEntity> GetTriggers(Guid userId, Language language)
 		{
 			return _dbContext.Triggers
 				.Where(t => t.Language == language)
+				.Where(t => t.IsDefault == false)
 				.Where(t => t.UserId == userId)
 				.OrderByDescending(t => t.CreatedAt)
 				.ToList();
@@ -49,8 +35,8 @@ namespace stutvds.DAL
 		{
 			return _dbContext.Triggers
 				.Where(t => t.Language == language)
-				.Where(t => t.UserId == userId)
-				.OrderByDescending(t => t.CreatedAt)
+				.OrderBy(t => t.IsDefault == false && t.UserId != null ? 0 : 1)
+				.ThenByDescending(t => t.CreatedAt)
 				.Take(number)
 				.ToList();
 		}
@@ -59,18 +45,29 @@ namespace stutvds.DAL
 		{
 			return await _dbContext
 				.Triggers
-				.Where(t => t.UserId == userId)
 				.OrderBy(t => Guid.NewGuid())
 				.FirstOrDefaultAsync(t => t.Language == language);
 		}
 		
 		public async Task<TriggerEntity> GetFirstTrigger(Guid userId, Language language)
 		{
-			return _dbContext.Triggers
-				.Where(t => t.Language == language)
-				.Where(t => t.UserId == userId)
-				.OrderByDescending(t => t.CreatedAt)
-				.FirstOrDefault();
+			return await _dbContext.Triggers
+				.OrderBy(t => t.IsDefault == false && t.UserId != null ? 0 : 1)
+				.ThenByDescending(t => t.CreatedAt)
+				.FirstOrDefaultAsync();
+		}
+
+		public async Task SeedDefaultTriggers(List<TriggerEntity> triggers)
+		{
+			foreach (var trigger in triggers)
+			{
+				if (!_dbContext.Triggers.Any(t => t.Value == trigger.Value && t.Language == Language.Russian))
+				{
+					_dbContext.Triggers.Add(trigger);
+				}
+			}
+
+			await _dbContext.SaveChangesAsync();
 		}
 	}
 }
