@@ -31,7 +31,6 @@
   <ItemGroup>
     <Folder Include="wwwroot\angular\" />
     <Folder Include="wwwroot\assets\random-text\" />
-    <Folder Include="wwwroot\Topics\ru\Countries\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -57,6 +56,109 @@
     <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map" />
     <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\LICENSE" />
     <_ContentIncludedByDefault Remove="wwwroot\js\site.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Bryusov\Алтарь победы.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Bryusov\Бемоль.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Bryusov\В башне.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Bryusov\В зеркале.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Bryusov\В подземной тюрьме.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Bryusov\Восстание машин.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Bryusov\Гора Звезды.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Bryusov\Декадент.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Bryusov\Дитя и безумец.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Bryusov\За себя или за другую.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Bryusov\Защита.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Bryusov\Моцарт.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Bryusov\Мраморная головка.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Bryusov\Ночное путешествие.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Bryusov\Обручение Даши.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Bryusov\Огненный ангел.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Bryusov\Первая любовь.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Bryusov\Под Старым мостом.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Bryusov\Последние мученики.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Bryusov\Последние страницы из дневника женщины.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Bryusov\Предсмертный бред Вергилия.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Bryusov\Рассказы Маши, с реки Мологи, под городом Устюжна.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Bryusov\Республика Южного Креста.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Bryusov\Рея Сильвия.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Bryusov\Семь земных соблазнов.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Bryusov\Сестры.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Bryusov\Теперь, - когда я проснулся....txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Bryusov\Через пятнадцать лет.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Bryusov\Элули, сын Элули.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Bryusov\Юпитер поверженный.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Сказки\Аленький цветочек.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Сказки\Арысь-поле.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Сказки\Баба-яга.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Сказки\Бычок – черный бочок, белые копытца.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Сказки\Василиса Прекрасная.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Сказки\Вершки и корешки.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Сказки\Волк и семеро козлят.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Сказки\Горе.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Сказки\Горшеня.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Сказки\Гуси-Лебеди.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Сказки\Жихарка.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Сказки\Зимовье зверей.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Сказки\Иванушка-дурачок.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Сказки\Каша из топора.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Сказки\Колобок.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Сказки\Кот и лиса.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Сказки\Кощей бессмертный.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Сказки\Курочка, мышка и тетерев.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Сказки\Лиса и дрозд.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Сказки\Лиса, заяц и петух.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Сказки\Маша и медведь.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Сказки\Никита Кожемяка.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Сказки\Петушок и бобовое зернышко.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Сказки\Петушок – золотой гребешок.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Сказки\По щучьему велению.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Сказки\Пузырь, соломинка и лапоть.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Сказки\Репка.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Сказки\Рукавичка.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Сказки\Сивка – Бурка.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Сказки\Снегурочка.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Сказки\Теремок.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Сказки\Три медведя.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Сказки\Царевна-змея.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Сказки\Царевна-Лягушка.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Сказки\Царевна-Несмеяна.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Факты о городах\Дубай_1.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\readData\ru\Факты о странах\ОАЭ_1.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\ru\readData\ru\Сказки\Аленький цветочек.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\ru\readData\ru\Сказки\Арысь-поле.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\ru\readData\ru\Сказки\Баба-яга.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\ru\readData\ru\Сказки\Бычок – черный бочок, белые копытца.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\ru\readData\ru\Сказки\Василиса Прекрасная.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\ru\readData\ru\Сказки\Вершки и корешки.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\ru\readData\ru\Сказки\Волк и семеро козлят.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\ru\readData\ru\Сказки\Горе.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\ru\readData\ru\Сказки\Горшеня.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\ru\readData\ru\Сказки\Гуси-Лебеди.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\ru\readData\ru\Сказки\Жихарка.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\ru\readData\ru\Сказки\Зимовье зверей.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\ru\readData\ru\Сказки\Иванушка-дурачок.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\ru\readData\ru\Сказки\Каша из топора.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\ru\readData\ru\Сказки\Колобок.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\ru\readData\ru\Сказки\Кот и лиса.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\ru\readData\ru\Сказки\Кощей бессмертный.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\ru\readData\ru\Сказки\Курочка, мышка и тетерев.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\ru\readData\ru\Сказки\Лиса и дрозд.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\ru\readData\ru\Сказки\Лиса, заяц и петух.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\ru\readData\ru\Сказки\Маша и медведь.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\ru\readData\ru\Сказки\Никита Кожемяка.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\ru\readData\ru\Сказки\Петушок и бобовое зернышко.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\ru\readData\ru\Сказки\Петушок – золотой гребешок.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\ru\readData\ru\Сказки\По щучьему велению.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\ru\readData\ru\Сказки\Пузырь, соломинка и лапоть.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\ru\readData\ru\Сказки\Репка.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\ru\readData\ru\Сказки\Рукавичка.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\ru\readData\ru\Сказки\Сивка – Бурка.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\ru\readData\ru\Сказки\Снегурочка.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\ru\readData\ru\Сказки\Теремок.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\ru\readData\ru\Сказки\Три медведя.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\ru\readData\ru\Сказки\Царевна-змея.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\ru\readData\ru\Сказки\Царевна-Лягушка.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\ru\readData\ru\Сказки\Царевна-Несмеяна.txt" />
+    <_ContentIncludedByDefault Remove="wwwroot\data\ru\readData\ru\Факты о городах\Дубай_1.txt" />
   </ItemGroup>
 
   <ItemGroup>
@@ -68,6 +170,9 @@
 
   <ItemGroup>
     <Content Update="wwwroot/**/*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\data\ru\triggers.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

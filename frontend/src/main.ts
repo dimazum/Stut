@@ -11,8 +11,6 @@ import { AccountComponent } from './app/header/account/account.component';
 import { NavItemComponent } from './app/header/nav-item/nav-item.component';
 import { CalendarComponent } from './app/calendar/calendar.component';
 import { SubHeaderComponent } from './app/header/sub-header/sub-header.component';
-import { TriggerBlockComponent } from './app/trigger-block/trigger-block.component';
-import { DailyLessonComponent } from './app/daily-lesson/daily-lesson.component';
 import { WarmUpComponent } from './app/warm-up/warm-up.component';
 import { HistogramComponent } from './app/histogram/histogram.component';
 
@@ -37,9 +35,6 @@ bootstrapApplication(AppComponent, {
 
   const subHeaderEl = createCustomElement(SubHeaderComponent, { injector });
   customElements.define('stu-sub-header', subHeaderEl);
-
-  const triggerBlockEl = createCustomElement(TriggerBlockComponent, { injector });
-  customElements.define('stu-trigger-block', triggerBlockEl);
 
   const warmUpEl = createCustomElement(WarmUpComponent, { injector });
   customElements.define('stu-warm-up', warmUpEl);

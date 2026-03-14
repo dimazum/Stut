@@ -32,6 +32,9 @@ namespace stutvds.Controllers.Base
             }
         }
 
+        protected bool IsAuthenticated => HttpContext.User.Identity != null && HttpContext.User.Identity.IsAuthenticated;
+        
+
         protected Language CurrentLanguage
         {
             get
