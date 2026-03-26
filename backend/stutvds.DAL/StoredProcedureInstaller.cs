@@ -25,8 +25,7 @@ public class StoredProcedureInstaller : IStoredProcedureInstaller
 
     public async Task InstallAsync()
     {
-        var root = Directory.GetParent(_env.ContentRootPath)!.FullName;
-        var folder = Path.Combine(root, "stutvds.DAL", "StoredProcedures");
+        var folder = Path.Combine(AppContext.BaseDirectory, "StoredProcedures");
 
         if (!Directory.Exists(folder))
             return;
