@@ -71,14 +71,14 @@ export class BackendService {
       .put<number>(`${this.baseUrl}/lesson/resetRewardPoints`, { withCredentials: true });
   }
 
-  public pauseLesson(id: number, words: number, wps: number): Observable<DayLessonDto> {
-    const body = { id, words, wps };
+  public pauseLesson(id: number): Observable<DayLessonDto> {
+    const body = { id };
     return this.httpClient
       .put<DayLessonDto>(`${this.baseUrl}/lesson/pause`, body);
   }
 
-  public finishLesson(id: number, words: number, wps: number): Observable<DayLessonDto> {
-    const body = { id, words, wps };
+  public finishLesson(id: number): Observable<DayLessonDto> {
+    const body = { id };
     return this.httpClient
       .put<DayLessonDto>(`${this.baseUrl}/lesson/finish`, body);
   }

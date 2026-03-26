@@ -125,9 +125,9 @@ export class VoiceAnalysisService implements OnDestroy {
   public sendRestOfText(dailyLessonId: number){
       if (!this.hubConnection) return;
 
+      this.hubConnection.invoke('AnalyzeVoice', this.bufferText, dailyLessonId);
       this.bufferText = '';
       this.bufferWordsSpoken = 0;
-      this.hubConnection.invoke('AnalyzeVoice', this.bufferText, dailyLessonId);
   }
 
   // =====================================================

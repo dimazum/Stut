@@ -38,6 +38,13 @@ namespace stutvds.Controllers
         [Route("create")]
         public async Task<JsonResult> Create([FromBody] TriggerClientDto dto)
         {
+            var lettersCount = dto.Value.Length;
+            
+            if (lettersCount > 60)
+            {
+                throw new InvalidOperationException($"Trigger :'{dto.Value}' too long (60 character long max).");
+            }
+            
             var isExisted = await _triggerRepository.IfExistsAsync(x => 
                 x.Value == dto.Value && x.UserId == UserId);
 
@@ -56,7 +63,7 @@ namespace stutvds.Controllers
                 Language = Language.Russian
             };
 
-            var trigger = await _triggerRepository.AddAsync(entity);
+            await _triggerRepository.AddAsync(entity);
 
             var triggers = _triggerRepository.GetTriggers(UserId, CurrentLanguage);
 

@@ -13,11 +13,13 @@ import { CalendarComponent } from './app/calendar/calendar.component';
 import { SubHeaderComponent } from './app/header/sub-header/sub-header.component';
 import { WarmUpComponent } from './app/warm-up/warm-up.component';
 import { HistogramComponent } from './app/histogram/histogram.component';
+import { errorInterceptor } from './app/error.interceptor';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 
 bootstrapApplication(AppComponent, {
 
-  providers: [provideHttpClient()],
+  providers: [provideHttpClient(withInterceptors([errorInterceptor])), provideAnimationsAsync()],
 }).then(appRef => {
   const injector = appRef.injector;
 

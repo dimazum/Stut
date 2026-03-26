@@ -93,17 +93,8 @@ namespace stutvds.Controllers
         public async Task<IActionResult> PauseLesson([FromBody] DayLessonRequest request)
         {
             var lesson = await _dayLessonRepository.GetByIdAsync(request.Id);
+            lesson.Status =  LessonStatus.Paused;
 
-            ////if (lesson.Status != LessonStatus.Finished)
-            //{
-                var readSeconds = (int)(DateTimeOffset.Now - lesson.StartRangeTime).TotalSeconds;
-                var leftInSec = Math.Max(0, lesson.LeftInSec - readSeconds);
-                lesson.LeftInSec = leftInSec;
-            //}
-            
-            lesson.Status = leftInSec == 0 ? LessonStatus.Finished : LessonStatus.Paused;
-            //lesson.WordsSpoken = request.Words;
-            //lesson.WPS = request.Wps;
             await _dayLessonRepository.UpdateAsync(lesson);
 
             return Ok(lesson);
@@ -114,36 +105,9 @@ namespace stutvds.Controllers
         {
             var lesson = await _dayLessonRepository.GetByIdAsync(request.Id);
             
-            lesson.WordsSpoken = request.Words;
-            lesson.WPS = request.Wps;
             lesson.Status = LessonStatus.Finished;
             lesson.LeftInSec = 0;
             lesson.FinishTime = DateTimeOffset.Now;
-
-            // var dates = await _dayLessonRepository.GetLastLessonDates(UserId, 2);
-            //
-            // var twoDayStreak =
-            //     dates.Contains(DateTimeOffset.UtcNow.Date.AddDays(-1)) &&
-            //     dates.Contains(DateTimeOffset.UtcNow.Date.AddDays(-2));
-            //
-            // var oneDayStreak =
-            //     dates.Contains(DateTimeOffset.UtcNow.Date.AddDays(-1));
-            //
-            // var rewardPoints = 0;
-            //
-            // if (twoDayStreak)
-            // {
-            //     rewardPoints = 7;
-            // }
-            // else if (oneDayStreak)
-            // {
-            //     rewardPoints = 6;
-            // }
-            // else
-            // {
-            //     rewardPoints = 5;
-            // }
-            //
             lesson.RewardPoints += 7;
             
             await _dayLessonRepository.UpdateAsync(lesson);

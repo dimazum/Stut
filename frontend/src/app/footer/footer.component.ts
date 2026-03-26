@@ -110,11 +110,7 @@ export class FooterComponent implements OnInit, OnDestroy{
     } else {
       this.startBtnName = 'Начать';
       
-
-
-
-
-      this.backendService.pauseLesson(this.dailyLesson!.id, this.wordsCounter, 0).subscribe(x => {
+      this.backendService.pauseLesson(this.dailyLesson!.id).subscribe(x => {
         this.dailyLesson = x;
 
         startLessonSubject.next({enabled: false, secondsRemaining : x.leftInSec});
@@ -135,12 +131,14 @@ export class FooterComponent implements OnInit, OnDestroy{
       this.dailyLesson?.status === DailyLessonStatus.Rewarded){
       return;
     }
-    this.backendService.finishLesson(this.dailyLesson!.id, this.wordsCounter as number, 0).subscribe(
+    this.backendService.finishLesson(this.dailyLesson!.id).subscribe(
       x =>{
             this.dailyLesson = x
             startLessonSubject.next({enabled: false, secondsRemaining : 0});
             this.isEnabled = false;
             this.startBtnName = 'Start';
+            
+            this.voiceService.sendRestOfText(this.dailyLesson?.id!);
         }
     );
     //this.audioRecorderService.stopRecording().subscribe();
