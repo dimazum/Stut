@@ -66,6 +66,11 @@ export class BackendService {
     return this.rewardPoints$;
   }
 
+   public resetRewardPoints(): Observable<number> {
+    return this.httpClient
+      .put<number>(`${this.baseUrl}/lesson/resetRewardPoints`, { withCredentials: true });
+  }
+
   public pauseLesson(id: number, words: number, wps: number): Observable<DayLessonDto> {
     const body = { id, words, wps };
     return this.httpClient

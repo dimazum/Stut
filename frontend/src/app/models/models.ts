@@ -94,7 +94,7 @@ export interface VoiceAnalysisUpdateDto {
   jitter: number;
   shimmer: number;
   wpm: number;
-
+  wordsSpoken: number;
 }
 
 export interface Histogram {

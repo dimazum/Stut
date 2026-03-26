@@ -100,7 +100,7 @@ export class FooterComponent implements OnInit, OnDestroy{
       this.startBtnName = 'Стоп';
 
       this.recognitionSub = this.speechRecognitionService.recognitionResult.subscribe(result => {
-        this.changeRecognitionText(result.text ?? '')
+        this.changeRecognitionText(result.text ?? '' , result.wordCount)
         
         this.wordsCounter = result.wordCount ?? 0;
 
@@ -109,10 +109,10 @@ export class FooterComponent implements OnInit, OnDestroy{
       });
     } else {
       this.startBtnName = 'Начать';
+      
 
-      if(this.dailyLesson?.status !== DailyLessonStatus.Finished){
-        
-      }
+
+
 
       this.backendService.pauseLesson(this.dailyLesson!.id, this.wordsCounter, 0).subscribe(x => {
         this.dailyLesson = x;
@@ -120,6 +120,9 @@ export class FooterComponent implements OnInit, OnDestroy{
         startLessonSubject.next({enabled: false, secondsRemaining : x.leftInSec});
 
         this.audioRecorderService.stop();
+
+        this.voiceService.sendRestOfText(this.dailyLesson?.id!);
+
       });
 
       this.recognitionSub?.unsubscribe();
@@ -143,9 +146,9 @@ export class FooterComponent implements OnInit, OnDestroy{
     //this.audioRecorderService.stopRecording().subscribe();
   }
 
-  changeRecognitionText(text: string) {
+  changeRecognitionText(text: string, wordsSpoken: number) {
 
-    this.voiceService.analyzeVoice(text);
+    this.voiceService.analyzeVoice(text, wordsSpoken, this.dailyLesson?.id!);
 
     this.recognisedText = text;
 

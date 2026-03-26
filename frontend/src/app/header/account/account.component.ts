@@ -9,7 +9,6 @@ import { Subscription } from 'rxjs';
 import { UserInfoComponent } from "../user-info/user-info.component";
 import { BackendService } from '../../services/backend.service';
 
-
 @Component({
   selector: 'app-account',
   standalone: true,
@@ -17,7 +16,7 @@ import { BackendService } from '../../services/backend.service';
   templateUrl: './account.component.html',
   styleUrl: './account.component.css'
 })
-export class AccountComponent implements OnInit, OnDestroy{
+export class AccountComponent implements OnInit, OnDestroy {
   public userinfo$ = this.auth.userinfo$;
   public rewardPoints$ = this.backendService.getRewardPoints();
 
@@ -27,13 +26,13 @@ export class AccountComponent implements OnInit, OnDestroy{
   private subscription!: Subscription;
 
   constructor(private auth: AuthService,
-    private backendService: BackendService) {}
+    private backendService: BackendService) { }
 
   ngOnInit(): void {
-    this.subscription = notLoggedInSubject.subscribe(_ =>{ this.showLoginPopup(); })
+    this.subscription = notLoggedInSubject.subscribe(_ => { this.showLoginPopup(); })
   }
 
-   showLoginPopup() {
+  showLoginPopup() {
     this.showLogin = true;
   }
 
@@ -45,8 +44,12 @@ export class AccountComponent implements OnInit, OnDestroy{
     this.auth.logout().subscribe();
   }
 
-  public openUserInfo(){
+  public openUserInfo() {
     this.showUserInfo = !this.showUserInfo;
+  }
+
+  public resetReward() {
+    this.rewardPoints$ = this.backendService.resetRewardPoints();
   }
 
   ngOnDestroy(): void {

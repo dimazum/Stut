@@ -75,15 +75,15 @@ export class SpeechRecognitionService implements OnDestroy {
     this.recognition.onerror = (event: any) => {
       //console.error('Speech recognition error:', event.error);
 
-      if(event.error == 'no-speech')
-      {
-        const rData = new RecognitionData();
-        rData.text = 'Нет голоса...';
-        rData.wordCount = this.totalWordCount;
-        rData.wpm = 0;
+      // if(event.error == 'no-speech')
+      // {
+      //   const rData = new RecognitionData();
+      //   rData.text = 'Нет голоса...';
+      //   rData.wordCount = this.totalWordCount;
+      //   rData.wpm = 0;
 
-        this.recognitionResult.next(rData);
-      }
+      //   this.recognitionResult.next(rData);
+      // }
 
       // перезапустить распознавание, если ошибка recoverable
       if (this.isRecognitionEnabled

@@ -32,16 +32,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Database")));
 
-// builder.Services
-//     .AddDefaultIdentity<IdentityUser>(options =>
-//     {
-//         options.SignIn.RequireConfirmedAccount = false;
-//         options.SignIn.RequireConfirmedEmail = false;
-//         options.SignIn.RequireConfirmedPhoneNumber = false;
-//     })
-//     .AddRoles<IdentityRole>()
-//     .AddEntityFrameworkStores<ApplicationDbContext>();
-
 builder.Services.AddControllersWithViews()
     .AddRazorOptions(options =>
         {
@@ -76,9 +66,11 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.Cookie.SameSite = SameSiteMode.Strict;
     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
     options.LoginPath = "/auth/login";
+    options.ExpireTimeSpan = TimeSpan.FromDays(365);
+    options.SlidingExpiration = true;
+    options.Cookie.MaxAge = TimeSpan.FromDays(365);
 });
 
-// builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme);
 
 builder.Services.AddSignalR(options =>
 {
@@ -127,6 +119,7 @@ builder.Services.AddHttpContextAccessor();
 
 
 builder.Services.AddScoped<PollinationsIS>();
+builder.Services.AddSingleton<ConnectionStringProvider>();
 builder.Services.AddDataAccessLayer();
 builder.Services.AddLogicLayer();
 
@@ -186,6 +179,9 @@ using (var scope = app.Services.CreateScope())
     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
     
     await DbInitializer.SeedAsync(userManager, roleManager);
+    
+    var installer = scope.ServiceProvider.GetRequiredService<IStoredProcedureInstaller>();
+    await installer.InstallAsync(); 
 }
 
 app.Run();

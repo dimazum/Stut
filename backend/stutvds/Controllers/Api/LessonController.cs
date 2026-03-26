@@ -44,7 +44,7 @@ namespace stutvds.Controllers
                 StartTime = now,
                 StartRangeTime = now,
                 LeftInSec = (int)TimeSpan.FromMinutes(15).TotalSeconds,
-                Status = LessonStatus.Started,
+                Status = LessonStatus.None,
                 UserId = UserId
             };
             
@@ -61,6 +61,14 @@ namespace stutvds.Controllers
             
             return Ok(points);
         }
+        
+        [HttpPut("resetRewardPoints")]
+        public async Task<ActionResult<int>> ResetRewardPoints()
+        {
+            await _dayLessonRepository.ResetUserRewardedPoints(UserId);
+            
+            return Ok(0);
+        }
 
         [HttpPost("start")]
         public async Task<IActionResult> StartLesson()
@@ -72,11 +80,8 @@ namespace stutvds.Controllers
                 throw new Exception("Lesson does not exist");
             }
             
-            if (lesson.Status == LessonStatus.Paused)
-            {
-                lesson.Status = LessonStatus.Started;
-            }
-            
+            lesson.Status = LessonStatus.Started;
+            lesson.StartTime = DateTimeOffset.Now;
             lesson.StartRangeTime = DateTimeOffset.Now;
             
             await _dayLessonRepository.UpdateAsync(lesson);
@@ -97,8 +102,8 @@ namespace stutvds.Controllers
             //}
             
             lesson.Status = leftInSec == 0 ? LessonStatus.Finished : LessonStatus.Paused;
-            lesson.WordsSpoken = request.Words;
-            lesson.WPS = request.Wps;
+            //lesson.WordsSpoken = request.Words;
+            //lesson.WPS = request.Wps;
             await _dayLessonRepository.UpdateAsync(lesson);
 
             return Ok(lesson);
@@ -115,31 +120,31 @@ namespace stutvds.Controllers
             lesson.LeftInSec = 0;
             lesson.FinishTime = DateTimeOffset.Now;
 
-            var dates = await _dayLessonRepository.GetLastLessonDates(UserId, 2);
-
-            var twoDayStreak =
-                dates.Contains(DateTimeOffset.UtcNow.Date.AddDays(-1)) &&
-                dates.Contains(DateTimeOffset.UtcNow.Date.AddDays(-2));
-
-            var oneDayStreak =
-                dates.Contains(DateTimeOffset.UtcNow.Date.AddDays(-1));
-
-            var rewardPoints = 0;
-
-            if (twoDayStreak)
-            {
-                rewardPoints = 7;
-            }
-            else if (oneDayStreak)
-            {
-                rewardPoints = 6;
-            }
-            else
-            {
-                rewardPoints = 5;
-            }
-            
-            lesson.RewardPoints += rewardPoints;
+            // var dates = await _dayLessonRepository.GetLastLessonDates(UserId, 2);
+            //
+            // var twoDayStreak =
+            //     dates.Contains(DateTimeOffset.UtcNow.Date.AddDays(-1)) &&
+            //     dates.Contains(DateTimeOffset.UtcNow.Date.AddDays(-2));
+            //
+            // var oneDayStreak =
+            //     dates.Contains(DateTimeOffset.UtcNow.Date.AddDays(-1));
+            //
+            // var rewardPoints = 0;
+            //
+            // if (twoDayStreak)
+            // {
+            //     rewardPoints = 7;
+            // }
+            // else if (oneDayStreak)
+            // {
+            //     rewardPoints = 6;
+            // }
+            // else
+            // {
+            //     rewardPoints = 5;
+            // }
+            //
+            lesson.RewardPoints += 7;
             
             await _dayLessonRepository.UpdateAsync(lesson);
 
