@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using StopStatAuth_6_0.Entities.Enums;
+using stutvds.Common;
 using stutvds.Controllers.Base;
 using stutvds.DAL;
 using stutvds.DAL.Entities;
@@ -36,22 +37,31 @@ namespace stutvds.Controllers
 
         [HttpPost]
         [Route("create")]
-        public async Task<JsonResult> Create([FromBody] TriggerClientDto dto)
+        public async Task<IActionResult> Create([FromBody] TriggerClientDto dto)
         {
             var lettersCount = dto.Value.Length;
-            
+
             if (lettersCount > 60)
             {
-                throw new InvalidOperationException($"Trigger :'{dto.Value}' too long (60 character long max).");
+                return BadRequest(new
+                {
+                    code = ErrorCodes.ValidationError.Code,
+                    message = $"Trigger :'{dto.Value}' too long (60 character long max)."
+                });
             }
-            
+
+
             var userId = GetUserId();
             var isExisted = await _triggerRepository.IfExistsAsync(x => 
                 x.Value == dto.Value && x.UserId == userId);
 
             if (isExisted)
             {
-                throw new InvalidOperationException($"Trigger :'{dto.Value}' already exists.");
+                return NotFound(new
+                {
+                    code = ErrorCodes.NotFound.Code,
+                    message = ErrorCodes.NotFound.Message,
+                });
             }
 
             var entity = new TriggerEntity()

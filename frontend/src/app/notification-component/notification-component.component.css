@@ -1,5 +1,6 @@
 .notifications-container {
   position: fixed;
+  text-align: center;
   bottom: 20px;
   right: 20px;
   width: 300px;

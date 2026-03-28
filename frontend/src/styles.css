@@ -503,33 +503,6 @@ input.stu-input:focus {
 }
 
 
-.language-picker select {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-
-    padding: 6px 10px;
-    font-size: 12px;
-    font-family: Arial, sans-serif;
-    color: #ffffff;
-    background-color: #1abc9c;
-    border: 1px solid #f9f7f7;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-}
-
-.language-picker select:hover {
-    background-color: #1abc9c;
-    border-color: #999;
-}
-
-.language-picker select:focus {
-    outline: none;
-    border-color: #147864;
-    box-shadow: 0 0 5px rgba(13, 92, 26, 0.5);
-}
-
 
 /* Desktop */
 @media (min-width: 769px) {

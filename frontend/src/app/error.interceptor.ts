@@ -8,7 +8,7 @@ export const errorInterceptor: (req: HttpRequest<unknown>, next: HttpHandlerFn) 
     const ns = inject(NotificationService); 
     return next(req).pipe(
       catchError((error: HttpErrorResponse) => {
-        let message = 'Ошибка:';
+        let message = 'Error: ' + error.error.message;
 
          if (error.error.code !== 2){
              ns.showError(message);

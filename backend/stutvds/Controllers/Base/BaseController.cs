@@ -5,6 +5,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using StopStatAuth_6_0.Entities.Enums;
+using stutvds.Common;
 
 namespace stutvds.Controllers.Base
 {
@@ -12,8 +13,8 @@ namespace stutvds.Controllers.Base
     {
         private readonly Dictionary<string, Language> _cultureLanguageMap = new Dictionary<string, Language>()
         {
-            { "en", Language.Russian },
-            { "ru", Language.Russian },
+            { "en-US", Language.Russian },
+            { "ru-RU", Language.Russian },
             { "" , Language.Russian}
         };
         
@@ -25,7 +26,7 @@ namespace stutvds.Controllers.Base
 
                 if (id == null)
                 {
-                    throw new StuException("User not logged in", 444);
+                    throw new StuException(ErrorCodes.Unauthorized.Message, ErrorCodes.Unauthorized.Code);
                 }
                 
                 return Guid.Parse(id);
