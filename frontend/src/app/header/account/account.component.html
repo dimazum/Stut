@@ -1,5 +1,4 @@
   <div class="account">
-    <stu-language-picker></stu-language-picker>
     <ng-container *ngIf="userinfo$ | async as userinfo; else guest">
       <div (click)="openUserInfo()" class="nav-item truncate-user">{{ userinfo.user_name }}</div>
       <div class="points-container">{{ rewardPoints$ | async }}</div>

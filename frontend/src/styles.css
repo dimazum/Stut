@@ -105,7 +105,7 @@ main {
 
 .desktop-nav .nav-item:nth-child(2) {
     background: linear-gradient(17deg, #449c73  0, #449c73 40%, #449c73 60%, #449c73 100%);
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
 
     border-radius: 3px;
 }
@@ -501,6 +501,35 @@ input.stu-input:focus {
         font-weight: 600;
     }
 }
+
+
+.language-picker select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    padding: 6px 10px;
+    font-size: 12px;
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+    background-color: #1abc9c;
+    border: 1px solid #f9f7f7;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.language-picker select:hover {
+    background-color: #1abc9c;
+    border-color: #999;
+}
+
+.language-picker select:focus {
+    outline: none;
+    border-color: #147864;
+    box-shadow: 0 0 5px rgba(13, 92, 26, 0.5);
+}
+
 
 /* Desktop */
 @media (min-width: 769px) {

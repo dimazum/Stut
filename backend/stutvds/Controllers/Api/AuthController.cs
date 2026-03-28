@@ -10,10 +10,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using stutvds.Common;
+using stutvds.Controllers.Base;
 
 [ApiController]
 [Route("api/[controller]")]
-public class AuthController : ControllerBase
+public class AuthController : BaseController
 {
     private readonly IConfiguration _config;
     private readonly UserManager<IdentityUser> _userManager;
@@ -74,8 +76,7 @@ public class AuthController : ControllerBase
         }
 
         var roles = await _userManager.GetRolesAsync(user);
-
-        // ✅ Создаём cookie session
+        
         await _signInManager.SignInAsync(user, true);
 
         return Ok(new UserInfoDto
@@ -104,12 +105,24 @@ public class AuthController : ControllerBase
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
         if (userId == null)
-            return Unauthorized();
+        {
+            return Unauthorized(new 
+            { 
+                code = ErrorCodes.MeUnauthorized.Code, 
+                message = ErrorCodes.MeUnauthorized.Message 
+            });
+        }
 
         var user = await _userManager.FindByIdAsync(userId);
 
         if (user == null)
-            return Unauthorized();
+        {
+            return Unauthorized(new 
+            { 
+                code = ErrorCodes.MeUnauthorized.Code, 
+                message = ErrorCodes.MeUnauthorized.Message 
+            });
+        }
 
         var roles = await _userManager.GetRolesAsync(user);
 
@@ -119,31 +132,6 @@ public class AuthController : ControllerBase
             user_role = string.Join(",", roles),
             logged_in = true
         });
-    }
-
-    // =========================
-    // JWT GENERATOR
-    // =========================
-
-    private string GenerateJwtToken(List<Claim> claims)
-    {
-        var key = Encoding.UTF8.GetBytes(
-            _config["Jwt:Key"]);
-
-        var tokenDescriptor = new SecurityTokenDescriptor
-        {
-            Subject = new ClaimsIdentity(claims),
-            Expires = DateTime.UtcNow.AddMonths(1),
-            Issuer = _config["Jwt:Issuer"],
-            SigningCredentials = new SigningCredentials(
-                new SymmetricSecurityKey(key),
-                SecurityAlgorithms.HmacSha256)
-        };
-
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var token = tokenHandler.CreateToken(tokenDescriptor);
-
-        return tokenHandler.WriteToken(token);
     }
 
     // =========================

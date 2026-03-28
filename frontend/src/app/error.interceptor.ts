@@ -8,15 +8,12 @@ export const errorInterceptor: (req: HttpRequest<unknown>, next: HttpHandlerFn) 
     const ns = inject(NotificationService); 
     return next(req).pipe(
       catchError((error: HttpErrorResponse) => {
-        let message = 'Произошла ошибка';
-        console.log(message);
+        let message = 'Ошибка:';
 
-        console.log(ns);
-        
-         if (error.status !== 401){
+         if (error.error.code !== 2){
              ns.showError(message);
           } 
-             
+
         return throwError(() => error);
       })
     );

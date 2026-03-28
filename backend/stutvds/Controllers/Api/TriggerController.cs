@@ -45,8 +45,9 @@ namespace stutvds.Controllers
                 throw new InvalidOperationException($"Trigger :'{dto.Value}' too long (60 character long max).");
             }
             
+            var userId = GetUserId();
             var isExisted = await _triggerRepository.IfExistsAsync(x => 
-                x.Value == dto.Value && x.UserId == UserId);
+                x.Value == dto.Value && x.UserId == userId);
 
             if (isExisted)
             {
