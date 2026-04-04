@@ -35,15 +35,15 @@ export class TriggerModalComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subscription = this.authServeice.userinfo$.subscribe(x => 
-      {
-        if(x?.logged_in){
-          this.backendService
-          .getTriggers()
-          .subscribe(data => (this.triggers = data));
-        }
-      }
-    )
+    // this.subscription = this.authServeice.userinfo$.subscribe(x => 
+    //   {
+    //     if(x?.logged_in){
+    //       this.backendService
+    //       .getTriggers()
+    //       .subscribe(data => (this.triggers = data));
+    //     }
+    //   }
+    // )
   }
 
   public onCreate() {

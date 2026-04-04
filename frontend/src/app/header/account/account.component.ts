@@ -10,7 +10,6 @@ import { UserInfoComponent } from "../user-info/user-info.component";
 import { BackendService } from '../../services/backend.service';
 import { SendResetPasswordComponent } from '../../email/send-reset-password/send-reset-password.component';
 
-
 @Component({
   selector: 'app-account',
   standalone: true,
@@ -69,5 +68,9 @@ export class AccountComponent implements OnInit, OnDestroy {
 
   public openUserInfo() {
     this.showUserInfo = !this.showUserInfo;
+  }
+
+  public resetReward() {
+    this.rewardPoints$ = this.backendService.resetRewardPoints();
   }
 }

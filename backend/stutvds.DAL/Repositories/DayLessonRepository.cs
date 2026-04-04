@@ -63,5 +63,13 @@ namespace stutvds.DAL.Repositories
                     !x.Rewarded)
                 .SumAsync(x => x.RewardPoints);
         }
+
+        public async Task ResetUserRewardedPoints(Guid userId)
+        {
+            await _dbContext.DayLessons
+                .Where(x => x.UserId == userId)
+                .ExecuteUpdateAsync(setters => setters
+                    .SetProperty(x => x.RewardPoints, 0));
+        }
     }
 }

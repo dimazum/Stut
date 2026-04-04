@@ -26,5 +26,7 @@ namespace stutvds.DAL.Entities
         public int WordsSpoken { get; set; }
         public int WPS { get; set; } //words per second
         public int RewardPoints { get; set; }
+        
+        public string SpokenText { get; set; }
     }
 }
