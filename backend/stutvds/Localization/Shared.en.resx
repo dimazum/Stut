@@ -24,4 +24,22 @@
     <data name="ForgotYourPassword" xml:space="preserve">
         <value>Forgot your password</value>
     </data>
+    <data name="DailyLesson" xml:space="preserve">
+        <value>Daily lesson</value>
+    </data>
+    <data name="Texts" xml:space="preserve">
+        <value>Texts</value>
+    </data>
+    <data name="Calendar" xml:space="preserve">
+        <value>Calendar</value>
+    </data>
+    <data name="PracticeWord" xml:space="preserve">
+        <value>Practice word</value>
+    </data>
+    <data name="TaskInBackground" xml:space="preserve">
+        <value>Excercises in background</value>
+    </data>
+    <data name="Login" xml:space="preserve">
+        <value>Login</value>
+    </data>
 </root>

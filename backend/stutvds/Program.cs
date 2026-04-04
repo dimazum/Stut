@@ -28,6 +28,7 @@ using stutvds.Integrations;
 using stutvds.Logic;
 using stutvds.Messages;
 using stutvds.WebSocketHubs;
+using stutvds.MiddleWares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,15 +38,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Database")));
 
 
-var supportedCultures = new[] 
-{ 
-    new CultureInfo("en"), 
-    new CultureInfo("ru"), 
-};
+var supportedCultures = StuConstants.Cultures.Select(x => new CultureInfo(x)).ToList();
 
 var localizationOptions = new RequestLocalizationOptions
 {
-    DefaultRequestCulture = new RequestCulture("en"),
+    DefaultRequestCulture = new RequestCulture(StuConstants.DefaultCulture),
     SupportedCultures = supportedCultures,
     SupportedUICultures = supportedCultures
 };
@@ -58,6 +55,11 @@ var routeProvider = new RouteDataRequestCultureProvider()
 };
 
 localizationOptions.RequestCultureProviders.Insert(0, routeProvider);
+
+builder.Services.AddLocalization(options =>
+{
+    options.ResourcesPath = "Localization";
+});
 
 builder.Services.AddControllersWithViews()
     .AddRazorOptions(options =>
@@ -156,10 +158,7 @@ builder.Services.AddAutoMapper(
     typeof(LogicMappingProfile).Assembly
 );
 
-builder.Services.AddLocalization(options =>
-{
-    options.ResourcesPath = "Localization";
-});
+
 
 var app = builder.Build();
 
@@ -174,12 +173,6 @@ else
     app.UseHsts();
 }
 
-app.UseRequestLocalization(options =>
-{
-    options.SetDefaultCulture("en")
-        .AddSupportedCultures("en", "ru")
-        .AddSupportedUICultures("en", "ru");
-});
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
@@ -212,6 +205,8 @@ app.UseRouting();
 
 app.UseRequestLocalization(localizationOptions);
 
+app.UseMiddleware<CultureCaptureMiddleware>();
+
 app.UseCors("AllowAngularDev");
 
 if (!app.Environment.IsDevelopment())
@@ -219,6 +214,18 @@ if (!app.Environment.IsDevelopment())
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.Use(async (context, next) =>
+{
+    var culture = context.Features
+        .Get<IRequestCultureFeature>()?
+        .RequestCulture.Culture.Name;
+
+    if (!string.IsNullOrEmpty(culture))
+        context.Request.RouteValues["culture"] = culture;
+
+    await next();
+});
 
 app.MapControllerRoute(
     name: "default",
@@ -228,7 +235,7 @@ app.MapRazorPages();
 
 app.MapHub<VoiceAnalysisHub>("/voice-analysis");
 
-    //SEEDING
+//SEEDING
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;

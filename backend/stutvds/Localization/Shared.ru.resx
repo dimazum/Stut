@@ -24,4 +24,22 @@
     <data name="ForgotYourPassword" xml:space="preserve">
         <value>Забыли пароль</value>
     </data>
+    <data name="Texts" xml:space="preserve">
+        <value>Тексты</value>
+    </data>
+    <data name="Calendar" xml:space="preserve">
+        <value>Календарь</value>
+    </data>
+    <data name="DailyLesson" xml:space="preserve">
+        <value>Дневной урок</value>
+    </data>
+    <data name="PracticeWord" xml:space="preserve">
+        <value>Тренировать слово</value>
+    </data>
+    <data name="TaskInBackground" xml:space="preserve">
+        <value>Упражнения в фоне</value>
+    </data>
+    <data name="Login" xml:space="preserve">
+        <value>Логин</value>
+    </data>
 </root>

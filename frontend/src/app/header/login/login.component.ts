@@ -2,13 +2,14 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'stu-login',
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
   standalone: true,
-  imports: [ReactiveFormsModule, FormsModule, NgIf],
+  imports: [ReactiveFormsModule, FormsModule, NgIf, TranslatePipe],
 })
 export class LoginComponent {
   username = '';

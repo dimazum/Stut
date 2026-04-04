@@ -1,8 +1,10 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
 @using Microsoft.Extensions.Hosting
 @using System.Text.Json
+@using Microsoft.Extensions.Localization
 
 @inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment Env
+@inject IStringLocalizer<Shared> L
 
 @{
     var offStuContainer = ViewData["offStuContainer"] as bool? == true;
@@ -55,15 +57,15 @@
         <nav class="desktop-nav">
             <ul class="nav-menu">
                 <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Index", "home")">Главная</a>
+                    <a class="nav-link" href="@Url.Action("Index", "home")">@L["Main"]</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Index", "dailyLesson")">Дневной урок</a>
+                    <a class="nav-link" href="@Url.Action("Index", "dailyLesson")">@L["DailyLesson"]</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Index", "calendar")">Календарь</a>
+                    <a class="nav-link" href="@Url.Action("Index", "calendar")">@L["Calendar"]</a>
                 </li>
 
                 <li class="nav-item has-submenu">
@@ -71,9 +73,9 @@
                         Упражнения
                     </span>
                     <ul class="submenu">
-                        <li><a href="@Url.Action("Index", "texts")">Тексты</a></li>
-                        <li><a href="@Url.Action("Index", "practiceWord")">Тренировать слово</a></li>
-                        <li><a href="@Url.Action("Index", "inBackground")">Упражнения в фоне</a></li>
+                        <li><a href="@Url.Action("Index", "texts")">@L["Texts"]</a></li>
+                        <li><a href="@Url.Action("Index", "practiceWord")">@L["PracticeWord"]</a></li>
+                        <li><a href="@Url.Action("Index", "inBackground")">@L["TaskInBackground"]</a></li>
                     </ul>
                 </li>
 
@@ -97,7 +99,7 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Index", "lessonControl")">Контроль</a>
+                    <a class="nav-link" href="@Url.Action("Index", "linkedAccounts")">Связанные аккаунты</a>
                 </li>
 
                 @* <li class="nav-item"> *@
