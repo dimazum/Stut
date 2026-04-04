@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using stutvds.Models;
 using System.Diagnostics;
+using System.Globalization;
 
 namespace stutvds.Controllers
 {
@@ -17,19 +18,21 @@ namespace stutvds.Controllers
 		public IActionResult Index()
 		{
 			ViewData["offStuContainer"] = true;
+			var userLang = Request.Headers["Accept-Language"].ToString();
+
+			if (!string.IsNullOrEmpty(userLang) && userLang.StartsWith("en", System.StringComparison.OrdinalIgnoreCase))
+			{
+				return Redirect("/en");
+			}
 			
 			return View();
 		}
-
-		public IActionResult Privacy()
+		
+		[Route("en")]
+		public IActionResult English()
 		{
-			return View();
-		}
-
-		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-		public IActionResult Error()
-		{
-			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+			ViewData["offStuContainer"] = true;
+			return View("~/Controllers/MVC/Home/en/Index.cshtml");
 		}
 	}
 }

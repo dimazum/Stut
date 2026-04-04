@@ -41,7 +41,6 @@ var supportedCultures = new[]
 { 
     new CultureInfo("en"), 
     new CultureInfo("ru"), 
-    new CultureInfo("fr") 
 };
 
 var localizationOptions = new RequestLocalizationOptions
