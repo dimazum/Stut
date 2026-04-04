@@ -146,6 +146,11 @@ else
     builder.Services.AddScoped<IEmailSender, MailgunEmailSender>();
 }
 
+builder.Services.AddLocalization(options =>
+{
+    options.ResourcesPath = "Localization";
+});
+
 var app = builder.Build();
 
 // ----- PIPELINE -----
@@ -160,7 +165,12 @@ else
     app.UseHsts();
 }
 
-app.UseRequestLocalization();
+app.UseRequestLocalization(options =>
+{
+    options.SetDefaultCulture("en")
+        .AddSupportedCultures("en", "ru")
+        .AddSupportedUICultures("en", "ru");
+});
 app.UseDefaultFiles();
 app.UseStaticFiles();
 

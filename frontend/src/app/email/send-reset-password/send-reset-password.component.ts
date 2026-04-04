@@ -5,12 +5,13 @@ import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { SendResetPasswordDto } from '../../models/models';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @UntilDestroy()
 @Component({
   selector: 'stu-send-reset-password',
   standalone: true,
-  imports: [FormsModule, NgIf, ReactiveFormsModule],
+  imports: [FormsModule, NgIf, ReactiveFormsModule, TranslatePipe],
   templateUrl: './send-reset-password.component.html',
   styleUrl: './send-reset-password.component.css',
 })
