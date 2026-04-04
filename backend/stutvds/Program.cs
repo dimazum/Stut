@@ -156,12 +156,14 @@ builder.Services.AddAutoMapper(
     typeof(LogicMappingProfile).Assembly
 );
 
+builder.Services.AddLocalization(options =>
+{
+    options.ResourcesPath = "Localization";
+});
 
 var app = builder.Build();
 
 // ----- PIPELINE -----
-
-
 
 if (app.Environment.IsDevelopment())
 {
@@ -171,6 +173,13 @@ else
 {
     app.UseHsts();
 }
+
+app.UseRequestLocalization(options =>
+{
+    options.SetDefaultCulture("en")
+        .AddSupportedCultures("en", "ru")
+        .AddSupportedUICultures("en", "ru");
+});
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
@@ -199,11 +208,9 @@ app.UseExceptionHandler(appBuilder =>
     });
 });
 
-
 app.UseRouting();
 
 app.UseRequestLocalization(localizationOptions);
-
 
 app.UseCors("AllowAngularDev");
 
@@ -216,7 +223,6 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{culture=ru}/{controller=Home}/{action=Index}/{id?}");
-
 
 app.MapRazorPages();
 
