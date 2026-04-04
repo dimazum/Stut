@@ -13,6 +13,7 @@ namespace stutvds.Logic
             serviceCollection.AddTransient<SyllablesBreaker>();
             serviceCollection.AddScoped<TriggerGeneratorService>();
             serviceCollection.AddScoped<TriggerService>();
+            serviceCollection.AddSingleton<ICurrentLanguage, CurrentLanguage>();
         }
     }
 }
