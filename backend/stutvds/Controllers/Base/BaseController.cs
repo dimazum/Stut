@@ -13,8 +13,8 @@ namespace stutvds.Controllers.Base
     {
         private readonly Dictionary<string, Language> _cultureLanguageMap = new Dictionary<string, Language>()
         {
-            { "en-US", Language.Russian },
-            { "ru-RU", Language.Russian },
+            { "en", Language.Russian },
+            { "ru", Language.Russian },
             { "" , Language.Russian}
         };
         

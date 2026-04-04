@@ -103,14 +103,15 @@
                 @* <li class="nav-item"> *@
                 @*     <a class="nav-link" href="@Url.Action("Index", "aboutProject")">О проекте</a> *@
                 @* </li> *@
-            @if (User.IsInRole("Admin"))
-            {
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Index", "admin")">Admin</a>
-                </li>
-            }
+                @if (User.IsInRole("Admin"))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "admin")">Admin</a>
+                    </li>
+                }
             </ul>
         </nav>
+        @await Component.InvokeAsync("LanguagePicker")
         <app-account></app-account>
     </div>
 </header>

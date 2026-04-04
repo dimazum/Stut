@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Localization.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +21,7 @@ using Microsoft.IdentityModel.Tokens;
 using RabbitMQ.Client;
 using stutvds;
 using stutvds.Consumers;
+using stutvds.Controllers.MVC._Common;
 using stutvds.DAL;
 using stutvds.Data;
 using stutvds.Integrations;
@@ -32,10 +36,35 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Database")));
 
+
+var supportedCultures = new[] 
+{ 
+    new CultureInfo("en"), 
+    new CultureInfo("ru"), 
+    new CultureInfo("fr") 
+};
+
+var localizationOptions = new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture("en"),
+    SupportedCultures = supportedCultures,
+    SupportedUICultures = supportedCultures
+};
+
+// 🔹 Вставляем RouteData provider первым, чтобы URL имел приоритет
+var routeProvider = new RouteDataRequestCultureProvider()
+{
+    RouteDataStringKey = "culture",
+    UIRouteDataStringKey = "culture"
+};
+
+localizationOptions.RequestCultureProviders.Insert(0, routeProvider);
+
 builder.Services.AddControllersWithViews()
     .AddRazorOptions(options =>
         {
             options.ViewLocationFormats.Add("/Controllers/MVC/{1}/{0}.cshtml"); // рядом с контроллером
+            options.ViewLocationExpanders.Add(new LocalizationViewLocationExpander());
         }
     
     ).AddNewtonsoftJson();
@@ -128,9 +157,12 @@ builder.Services.AddAutoMapper(
     typeof(LogicMappingProfile).Assembly
 );
 
+
 var app = builder.Build();
 
 // ----- PIPELINE -----
+
+
 
 if (app.Environment.IsDevelopment())
 {
@@ -138,11 +170,9 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-    app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
 
-app.UseRequestLocalization();
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
@@ -170,7 +200,12 @@ app.UseExceptionHandler(appBuilder =>
     });
 });
 
+
 app.UseRouting();
+
+app.UseRequestLocalization(localizationOptions);
+
+
 app.UseCors("AllowAngularDev");
 
 if (!app.Environment.IsDevelopment())
@@ -181,9 +216,8 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}",
-    defaults: new { controller = "Home", action = "Index" }
-    );
+    pattern: "{culture=ru}/{controller=Home}/{action=Index}/{id?}");
+
 
 app.MapRazorPages();
 

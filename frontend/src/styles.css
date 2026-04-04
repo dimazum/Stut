@@ -503,6 +503,23 @@ input.stu-input:focus {
 }
 
 
+.language-picker {
+    font-size: 12px;
+}
+
+.language-picker a {
+    text-decoration: none;
+    color: #ffffff;
+    padding: 4px 6px;
+}
+
+.language-picker a.active {
+    color: #ffffff;
+    font-weight: bold;
+    border-bottom: 2px solid #ffffff;
+}
+
+
 
 /* Desktop */
 @media (min-width: 769px) {
