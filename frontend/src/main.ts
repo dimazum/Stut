@@ -3,7 +3,6 @@ import './styles.css'; //for debug in razor
 import './stu-utils.js';
 
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { AppComponent } from './app/app.component';
 import { createCustomElement } from '@angular/elements';
 import { RandomTextComponent } from './app/random-text/random-text.component';
@@ -15,14 +14,9 @@ import { WarmUpComponent } from './app/warm-up/warm-up.component';
 import { HistogramComponent } from './app/histogram/histogram.component';
 import { ConfirmEmailComponent } from './app/email/confirm-email/confirm-email.component';
 import { ResetPasswordComponent } from './app/email/reset-password/reset-password.component';
-import { errorInterceptor } from './app/error.interceptor';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { appConfig } from './app/app.config';
 
-
-bootstrapApplication(AppComponent, {
-
-  providers: [provideHttpClient(withInterceptors([errorInterceptor])), provideAnimationsAsync()],
-}).then(appRef => {
+bootstrapApplication(AppComponent, appConfig).then(appRef => {
   const injector = appRef.injector;
 
   const textEl = createCustomElement(RandomTextComponent, { injector });

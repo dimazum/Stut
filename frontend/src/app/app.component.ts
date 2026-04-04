@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NotificationComponent } from './notification-component/notification-component.component';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-root',
   standalone: true,
   imports: [
