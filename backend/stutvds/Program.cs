@@ -1,8 +1,12 @@
+using System;
+using System.Globalization;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Localization.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 using RabbitMQ.Client;
 using stutvds;
 using stutvds.Consumers;
+using stutvds.Controllers.MVC._Common;
 using stutvds.DAL;
 using stutvds.Data;
 using stutvds.Integrations;
@@ -26,20 +31,34 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Database")));
 
-// builder.Services
-//     .AddDefaultIdentity<IdentityUser>(options =>
-//     {
-//         options.SignIn.RequireConfirmedAccount = false;
-//         options.SignIn.RequireConfirmedEmail = false;
-//         options.SignIn.RequireConfirmedPhoneNumber = false;
-//     })
-//     .AddRoles<IdentityRole>()
-//     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+var supportedCultures = new[] 
+{ 
+    new CultureInfo("en"), 
+    new CultureInfo("ru"), 
+};
+
+var localizationOptions = new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture("en"),
+    SupportedCultures = supportedCultures,
+    SupportedUICultures = supportedCultures
+};
+
+// 🔹 Вставляем RouteData provider первым, чтобы URL имел приоритет
+var routeProvider = new RouteDataRequestCultureProvider()
+{
+    RouteDataStringKey = "culture",
+    UIRouteDataStringKey = "culture"
+};
+
+localizationOptions.RequestCultureProviders.Insert(0, routeProvider);
 
 builder.Services.AddControllersWithViews()
     .AddRazorOptions(options =>
         {
             options.ViewLocationFormats.Add("/Controllers/MVC/{1}/{0}.cshtml"); // рядом с контроллером
+            options.ViewLocationExpanders.Add(new LocalizationViewLocationExpander());
         }
     
     ).AddNewtonsoftJson();
@@ -75,9 +94,11 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.Cookie.SameSite = SameSiteMode.Strict;
     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
     options.LoginPath = "/auth/login";
+    options.ExpireTimeSpan = TimeSpan.FromDays(365);
+    options.SlidingExpiration = true;
+    options.Cookie.MaxAge = TimeSpan.FromDays(365);
 });
 
-// builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme);
 
 builder.Services.AddSignalR(options =>
 {
@@ -126,6 +147,7 @@ builder.Services.AddHttpContextAccessor();
 
 
 builder.Services.AddScoped<PollinationsIS>();
+builder.Services.AddSingleton<ConnectionStringProvider>();
 builder.Services.AddDataAccessLayer();
 builder.Services.AddLogicLayer();
 
@@ -161,7 +183,6 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-    app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
 
@@ -171,6 +192,7 @@ app.UseRequestLocalization(options =>
         .AddSupportedCultures("en", "ru")
         .AddSupportedUICultures("en", "ru");
 });
+
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
@@ -179,8 +201,29 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
     ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
 });
 
+app.UseExceptionHandler(appBuilder =>
+{
+    appBuilder.Run(async context =>
+    {
+        var exception = context.Features.Get<Microsoft.AspNetCore.Diagnostics.IExceptionHandlerFeature>()?.Error;
+
+        if (exception is StuException stuException)
+        {
+            context.Response.StatusCode = 401;
+            await context.Response.WriteAsJsonAsync(new { message = stuException.Message, code =  stuException.Code});
+        }
+        else
+        {
+            context.Response.StatusCode = 500;
+            await context.Response.WriteAsJsonAsync(new { message = exception.Message , code = 123});
+        }
+    });
+});
 
 app.UseRouting();
+
+app.UseRequestLocalization(localizationOptions);
+
 app.UseCors("AllowAngularDev");
 
 if (!app.Environment.IsDevelopment())
@@ -191,9 +234,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}",
-    defaults: new { controller = "Home", action = "Index" }
-    );
+    pattern: "{culture=ru}/{controller=Home}/{action=Index}/{id?}");
 
 app.MapRazorPages();
 
@@ -207,6 +248,9 @@ using (var scope = app.Services.CreateScope())
     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
     
     await DbInitializer.SeedAsync(userManager, roleManager);
+    
+    var installer = scope.ServiceProvider.GetRequiredService<IStoredProcedureInstaller>();
+    await installer.InstallAsync(); 
 }
 
 app.Run();

@@ -13,6 +13,7 @@ export class VoiceAnalysisService implements OnDestroy {
   private hubConnection?: signalR.HubConnection;
 
   private authSubscription: Subscription;
+  private dailyLessonId!: number;
 
   private voiceAnalysisSubject = new BehaviorSubject<VoiceAnalysisUpdateDto | null>(null);
   public voiceAnalysis$: Observable<VoiceAnalysisUpdateDto | null> =
@@ -23,9 +24,10 @@ export class VoiceAnalysisService implements OnDestroy {
   // ===============================
 
   private bufferText = '';
+  private bufferWordsSpoken = 0;
   private sendInterval: any;
 
-  private readonly SEND_INTERVAL = 10000; // 10 sec
+  private readonly SEND_INTERVAL = 5000; // 10 sec
 
   constructor(private authService: AuthService) {
 
@@ -78,14 +80,17 @@ export class VoiceAnalysisService implements OnDestroy {
   // SEND LOGIC
   // =====================================================
 
-  public analyzeVoice(text: string): void {
+  public analyzeVoice(text: string, wordsSpoken: number, dailyLessonId: number): void {
 
     if (!this.hubConnection) {
       console.warn('SignalR not connected');
       return;
     }
 
-    this.bufferText += text;
+    this.dailyLessonId = dailyLessonId;
+
+    this.bufferText += ` ${text}`;
+    this.bufferWordsSpoken += wordsSpoken;
 
   }
 
@@ -101,16 +106,28 @@ export class VoiceAnalysisService implements OnDestroy {
       if (!this.bufferText || !this.hubConnection) return;
 
       const textToSend = this.bufferText;
+      const wordsSpoken = this.bufferWordsSpoken;
       this.bufferText = '';
+      this.bufferWordsSpoken = 0;
 
       try {
-        await this.hubConnection.invoke('AnalyzeVoice', textToSend);
+        await this.hubConnection.invoke('AnalyzeVoice', textToSend, wordsSpoken, this.dailyLessonId);
       } catch (err) {
         console.error('Send buffer error:', err);
       }
 
     }, this.SEND_INTERVAL);
 
+  }
+
+  //Отправить остаток когда пауза
+
+  public sendRestOfText(dailyLessonId: number){
+      if (!this.hubConnection) return;
+
+      this.hubConnection.invoke('AnalyzeVoice', this.bufferText, dailyLessonId);
+      this.bufferText = '';
+      this.bufferWordsSpoken = 0;
   }
 
   // =====================================================
@@ -125,6 +142,7 @@ export class VoiceAnalysisService implements OnDestroy {
     }
 
     this.bufferText = '';
+    this.bufferWordsSpoken = 0;
 
     if (!this.hubConnection) return;
 

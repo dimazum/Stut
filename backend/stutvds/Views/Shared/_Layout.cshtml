@@ -88,22 +88,30 @@
                         <li><a href="@Url.Action("Index", "practiceWord")">Как читать текст</a></li>
                     </ul>
                 </li>
-
+                <li class="nav-item has-submenu">
+                    <span class="nav-link">
+                        Анализ голоса
+                    </span>
+                    <ul class="submenu">
+                        <li><a href="@Url.Action("Index", "texts")">Записи</a></li>
+                    </ul>
+                </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Home/VoiceAnalisys">Анализ голоса</a>
+                    <a class="nav-link" href="@Url.Action("Index", "lessonControl")">Контроль</a>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Index", "aboutProject")">О проекте</a>
-                </li>
-            @if (User.IsInRole("Admin"))
-            {
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Index", "admin")">Admin</a>
-                </li>
-            }
+                @* <li class="nav-item"> *@
+                @*     <a class="nav-link" href="@Url.Action("Index", "aboutProject")">О проекте</a> *@
+                @* </li> *@
+                @if (User.IsInRole("Admin"))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "admin")">Admin</a>
+                    </li>
+                }
             </ul>
         </nav>
+        @await Component.InvokeAsync("LanguagePicker")
         <app-account></app-account>
     </div>
 </header>

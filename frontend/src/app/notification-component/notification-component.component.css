@@ -1,0 +1,32 @@
+.notifications-container {
+  position: fixed;
+  text-align: center;
+  bottom: 20px;
+  right: 20px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 1000;
+}
+
+.notification {
+  padding: 12px 20px;
+  border-radius: 5px;
+  color: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  animation: slideIn 0.3s ease-out;
+}
+
+.notification.error {
+  background-color: #f44336;
+}
+
+.notification.success {
+  background-color: #4caf50;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}

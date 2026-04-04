@@ -1,0 +1,20 @@
+﻿@model stutvds.Controllers.MVC._Common.LanguagePickerModel
+
+@{
+    // убираем текущий язык из URL
+    var path = Model.CurrentPath;
+
+    if (path.StartsWith("/ru"))
+        path = path.Substring(3);
+    if (path.StartsWith("/en"))
+        path = path.Substring(3);
+
+    var ruUrl = "/ru" + path;
+    var enUrl = "/en" + path;
+}
+
+<div class="language-picker">
+    <a href="@ruUrl" class="@(Model.CurrentCulture=="ru" ? "active" : "")">RU</a>
+    |
+    <a href="@enUrl" class="@(Model.CurrentCulture=="en" ? "active" : "")">EN</a>
+</div>

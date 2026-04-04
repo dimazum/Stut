@@ -8,4 +8,5 @@ public class VoiceAnalysisUpdateDto
     public double Jitter { get; set; }
     public double Shimmer { get; set; }
     public int WPM { get; set; }
+    public int WordsSpoken { get; set; }
 }

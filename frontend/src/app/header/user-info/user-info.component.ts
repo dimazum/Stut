@@ -11,11 +11,16 @@ import { AuthService } from '../../services/auth.service';
 export class UserInfoComponent {
 
   @Output() close = new EventEmitter<void>();
+  @Output() rewardReset = new EventEmitter<void>();
 
   constructor(private authService: AuthService) {}
 
   logout() {
     this.authService.logout().subscribe();
     this.close.emit();
+  }
+
+  resetReward(){
+    this.rewardReset.emit()
   }
 }

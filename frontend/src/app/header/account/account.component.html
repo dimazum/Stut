@@ -1,8 +1,7 @@
 <div class="account">
-  <stu-language-picker></stu-language-picker>
   <ng-container *ngIf="userinfo$ | async as userinfo; else guest">
     <div (click)="openUserInfo()" class="nav-item truncate-user">{{ userinfo.user_name }}</div>
-    <!-- <div class="points-container">{{ rewardPoints$ | async }}</div> -->
+      <div class="points-container">{{ rewardPoints$ | async }}</div>
   </ng-container>
 
   <ng-template #guest>
@@ -14,5 +13,4 @@
 
 <stu-login *ngIf="showLogin" (close)="showLogin = false"></stu-login>
 <stu-register *ngIf="showRegister" (close)="showRegister = false"></stu-register>
-<stu-send-reset-password *ngIf="showResetPassword" (closeEvent)="showResetPassword = false"></stu-send-reset-password>
-<stu-user-info *ngIf="showUserInfo" (close)="showUserInfo = false"></stu-user-info>
+  <stu-user-info *ngIf="showUserInfo" (close)="showUserInfo = false" (rewardReset)="resetReward()"></stu-user-info>

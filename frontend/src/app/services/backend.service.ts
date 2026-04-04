@@ -66,14 +66,19 @@ export class BackendService {
     return this.rewardPoints$;
   }
 
-  public pauseLesson(id: number, words: number, wps: number): Observable<DayLessonDto> {
-    const body = { id, words, wps };
+   public resetRewardPoints(): Observable<number> {
+    return this.httpClient
+      .put<number>(`${this.baseUrl}/lesson/resetRewardPoints`, { withCredentials: true });
+  }
+
+  public pauseLesson(id: number): Observable<DayLessonDto> {
+    const body = { id };
     return this.httpClient
       .put<DayLessonDto>(`${this.baseUrl}/lesson/pause`, body);
   }
 
-  public finishLesson(id: number, words: number, wps: number): Observable<DayLessonDto> {
-    const body = { id, words, wps };
+  public finishLesson(id: number): Observable<DayLessonDto> {
+    const body = { id };
     return this.httpClient
       .put<DayLessonDto>(`${this.baseUrl}/lesson/finish`, body);
   }

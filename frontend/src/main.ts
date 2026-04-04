@@ -15,9 +15,14 @@ import { WarmUpComponent } from './app/warm-up/warm-up.component';
 import { HistogramComponent } from './app/histogram/histogram.component';
 import { ConfirmEmailComponent } from './app/email/confirm-email/confirm-email.component';
 import { ResetPasswordComponent } from './app/email/reset-password/reset-password.component';
-import { appConfig } from './app/app.config';
+import { errorInterceptor } from './app/error.interceptor';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
-bootstrapApplication(AppComponent, appConfig).then(appRef => {
+
+bootstrapApplication(AppComponent, {
+
+  providers: [provideHttpClient(withInterceptors([errorInterceptor])), provideAnimationsAsync()],
+}).then(appRef => {
   const injector = appRef.injector;
 
   const textEl = createCustomElement(RandomTextComponent, { injector });
