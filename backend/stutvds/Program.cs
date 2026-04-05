@@ -163,7 +163,6 @@ builder.Services.AddDataProtection()
     .PersistKeysToDbContext<ApplicationDbContext>()
     .SetApplicationName("StutVDS");
 
-
 var app = builder.Build();
 
 // ----- PIPELINE -----
@@ -176,7 +175,6 @@ else
 {
     app.UseHsts();
 }
-
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
