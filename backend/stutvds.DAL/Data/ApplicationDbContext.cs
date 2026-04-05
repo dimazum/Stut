@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using StopStatAuth_6_0.Entities;
@@ -6,8 +7,10 @@ using stutvds.DAL.Entities;
 
 namespace stutvds.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext, IDataProtectionKeyContext
     {
+        public DbSet<DataProtectionKey> DataProtectionKeys { get; set; }
+
         public DbSet<TriggerEntity> Triggers { get; set; }
         public DbSet<ArticleEntity> Articles { get; set; }
         public DbSet<DayLesson> DayLessons { get; set; }
