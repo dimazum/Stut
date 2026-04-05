@@ -7,7 +7,7 @@
 @inject IStringLocalizer<Shared> L
 
 @{
-    var offStuContainer = ViewData["offStuContainer"] as bool? == true;
+    var disableStuContainer = ViewData["disableStuContainer"] as bool? == true;
     var manifest = new Dictionary<string, string>();
     if (!Env.IsDevelopment())
     {
@@ -70,7 +70,7 @@
 
                 <li class="nav-item has-submenu">
                     <span class="nav-link">
-                        Упражнения
+                        @L["Exercises"]
                     </span>
                     <ul class="submenu">
                         <li><a href="@Url.Action("Index", "texts")">@L["Texts"]</a></li>
@@ -81,25 +81,24 @@
 
                 <li class="nav-item has-submenu">
                     <span class="nav-link">
-                        Методика
+                        @L["Methodology"]
                     </span>
                     <ul class="submenu">
-                        <li><a href="@Url.Action("Index", "aboutMethodology")">О методике</a></li>
-                        <li><a href="@Url.Action("Index", "practiceWord")">Голос робота</a></li>
-                        <li><a href="@Url.Action("Index", "practiceWord")">Закрытые связки</a></li>
-                        <li><a href="@Url.Action("Index", "practiceWord")">Как читать текст</a></li>
+                        <li><a href="@Url.Action("Index", "aboutMethodology")">@L["AboutMethodology"]</a></li>
+                        <li><a href="@Url.Action("Index", "roboticVoice")">@L["RoboticVoice"]</a></li>
+                        <li><a href="@Url.Action("Index", "howToRead")">@L["HowToRead"]</a></li>
                     </ul>
                 </li>
                 <li class="nav-item has-submenu">
                     <span class="nav-link">
-                        Анализ голоса
+                        @L["VoiceAnalysis"]
                     </span>
                     <ul class="submenu">
-                        <li><a href="@Url.Action("Index", "texts")">Записи</a></li>
+                        <li><a href="@Url.Action("Index", "texts")">@L["Records"]</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Index", "linkedAccounts")">Связанные аккаунты</a>
+                    <a class="nav-link" href="@Url.Action("Index", "linkedAccounts")">@L["LinkedAccounts"]</a>
                 </li>
 
                 @* <li class="nav-item"> *@
@@ -161,7 +160,7 @@
     </nav>
 </header>
 
-<main class="@(offStuContainer ?  null : "stu-container")">
+<main class="@(disableStuContainer ?  null : "stu-container")">
     @RenderBody()
 </main>
 

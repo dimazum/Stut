@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using stutvds.Models;
-using System.Diagnostics;
-using System.Globalization;
 
 namespace stutvds.Controllers
 {
@@ -17,7 +14,7 @@ namespace stutvds.Controllers
 
 		public IActionResult Index()
 		{
-			ViewData["offStuContainer"] = true;
+			ViewData["disableStuContainer"] = true;
 			var userLang = Request.Headers["Accept-Language"].ToString();
 
 			if (!string.IsNullOrEmpty(userLang) && userLang.StartsWith("en", System.StringComparison.OrdinalIgnoreCase))
@@ -31,7 +28,7 @@ namespace stutvds.Controllers
 		[Route("en")]
 		public IActionResult English()
 		{
-			ViewData["offStuContainer"] = true;
+			ViewData["disableStuContainer"] = true;
 			return View("~/Controllers/MVC/Home/en/Index.cshtml");
 		}
 	}
