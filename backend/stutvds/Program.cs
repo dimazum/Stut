@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Linq;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
@@ -23,6 +24,7 @@ using stutvds.Logic;
 using stutvds.Messages;
 using stutvds.WebSocketHubs;
 using stutvds.Emails;
+using stutvds.MiddleWares;
 using stutvds.Emails.Senders;
 using stutvds.MiddleWares;
 
@@ -162,6 +164,9 @@ builder.Services.AddAutoMapper(
 builder.Services.AddSingleton<IRazorEmailRenderer, RazorEmailRenderer>();
 builder.Services.AddScoped<IEmailSender, SmtpEmailSender>();
 
+builder.Services.AddDataProtection()
+    .PersistKeysToDbContext<ApplicationDbContext>()
+    .SetApplicationName("StutVDS");
 if (builder.Environment.IsDevelopment())
 {
     builder.Services.AddScoped<IEmailSender, SmtpEmailSender>();
@@ -174,9 +179,7 @@ else
 
 
 var app = builder.Build();
-
 // ----- PIPELINE -----
-
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();

@@ -42,4 +42,28 @@
     <data name="Login" xml:space="preserve">
         <value>Логин</value>
     </data>
+    <data name="Exercises" xml:space="preserve">
+        <value>Упражнения</value>
+    </data>
+    <data name="Methodology" xml:space="preserve">
+        <value>Методика</value>
+    </data>
+    <data name="VoiceAnalysis" xml:space="preserve">
+        <value>Анализ голоса</value>
+    </data>
+    <data name="LinkedAccounts" xml:space="preserve">
+        <value>Связанные аккаунты</value>
+    </data>
+    <data name="Records" xml:space="preserve">
+        <value>Записи</value>
+    </data>
+    <data name="RoboticVoice" xml:space="preserve">
+        <value>Голос робота</value>
+    </data>
+    <data name="AboutMethodology" xml:space="preserve">
+        <value>О метологии</value>
+    </data>
+    <data name="HowToRead" xml:space="preserve">
+        <value>Как читать</value>
+    </data>
 </root>
