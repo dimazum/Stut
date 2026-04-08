@@ -30,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="StoredProcedures\" />
     <Folder Include="wwwroot\angular\" />
     <Folder Include="wwwroot\assets\random-text\" />
   </ItemGroup>

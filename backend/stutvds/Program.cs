@@ -236,6 +236,7 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 app.MapHub<VoiceAnalysisHub>("/voice-analysis");
+app.MapHub<ChatHub>("/chatHub");
 
 //SEEDING
 using (var scope = app.Services.CreateScope())

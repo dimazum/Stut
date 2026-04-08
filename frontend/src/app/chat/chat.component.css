@@ -1,0 +1,174 @@
+.chat-wrapper {
+  display: flex;
+  position: fixed;
+  top:51px;
+  left: -400px;
+  bottom: 65px;
+  font-family: Arial, Helvetica, sans-serif;
+  transition: transform 0.3s ease;
+  z-index: 2000;
+}
+
+.chat-modal-open {
+  transform: translateX(400px);
+}
+
+.overlay {
+  position:fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.chat-container {
+  border: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  background: #fff;
+}
+
+.messages {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  background: #f5f5f5;
+}
+
+/* Контейнер сообщения */
+.message {
+  position: relative;
+  padding: 10px 30px 10px 10px; /* место для крестика справа */
+  margin-bottom: 10px;
+  background: #f1f1f1;
+  border-radius: 8px;
+}
+
+.delete-message {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.delete-message::before,
+.delete-message::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1px;
+  height: 10px;
+  background-color: #888;
+  border-radius: 1px;
+  transform-origin: center;
+  transition: background-color 0.2s;
+}
+
+.delete-message::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.delete-message::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.delete-message:hover::before,
+.delete-message:hover::after {
+  background-color: rgb(83, 81, 81);
+}
+
+.my-message {
+  margin-left: auto;
+  background: #d2f8d2;
+}
+
+.author {
+  font-size: 12px;
+  color: gray;
+}
+
+.text {
+  font-size: 14px;
+}
+
+.input-area {
+  display: flex;
+  border-top: 1px solid #ddd;
+}
+
+input {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  outline: none;
+  width: 50px;
+}
+
+button {
+  padding: 10px 15px;
+  border: none;
+  background: #4CAF50;
+  color: white;
+  cursor: pointer;
+}
+
+.users-container {
+  width: 150px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  background: hsl(0, 0%, 98%);
+  height: 100%;            /* или фиксированная высота, например 400px */
+  display: flex;
+  flex-direction: column;
+}
+
+
+.users-container h4 {
+  margin: 0;
+  flex-shrink: 0;          /* запретить сжиматься */
+  background: white; 
+}
+
+.users-container ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  overflow-y: auto;        /* ВОТ он скролл */
+  flex: 1; 
+}
+
+.users-container li {
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.users-container li.active {
+  background: #4CAF50;
+  color: white;
+}
+
+.trigger-modal-toggle-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+    div{
+        background-color: #2e2e2e;
+        color: white;
+        cursor: pointer;
+        border-radius: 0 6px 6px 0;
+        writing-mode: vertical-lr;
+        font-size: 12px;
+        padding: 10px 0;
+        font-weight: 600;
+    }
+}
+

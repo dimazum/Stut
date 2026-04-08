@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { TriggerBlockComponent } from "../trigger-block/trigger-block.component";
 import { RandomTextComponent } from "../random-text/random-text.component";
 import { CommonModule } from '@angular/common';
 
@@ -17,7 +16,7 @@ export type LessonType =
 @Component({
   selector: 'stu-daily-lesson',
   standalone: true,
-  imports: [TriggerBlockComponent, RandomTextComponent, CommonModule],
+  imports: [ RandomTextComponent, CommonModule],
   templateUrl: './daily-lesson.component.html',
   styleUrl: './daily-lesson.component.css'
 })

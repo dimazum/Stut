@@ -1,0 +1,43 @@
+<div class="overlay" [style.display]="isOpen ? 'block' : 'none'" (click)="onToggle()"></div>
+<div class="chat-wrapper" [ngClass]="{ 'chat-modal-open': isOpen }">
+  <div class="users-container">
+    <h4>Users</h4>
+      <ul>
+        <li 
+          *ngFor="let user of users" 
+          [class.active]="user.id === receiverId"
+          (click)="selectUser(user)">
+          {{user.name}}
+        </li>
+      </ul>
+  </div>
+  <div class="chat-container">
+    <div class="messages" #scrollMe>
+      <div 
+        *ngFor="let msg of messages" 
+        [class.my-message]="msg.senderId === myUserId"
+        class="message">
+
+        <div *ngIf="msg.senderId === myUserId" (click)="deleteMessage(msg.id)" class="delete-message"></div>
+
+
+        <div class="author">
+          {{msg.senderId === myUserId ? 'Я' : otherUserName}}
+        </div>
+
+        <div class="text">
+          {{msg.message}}
+        </div>
+      </div>
+    </div>
+
+    <div class="input-area">
+      <input 
+        [(ngModel)]="message"
+        (keyup.enter)="send()"
+        placeholder="Type here..." />
+      <button (click)="send()">Send</button>
+    </div>
+  </div>
+  <div class="trigger-modal-toggle-button"  ><div (click)="onToggle()">Чат</div></div>
+</div>

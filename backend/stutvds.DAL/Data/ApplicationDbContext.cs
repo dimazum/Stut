@@ -17,6 +17,7 @@ namespace stutvds.Data
         public DbSet<VoiceAnalysisEntity> VoiceAnalyses { get; set; }
         public DbSet<Histogram> Histograms { get; set; }
         public DbSet<CharItem> CharItems { get; set; }
+        public DbSet<ChatMessage> ChatMessages { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
