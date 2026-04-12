@@ -104,10 +104,8 @@ main {
 }
 
 .desktop-nav .nav-item:nth-child(2) {
-    background: linear-gradient(17deg, #449c73  0, #449c73 40%, #449c73 60%, #449c73 100%);
-    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
-
     border-radius: 3px;
+    border: solid 1px;
 }
 
 .desktop-nav .nav-link {
@@ -323,7 +321,7 @@ main {
 
 .stu-button-l2 {
     font-size: 20px;
-    padding: 10px;
+    padding: 10px 15px;
     border: none;
     color: white;
     border-radius: 5px;
@@ -441,10 +439,18 @@ input.stu-input:focus {
         h2{
             padding-bottom: 10px;
         }
+        .inner-container{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            img{
+                width: 250px;
+            }
+        }
     }
 
     section {
-        padding: 80px 0;
+        padding: 40px 0;
     }
 
     .hero {
@@ -476,6 +482,18 @@ input.stu-input:focus {
         box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         transition: 0.3s;
         flex: 1 1 270px;
+        justify-content: center;
+        align-items: center;
+        text-align: left;
+        .card-inner{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            img{
+                width: 100px;
+            }
+        }
     }
 
     .card:hover {
@@ -510,13 +528,13 @@ input.stu-input:focus {
 .language-picker a {
     text-decoration: none;
     color: #ffffff;
-    padding: 4px 6px;
+    padding: 3px 3px;
 }
 
 .language-picker a.active {
     color: #ffffff;
     font-weight: bold;
-    border-bottom: 2px solid #ffffff;
+    border-bottom: 1px solid #ffffff;
 }
 
 

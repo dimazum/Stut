@@ -23,6 +23,11 @@ public class LocalizationController : ControllerBase
     [HttpGet]
     public ActionResult<LocalizationDto> Get()
     {
+        if (_language.Culture == null)
+        {
+            return Ok(new LocalizationDto());
+        }
+        
         var ci = new CultureInfo(_language.Culture);
 
         CultureInfo.CurrentCulture = ci;

@@ -42,4 +42,28 @@
     <data name="Login" xml:space="preserve">
         <value>Login</value>
     </data>
+    <data name="Exercises" xml:space="preserve">
+        <value>Exercises</value>
+    </data>
+    <data name="Methodology" xml:space="preserve">
+        <value>Methodology</value>
+    </data>
+    <data name="VoiceAnalysis" xml:space="preserve">
+        <value>Voice analysis</value>
+    </data>
+    <data name="LinkedAccounts" xml:space="preserve">
+        <value>Linked accounts</value>
+    </data>
+    <data name="Records" xml:space="preserve">
+        <value>Records</value>
+    </data>
+    <data name="RoboticVoice" xml:space="preserve">
+        <value>Robotic voice</value>
+    </data>
+    <data name="AboutMethodology" xml:space="preserve">
+        <value>About methodology</value>
+    </data>
+    <data name="HowToRead" xml:space="preserve">
+        <value>How to read</value>
+    </data>
 </root>
