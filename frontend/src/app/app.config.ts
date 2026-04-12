@@ -2,7 +2,7 @@ import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom } from '@angula
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { ToastrModule } from 'ngx-toastr';
-import { initLocalization, LocalizationService } from './services/localization-service';
+import { initLocalization, LocalizationService } from './services/localization.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { errorInterceptor } from './error.interceptor';
 
