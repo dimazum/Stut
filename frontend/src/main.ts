@@ -13,6 +13,7 @@ import { SubHeaderComponent } from './app/header/sub-header/sub-header.component
 import { WarmUpComponent } from './app/warm-up/warm-up.component';
 import { HistogramComponent } from './app/histogram/histogram.component';
 import { appConfig } from './app/app.config';
+import { LinkedAccountsComponent } from './app/linked-accounts/linked-accounts.component';
 
 bootstrapApplication(AppComponent, appConfig).then(appRef => {
   const injector = appRef.injector;
@@ -38,4 +39,6 @@ bootstrapApplication(AppComponent, appConfig).then(appRef => {
   const histogramEl = createCustomElement(HistogramComponent, { injector });
   customElements.define('stu-histogram', histogramEl);
 
+  const linkedAccountsEl = createCustomElement(LinkedAccountsComponent, { injector });
+  customElements.define('stu-linked-accounts', linkedAccountsEl);
 });

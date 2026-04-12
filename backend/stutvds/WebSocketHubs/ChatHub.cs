@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using Dapper;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
 using stutvds.DAL.Entities;
 using stutvds.DAL.Repositories;
 using stutvds.Data;
 using stutvds.Models.HubDto;
+
+namespace stutvds.WebSocketHubs;
 
 public class ChatHub : Hub
 {
@@ -28,14 +30,17 @@ public class ChatHub : Hub
 
     public override async Task OnConnectedAsync()
     {
-        // Добавляем подключение пользователя в группу по его UserId
-        var userId = Guid.Parse(Context.UserIdentifier!);
-        await Groups.AddToGroupAsync(Context.ConnectionId, userId.ToString());
+        await Groups.AddToGroupAsync(Context.ConnectionId, Context.UserIdentifier!);
         await base.OnConnectedAsync();
     }
 
     public async Task SendMessage(string receiverId, string message)
     {
+        if (message.Length > 100)
+        {
+            throw new StuException(ErrorCodes.ValidationError.Message);
+        }
+        
         var senderId = Context.UserIdentifier!;
 
         var chatMessage = new ChatMessage
@@ -53,9 +58,12 @@ public class ChatHub : Hub
 
         await Clients.Group(receiverId).SendAsync("ReceiveMessage", messages);
         await Clients.Group(senderId).SendAsync("ReceiveMessage", messages);
+        
+        // обновляем список чатов (lastMessage + unread counters)
+        await Clients.User(receiverId).SendAsync("UpdateChatUsers");
+        await Clients.User(senderId).SendAsync("UpdateChatUsers");
     }
-
-    // Метод для получения истории сообщений между двумя пользователями
+    
     public async Task<List<ChatMessage>> GetChatHistory(string receiverId)
     {
         var senderId = Context.UserIdentifier!;
@@ -67,38 +75,40 @@ public class ChatHub : Hub
 
     public async Task<ChatUsersDto> GetChatUsers()
     {
-        var result = new ChatUsersDto()
-        {
-            Users = new List<ChatUser>()
-        };
-
         using var conn = new SqlConnection(_connectionString);
-        using var cmd = new SqlCommand("dbo.ChatGetUsers", conn);
 
-        cmd.CommandType = CommandType.StoredProcedure;
-        cmd.Parameters.AddWithValue("@MyUserId", Context.UserIdentifier);
-
-        await conn.OpenAsync();
-
-        using var reader = await cmd.ExecuteReaderAsync();
-
-        result.MyUserid = Context.UserIdentifier;
-
-        while (await reader.ReadAsync())
-        {
-            result.Users.Add(new ChatUser
+        var users = await conn.QueryAsync<ChatUser>(
+            "dbo.ChatGetUsers",
+            new
             {
-                Id = reader.GetString(0),
-                Name = reader.GetString(1),
-                LastMessageDate = reader.IsDBNull(2) 
-                    ? null 
-                    : reader.GetDateTimeOffset(2)
-            });
-        }
+                MyUserId = Context.UserIdentifier
+            },
+            commandType: CommandType.StoredProcedure);
 
-        return result;
+        return new ChatUsersDto
+        {
+            MyUserid = Context.UserIdentifier,
+            Users = users.ToList()
+        };
     }
+    
+    public async Task MarkAsRead(string otherUserId)
+    {
+        using var conn = new SqlConnection(_connectionString);
 
+        await conn.ExecuteAsync(
+            "dbo.ChatMarkAsRead",
+            new
+            {
+                MyUserId = Context.UserIdentifier,
+                OtherUserId = otherUserId
+            },
+            commandType: CommandType.StoredProcedure);
+
+        await Clients.User(otherUserId)
+            .SendAsync("MessagesRead", Context.UserIdentifier);
+    }
+    
     public async Task DeleteMessage(int messageId, string receiverId)
     {
         await _repository.DeleteByIdAsync(messageId);
@@ -107,20 +117,24 @@ public class ChatHub : Hub
 
         var messages = await GetChatMessages(senderId, receiverId);
 
-        await Clients.Group(receiverId.ToString()).SendAsync("ReceiveMessage", messages);
-        await Clients.Group(senderId.ToString()).SendAsync("ReceiveMessage", messages);
+        await Clients.Group(receiverId).SendAsync("ReceiveMessage", messages);
+        await Clients.Group(senderId).SendAsync("ReceiveMessage", messages);
     }
 
-    private async Task<List<ChatMessage>> GetChatMessages(string senderId, string receiverId)
+    public async Task<List<ChatMessage>> GetChatMessages(
+        string senderId, string receiverId)
     {
-        var messages= await _context.ChatMessages
-            .Where(m => (m.SenderId == senderId && m.ReceiverId == receiverId) ||
-                        (m.SenderId == receiverId && m.ReceiverId == senderId))
-            .OrderByDescending(m => m.SentAt)
-            .Take(100)  
-            .OrderBy(m => m.SentAt)
-            .ToListAsync();
+        using var conn = new SqlConnection(_connectionString);
 
-        return messages;
+        var messages = await conn.QueryAsync<ChatMessage>(
+            "dbo.GetChatMessages",
+            new
+            {
+                SenderId = senderId,
+                ReceiverId = receiverId
+            },
+            commandType: CommandType.StoredProcedure);
+
+        return messages.ToList();
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using stutvds.Data;
 
@@ -11,9 +12,11 @@ using stutvds.Data;
 namespace stutvds.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260408172337_ApplicationUsers")]
+    partial class ApplicationUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,21 +24,6 @@ namespace stutvds.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("LearnerTeacher", b =>
-                {
-                    b.Property<string>("LearnerId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("TeacherId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("LearnerId", "TeacherId");
-
-                    b.HasIndex("TeacherId");
-
-                    b.ToTable("LearnerTeachers");
-                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.DataProtection.EntityFrameworkCore.DataProtectionKey", b =>
                 {
@@ -392,23 +380,16 @@ namespace stutvds.Data.Migrations
                     b.Property<string>("Message")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset?>("ReadAt")
-                        .HasColumnType("datetimeoffset");
-
                     b.Property<string>("ReceiverId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SenderId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTimeOffset>("SentAt")
                         .HasColumnType("datetimeoffset");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("SenderId", "ReceiverId", "SentAt")
-                        .IsDescending(false, false, true)
-                        .HasDatabaseName("IX_ChatMessages_Dialog_SentAt");
 
                     b.ToTable("ChatMessages");
                 });
@@ -528,25 +509,6 @@ namespace stutvds.Data.Migrations
                     b.HasDiscriminator().HasValue("ApplicationUser");
                 });
 
-            modelBuilder.Entity("LearnerTeacher", b =>
-                {
-                    b.HasOne("StopStatAuth_6_0.Entities.ApplicationUser", "Learner")
-                        .WithMany("MyTeachers")
-                        .HasForeignKey("LearnerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("StopStatAuth_6_0.Entities.ApplicationUser", "Teacher")
-                        .WithMany("MyLearners")
-                        .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Learner");
-
-                    b.Navigation("Teacher");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -623,10 +585,6 @@ namespace stutvds.Data.Migrations
 
             modelBuilder.Entity("StopStatAuth_6_0.Entities.ApplicationUser", b =>
                 {
-                    b.Navigation("MyLearners");
-
-                    b.Navigation("MyTeachers");
-
                     b.Navigation("Triggers");
                 });
 #pragma warning restore 612, 618

@@ -9,4 +9,10 @@ public class StuException : Exception
     {
         Code = code;
     }
+    
+    public StuException(ErrorDefinition errorDefinition) 
+        : base(errorDefinition.Message)
+    {
+        Code = errorDefinition.Code;
+    }
 }

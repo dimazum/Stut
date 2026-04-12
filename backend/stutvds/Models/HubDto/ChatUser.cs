@@ -11,5 +11,7 @@ public class ChatUser
 {
     public string Id { get; set; }
     public string Name { get; set; }
+    public string LastMessage { get; set; }
     public DateTimeOffset? LastMessageDate { get; set; }
+    public int UnreadCount { get; set; }
 }

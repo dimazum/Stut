@@ -9,5 +9,6 @@ public class ChatMessage: Entity
     public string SenderId { get; set; }
     public string? ReceiverId { get; set; }
     public string Message { get; set; }
+    public DateTimeOffset? ReadAt { get; set; }
     public DateTimeOffset SentAt { get; set; } = DateTimeOffset.Now;
 }
