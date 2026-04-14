@@ -22,6 +22,21 @@ namespace stutvds.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("LearnerTeacher", b =>
+                {
+                    b.Property<string>("LearnerId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("TeacherId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("LearnerId", "TeacherId");
+
+                    b.HasIndex("TeacherId");
+
+                    b.ToTable("LearnerTeachers");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.DataProtection.EntityFrameworkCore.DataProtectionKey", b =>
                 {
                     b.Property<int>("Id")
@@ -105,6 +120,11 @@ namespace stutvds.Data.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(21)
+                        .HasColumnType("nvarchar(21)");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -156,6 +176,10 @@ namespace stutvds.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasDiscriminator().HasValue("IdentityUser");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -357,6 +381,38 @@ namespace stutvds.Data.Migrations
                     b.ToTable("CharItems");
                 });
 
+            modelBuilder.Entity("stutvds.DAL.Entities.ChatMessage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("ReadAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("ReceiverId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SenderId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTimeOffset>("SentAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SenderId", "ReceiverId", "SentAt")
+                        .IsDescending(false, false, true)
+                        .HasDatabaseName("IX_ChatMessages_Dialog_SentAt");
+
+                    b.ToTable("ChatMessages");
+                });
+
             modelBuilder.Entity("stutvds.DAL.Entities.DayLesson", b =>
                 {
                     b.Property<int>("Id")
@@ -428,6 +484,9 @@ namespace stutvds.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -451,7 +510,41 @@ namespace stutvds.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ApplicationUserId");
+
                     b.ToTable("Triggers");
+                });
+
+            modelBuilder.Entity("StopStatAuth_6_0.Entities.ApplicationUser", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.Property<int>("DayWordsLimit")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WordsSpoken")
+                        .HasColumnType("int");
+
+                    b.HasDiscriminator().HasValue("ApplicationUser");
+                });
+
+            modelBuilder.Entity("LearnerTeacher", b =>
+                {
+                    b.HasOne("StopStatAuth_6_0.Entities.ApplicationUser", "Learner")
+                        .WithMany("MyTeachers")
+                        .HasForeignKey("LearnerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("StopStatAuth_6_0.Entities.ApplicationUser", "Teacher")
+                        .WithMany("MyLearners")
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Learner");
+
+                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -516,9 +609,25 @@ namespace stutvds.Data.Migrations
                     b.Navigation("Histogram");
                 });
 
+            modelBuilder.Entity("stutvds.DAL.Entities.TriggerEntity", b =>
+                {
+                    b.HasOne("StopStatAuth_6_0.Entities.ApplicationUser", null)
+                        .WithMany("Triggers")
+                        .HasForeignKey("ApplicationUserId");
+                });
+
             modelBuilder.Entity("stutvds.DAL.Entities.Histogram", b =>
                 {
                     b.Navigation("Chars");
+                });
+
+            modelBuilder.Entity("StopStatAuth_6_0.Entities.ApplicationUser", b =>
+                {
+                    b.Navigation("MyLearners");
+
+                    b.Navigation("MyTeachers");
+
+                    b.Navigation("Triggers");
                 });
 #pragma warning restore 612, 618
         }

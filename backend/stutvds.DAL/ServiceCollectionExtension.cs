@@ -13,7 +13,9 @@ namespace stutvds.DAL
             serviceCollection.AddScoped<DayLessonRepository>();
             serviceCollection.AddScoped<VoiceAnalyseRepository>();
             serviceCollection.AddScoped<HistogramRepository>();
+            serviceCollection.AddScoped<UserRepository>();
             serviceCollection.AddScoped<IStoredProcedureInstaller, StoredProcedureInstaller>();
+            serviceCollection.AddScoped<ChatMessageRepository>();
         }
     }
 }

@@ -15,6 +15,7 @@ import { HistogramComponent } from './app/histogram/histogram.component';
 import { ConfirmEmailComponent } from './app/email/confirm-email/confirm-email.component';
 import { ResetPasswordComponent } from './app/email/reset-password/reset-password.component';
 import { appConfig } from './app/app.config';
+import { LinkedAccountsComponent } from './app/linked-accounts/linked-accounts.component';
 
 bootstrapApplication(AppComponent, appConfig).then(appRef => {
   const injector = appRef.injector;
@@ -42,6 +43,8 @@ bootstrapApplication(AppComponent, appConfig).then(appRef => {
 
   const confirmEmailEl = createCustomElement(ConfirmEmailComponent, { injector });
   customElements.define('stu-confirm-email', confirmEmailEl);
+  const linkedAccountsEl = createCustomElement(LinkedAccountsComponent, { injector });
+  customElements.define('stu-linked-accounts', linkedAccountsEl);
 
   const resetPasswordEl = createCustomElement(ResetPasswordComponent, { injector });
   customElements.define('stu-reset-password', resetPasswordEl);

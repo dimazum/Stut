@@ -2,11 +2,12 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using StopStatAuth_6_0.Entities;
 
 public static class DbInitializer
 {
     public static async Task SeedAsync(
-        UserManager<IdentityUser> userManager,
+        UserManager<ApplicationUser> userManager,
         RoleManager<IdentityRole> roleManager)
     {
         // --- Роли ---
@@ -25,7 +26,7 @@ public static class DbInitializer
         var admin = await userManager.FindByEmailAsync(adminEmail);
         if (admin == null)
         {
-            admin = new IdentityUser
+            admin = new ApplicationUser()
             {
                 UserName = adminEmail,
                 Email = adminEmail,

@@ -14,15 +14,16 @@ import { TextareaAutoClearComponent } from '../common/textarea-auto-clear/textar
 import { VoiceAnalysisService } from '../services/voice-analysis.service';
 import { AuthService } from '../services/auth.service';
 import { WpmService } from '../services/wpm.service';
+import { ChatComponent } from "../chat/chat.component";
 
 @Component({
   selector: 'stu-footer',
   standalone: true,
   imports: [CommonModule,
-     TextareaAutoClearComponent,
-     TimerComponent,
-     TriggerModalComponent,
-      VisualizerComponent],
+    TextareaAutoClearComponent,
+    TimerComponent,
+    TriggerModalComponent,
+    VisualizerComponent, ChatComponent],
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.css'],
 })

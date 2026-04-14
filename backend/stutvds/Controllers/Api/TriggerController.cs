@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using StopStatAuth_6_0.Entities.Enums;
-using stutvds.Common;
 using stutvds.Controllers.Base;
 using stutvds.DAL;
 using stutvds.DAL.Entities;
@@ -51,7 +50,7 @@ namespace stutvds.Controllers
             }
 
 
-            var userId = GetUserId();
+            var userId = Guid.Parse(GetUserId());
             var isExisted = await _triggerRepository.IfExistsAsync(x => 
                 x.Value == dto.Value && x.UserId == userId);
 

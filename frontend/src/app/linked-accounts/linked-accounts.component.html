@@ -1,0 +1,30 @@
+
+<div class="page">
+  <h1>Запрос контроля заданий</h1>
+
+  <input
+    type="text"
+    placeholder="Введите имя пользователя..."
+    [(ngModel)]="searchText"
+    (ngModelChange)="onSearchChange($event)"
+    class="search-input"
+  />
+
+  <div *ngIf="loading" class="loading">Поиск...</div>
+
+  <div *ngIf="users().length === 0 && !loading" class="empty">
+    Пользователь не найден
+  </div>
+
+  <div class="user-card" *ngFor="let user of users()">
+    <div>
+      <div class="name">{{ user.userName }}</div>
+      <div class="email">{{ user.email }}</div>
+    </div>
+
+    <button (click)="requestControl(user.id)" [disabled]="requestingId() === user.id">
+      {{ requestingId() === user.id ? 'Отправка...' : 'Запросить контроль заданий' }}
+    </button>
+  </div>
+</div>
+
