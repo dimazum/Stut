@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
+using stutvds.Localization;
 using stutvds.Logic.Services;
 using stutvds.Models.ClientDto;
 
@@ -13,11 +14,16 @@ public class LocalizationController : ControllerBase
 {
     private readonly IStringLocalizer<Shared> _localizer;
     private readonly ICurrentLanguage _language;
+    private readonly ILocalizationVersionStore _store;
 
-    public LocalizationController(IStringLocalizer<Shared> localizer, ICurrentLanguage language)
+    public LocalizationController(
+        IStringLocalizer<Shared> localizer,
+        ICurrentLanguage language,
+        ILocalizationVersionStore store)
     {
         _localizer = localizer;
         _language = language;
+        _store = store;
     }
 
     [HttpGet]
@@ -25,7 +31,10 @@ public class LocalizationController : ControllerBase
     {
         if (_language.Culture == null)
         {
-            return Ok(new LocalizationDto());
+            return Ok(new LocalizationDto
+            {
+                Version = _store.CurrentVersion
+            });
         }
         
         var ci = new CultureInfo(_language.Culture);
@@ -37,8 +46,9 @@ public class LocalizationController : ControllerBase
             .GetAllStrings()
             .ToDictionary(x => x.Name, x => x.Value);
 
-        var dto = new LocalizationDto()
+        var dto = new LocalizationDto
         {
+            Version = _store.CurrentVersion,
             Lang = _language.Culture,
             Translations = data
         };

@@ -66,4 +66,7 @@
     <data name="HowToRead" xml:space="preserve">
         <value>How to read</value>
     </data>
+    <data name="test123" xml:space="preserve">
+        <value>123</value>
+    </data>
 </root>

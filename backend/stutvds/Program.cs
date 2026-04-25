@@ -26,7 +26,7 @@ using stutvds.WebSocketHubs;
 using stutvds.Emails;
 using stutvds.MiddleWares;
 using stutvds.Emails.Senders;
-using stutvds.MiddleWares;
+using stutvds.Localization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -56,7 +56,7 @@ localizationOptions.RequestCultureProviders.Insert(0, routeProvider);
 
 builder.Services.AddLocalization(options =>
 {
-    options.ResourcesPath = "Localization";
+    options.ResourcesPath = "Localization/Resources";
 });
 
 builder.Services.AddControllersWithViews()
@@ -167,6 +167,7 @@ builder.Services.AddScoped<IEmailSender, SmtpEmailSender>();
 builder.Services.AddDataProtection()
     .PersistKeysToDbContext<ApplicationDbContext>()
     .SetApplicationName("StutVDS");
+
 if (builder.Environment.IsDevelopment())
 {
     builder.Services.AddScoped<IEmailSender, SmtpEmailSender>();
@@ -176,7 +177,9 @@ else
     builder.Services.AddScoped<IEmailSender, MailgunEmailSender>();
 }
 
-
+builder.Services.AddSingleton<LocalizationVersionCalculator>();
+builder.Services.AddSingleton<ILocalizationVersionStore, LocalizationVersionStore>();
+builder.Services.AddHostedService<LocalizationWatcher>();
 
 var app = builder.Build();
 // ----- PIPELINE -----
@@ -250,6 +253,7 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 app.MapHub<VoiceAnalysisHub>("/voice-analysis");
+app.MapHub<TranslationsHub>("/translations");
 
 //SEEDING
 using (var scope = app.Services.CreateScope())
