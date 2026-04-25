@@ -3,7 +3,7 @@ import { NotificationService } from '../services/notification.service';
 import { CommonModule } from '@angular/common';
 
 export interface Notification {
-  type: 'success' | 'error';
+  type: 'success' | 'error' | 'warning';
   message: string;
 }
 

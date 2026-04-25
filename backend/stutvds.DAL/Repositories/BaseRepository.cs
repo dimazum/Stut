@@ -51,5 +51,15 @@ namespace stutvds.DAL.Repositories
         {
             return await _dbContext.Set<T>().AnyAsync(predicate);
         }
+        
+        public async Task DeleteByIdAsync(int id)
+        {
+            var entity = await _dbContext.Set<T>().FindAsync(id);
+            if (entity == null)
+                throw new KeyNotFoundException($"Entity of type {typeof(T).Name} with Id {id} not found.");
+
+            _dbContext.Set<T>().Remove(entity);
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

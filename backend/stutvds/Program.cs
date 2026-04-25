@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RabbitMQ.Client;
+using StopStatAuth_6_0.Entities;
 using stutvds;
 using stutvds.Consumers;
 using stutvds.Controllers.MVC._Common;
@@ -81,7 +82,7 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services
-    .AddIdentity<IdentityUser, IdentityRole>(options =>
+    .AddIdentity<ApplicationUser, IdentityRole>(options =>
     {
         if (builder.Configuration.GetValue<bool>("Email:EnableEmailAuthentication"))
         {
@@ -253,13 +254,14 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 app.MapHub<VoiceAnalysisHub>("/voice-analysis");
+app.MapHub<ChatHub>("/chatHub");
 app.MapHub<TranslationsHub>("/translations");
 
 //SEEDING
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
-    var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
     
     await DbInitializer.SeedAsync(userManager, roleManager);

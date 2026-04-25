@@ -134,5 +134,7 @@ export class BackendService {
   public remoHistogramColumn(name: string, order: number): Observable<Histogram>{
     return this.httpClient.get<Histogram>(`${this.baseUrl}/histogram/removecolumn?name=${name}&order=${order}`);
   }
-
+  
+  public beLearner(teacherId: string){
+    return this.httpClient.post(`${this.baseUrl}/users/belearner`, { teacherId: teacherId}); }
 }

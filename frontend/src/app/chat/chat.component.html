@@ -1,0 +1,77 @@
+<div class="overlay" [style.display]="isOpen ? 'block' : 'none'" (click)="onToggle()"></div>
+<div class="chat-container" [ngClass]="{ 'trigger-modal-open': isOpen }">
+  <div class="chat-wrapper">
+    <div *ngIf="viewMode === 'list'" class="dialog-list">
+      <div class="header">Чаты</div>
+      <div class="dialog" *ngFor="let user of users" (click)="selectUser(user)">
+
+        <div class="dialog-top">
+          <div class="dialog-name">{{user.name}}</div>
+
+          <div class="dialog-right">
+            <!-- 🔴 БЕЙДЖ -->
+            <div class="unread-badge" *ngIf="user.unreadCount! > 0">
+              {{user.unreadCount}}
+            </div>
+
+            <!-- ⏰ ВРЕМЯ -->
+            <div class="dialog-time" *ngIf="user.lastMessageDate">
+              {{formatDialogDate(user.lastMessageDate)}}
+            </div>
+          </div>
+        </div>
+
+        <div class="dialog-last">
+          {{user.lastMessage || 'Нет сообщений'}}
+        </div>
+
+      </div>
+    </div>
+    <div *ngIf="viewMode === 'chat'" class="chat-screen">
+      <div class="chat-header">
+        <button class="back-btn" (click)="goBack()">←</button>
+        {{otherUserName}}
+      </div>
+      <div class="messages" #scrollMe>
+        <div *ngFor="let msg of messages" [class.my-message]="msg.senderId === myUserId" class="message">
+          <div *ngIf="msg.senderId === myUserId" (click)="deleteMessage(msg.id)" class="delete-message"></div>
+          <div class="author">
+            {{msg.senderId === myUserId ? 'Я' : otherUserName}}
+          </div>
+          <div class="text">
+            <ng-container *ngIf="msg.message === '$100'; else normalText">
+              Просит тебя добавить как наблюдающего
+              <button *ngIf="msg.senderId !== myUserId" class="chat-action-btn"
+                (click)="onSpecialAction(msg)">Добавить</button>
+            </ng-container>
+            <ng-template #normalText>
+              {{ msg.message }}
+            </ng-template>
+            <div class="message-meta">
+              <span class="time">
+                {{ msg.sentAt | date:'dd MMM yyyy HH:mm' }}
+              </span>
+
+              <span *ngIf="msg.senderId === myUserId" class="ticks">
+                <span *ngIf="!msg.readAt">✓</span>
+                <span *ngIf="msg.readAt" class="read">✓✓</span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="input-area">
+          <input [(ngModel)]="message" (keyup.enter)="send()" placeholder="Сообщение" />
+          <button (click)="send()">➤</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="trigger-modal-toggle-button">
+  <div class="chat-btn" (click)="onToggle()">
+    Чат
+
+    <span *ngIf="hasMessages" class="notify-dot"></span>
+  </div>
+  </div>
+</div>

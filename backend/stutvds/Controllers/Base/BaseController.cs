@@ -5,7 +5,6 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using StopStatAuth_6_0.Entities.Enums;
-using stutvds.Common;
 
 namespace stutvds.Controllers.Base
 {
@@ -33,11 +32,11 @@ namespace stutvds.Controllers.Base
             }
         }
         
-        protected Guid GetUserId()
+        protected string GetUserId()
         {
             var id = HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (id == null) throw new StuException("User not logged in", 3);
-            return Guid.Parse(id);
+            return id;
         }
 
         protected bool IsAuthenticated => HttpContext.User.Identity != null && HttpContext.User.Identity.IsAuthenticated;
@@ -56,6 +55,17 @@ namespace stutvds.Controllers.Base
 
                 return Language.None;
             }
+        }
+        
+        protected BadRequestObjectResult BadRequest(ErrorDefinition errorDefinition)
+        {
+            var response = new
+            {
+                code = errorDefinition.Code,
+                message = errorDefinition.Message
+            };
+
+            return base.BadRequest(response);
         }
     }
 }
