@@ -4,6 +4,7 @@ namespace stutvds.Models.ClientDto;
 
 public class LocalizationDto
 {
-    public Dictionary<string,string> Translations { get; set; }
+    public string Version { get; set; }
     public string Lang { get; set; }
+    public Dictionary<string,string> Translations { get; set; }
 }

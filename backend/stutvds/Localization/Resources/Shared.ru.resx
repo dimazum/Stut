@@ -19,51 +19,54 @@
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
     <data name="Main" xml:space="preserve">
-        <value />
+        <value>Главная</value>
     </data>
     <data name="ForgotYourPassword" xml:space="preserve">
-        <value />
-    </data>
-    <data name="DailyLesson" xml:space="preserve">
-        <value />
+        <value>Забыли пароль</value>
     </data>
     <data name="Texts" xml:space="preserve">
-        <value />
+        <value>Тексты</value>
     </data>
     <data name="Calendar" xml:space="preserve">
-        <value />
+        <value>Календарь</value>
+    </data>
+    <data name="DailyLesson" xml:space="preserve">
+        <value>Дневной урок</value>
     </data>
     <data name="PracticeWord" xml:space="preserve">
-        <value />
+        <value>Тренировать слово</value>
     </data>
     <data name="TaskInBackground" xml:space="preserve">
-        <value />
+        <value>Упражнения в фоне</value>
     </data>
     <data name="Login" xml:space="preserve">
-        <value />
+        <value>Логин</value>
     </data>
     <data name="Exercises" xml:space="preserve">
-        <value />
+        <value>Упражнения</value>
     </data>
     <data name="Methodology" xml:space="preserve">
-        <value />
+        <value>Методика</value>
     </data>
     <data name="VoiceAnalysis" xml:space="preserve">
-        <value />
+        <value>Анализ голоса</value>
     </data>
     <data name="LinkedAccounts" xml:space="preserve">
-        <value />
+        <value>Связанные аккаунты</value>
     </data>
     <data name="Records" xml:space="preserve">
-        <value />
-    </data>
-    <data name="AboutMethodology" xml:space="preserve">
-        <value />
+        <value>Записи</value>
     </data>
     <data name="RoboticVoice" xml:space="preserve">
-        <value />
+        <value>Голос робота</value>
+    </data>
+    <data name="AboutMethodology" xml:space="preserve">
+        <value>О метологии</value>
     </data>
     <data name="HowToRead" xml:space="preserve">
-        <value />
+        <value>Как читать</value>
+    </data>
+    <data name="test123" xml:space="preserve">
+        <value>124</value>
     </data>
 </root>
