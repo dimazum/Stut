@@ -8,6 +8,7 @@ services:
     command:
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.apiVersion=1.46"
 
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
