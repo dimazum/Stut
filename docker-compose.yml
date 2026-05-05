@@ -11,6 +11,8 @@ services:
       - RABBITMQ_HOST=rabbitmq
       - Mailgun__ApiKey=${Mailgun__ApiKey}
       - ConnectionStrings__Database=${ConnectionStrings__Database}
+      - DOCKER_API_VERSION=${DOCKER_API_VERSION}
+      - TRAEFIK_PROVIDERS_DOCKER_VERSION=${TRAEFIK_PROVIDERS_DOCKER_VERSION}
 
     volumes:
       - audio_data:/app/Uploads
