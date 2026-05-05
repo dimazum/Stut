@@ -12,7 +12,6 @@ services:
       - "--providers.docker.version=1.40"
 
       - "--entrypoints.web.address=:80"
-      - "--entrypoints.websecure.address=:443"
 
       - "--certificatesresolvers.le.acme.httpchallenge=true"
       - "--certificatesresolvers.le.acme.httpchallenge.entrypoint=web"
@@ -20,6 +19,9 @@ services:
       - "--certificatesresolvers.le.acme.storage=/letsencrypt/acme.json"
 
       - "--api.dashboard=true"
+
+    environment:
+      - DOCKER_API_VERSION=1.40
 
     ports:
       - "80:80"
