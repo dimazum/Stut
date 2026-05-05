@@ -9,7 +9,7 @@ echo "Updating repository..."
 
 GIT_USER="dimazum"
 GIT_TOKEN="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"
-git fetch https://${GIT_USER}:${GIT_TOKEN}@github.com/dimazum/Stut.git main --tags
+git fetch https://github.com/dimazum/Stut.git main --tags
 git reset --hard FETCH_HEAD
 
 
