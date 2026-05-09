@@ -4,12 +4,19 @@ services:
 
   traefik:
     image: traefik:v3.0
+    
+    # Ограничение памяти
+    deploy:
+      resources:
+        limits:
+          memory: 256M    # максимум памяти
 
     command:
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
 
       - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"  # добавьте для HTTPS
 
       - "--certificatesresolvers.le.acme.httpchallenge=true"
       - "--certificatesresolvers.le.acme.httpchallenge.entrypoint=web"
