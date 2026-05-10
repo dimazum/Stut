@@ -35,7 +35,7 @@ services:
     labels:
       - "traefik.enable=true"
 
-      - "traefik.http.routers.traefik-dashboard.rule=Host(`traefik.stut.mooo.com`)"
+      - "traefik.http.routers.traefik-dashboard.rule=Host(`traefik.stut.duckdns.org`)"
       - "traefik.http.routers.traefik-dashboard.entrypoints=websecure"
       - "traefik.http.routers.traefik-dashboard.tls.certresolver=le"
 

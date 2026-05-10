@@ -4,7 +4,7 @@
     labels:
       - "traefik.enable=true"
 
-      - "traefik.http.routers.backend-prod.rule=Host(`stut.mooo.com`)"
+      - "traefik.http.routers.backend-prod.rule=Host(`stut.duckdns.org`)"
       - "traefik.http.routers.backend-prod.entrypoints=websecure"
       - "traefik.http.routers.backend-prod.tls.certresolver=le"
 
