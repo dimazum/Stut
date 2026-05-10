@@ -4,7 +4,7 @@ services:
   traefik:
     image: traefik:v3.3
     environment:
-      - DOCKER_API_VERSION=1.40
+      - DOCKER_API_VERSION=1.41
     
     deploy:
       resources:
