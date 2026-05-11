@@ -1,7 +1,6 @@
 ﻿version: "3.9"
 
 services:
-
   traefik:
     image: traefik:v3.6.2
 
@@ -10,16 +9,15 @@ services:
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
-      - "--certificatesresolvers.le.acme.dnschallenge=true"
-      - "--certificatesresolvers.le.acme.dnschallenge.provider=duckdns"
+      
+      # Для DuckDNS используем HTTP challenge
+      - "--certificatesresolvers.le.acme.httpchallenge=true"
+      - "--certificatesresolvers.le.acme.httpchallenge.entrypoint=web"
       - "--certificatesresolvers.le.acme.email=dimazum@mail.ru"
       - "--certificatesresolvers.le.acme.storage=/letsencrypt/acme.json"
+      - "--certificatesresolvers.le.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory" # staging для теста
 
       - "--api.dashboard=true"
-
-    environment:
-      - DUCKDNS_TOKEN=94c2bbb8-cccb-4b3a-ac1d-c6075c9a91a6
-
 
     ports:
       - "80:80"
@@ -45,6 +43,14 @@ services:
 
       - "traefik.http.middlewares.dashboard-auth.basicauth.users=admin:$$apr1$$j801xo4j$$psVjjf0i/.qYlEJKtH/yN/"
       - "traefik.http.routers.traefik-dashboard.middlewares=dashboard-auth"
+      
+      # Опционально: редирект HTTP на HTTPS
+      - "traefik.http.routers.traefik-dashboard-insecure.rule=Host(`traefik.stut.duckdns.org`)"
+      - "traefik.http.routers.traefik-dashboard-insecure.entrypoints=web"
+      - "traefik.http.routers.traefik-dashboard-insecure.middlewares=redirect-to-https"
+      
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.permanent=true"
 
 networks:
   traefik_proxy:
