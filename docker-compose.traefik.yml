@@ -1,20 +1,35 @@
-﻿services:
+﻿version: "3.9"
+
+services:
   traefik:
     image: traefik:v3.6.2
+    container_name: traefik
 
     command:
+      # Docker provider
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
+
+      # EntryPoints
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
+
+      # HTTP → HTTPS redirect
       - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
-      - "traefik.http.routers.traefik-dashboard.tls=true"
       - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
-      - "--certificatesresolvers.le.acme.dnschallenge=true"
-      - "--certificatesresolvers.le.acme.dnschallenge.provider=duckdns"
+
+      # API + Dashboard (ВАЖНО для api@internal)
+      - "--api=true"
+      - "--api.dashboard=true"
+
+      # Let's Encrypt DNS challenge (Traefik v3 syntax!)
+      - "--certificatesresolvers.le.acme.dnsChallenge=true"
+      - "--certificatesresolvers.le.acme.dnsChallenge.provider=duckdns"
       - "--certificatesresolvers.le.acme.email=dimazum@mail.ru"
       - "--certificatesresolvers.le.acme.storage=/letsencrypt/acme.json"
-      - "--api.dashboard=true"
+
+      # полезно для отладки
+      - "--log.level=INFO"
 
     environment:
       - DUCKDNS_TOKEN=94c2bbb8-cccb-4b3a-ac1d-c6075c9a91a6
@@ -31,13 +46,20 @@
     networks:
       - traefik_proxy
 
+    restart: unless-stopped
+
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik_proxy"
+
+      # Dashboard router
       - "traefik.http.routers.traefik-dashboard.rule=Host(`traefik.stut.duckdns.org`)"
       - "traefik.http.routers.traefik-dashboard.entrypoints=websecure"
+      - "traefik.http.routers.traefik-dashboard.tls=true"
       - "traefik.http.routers.traefik-dashboard.tls.certresolver=le"
       - "traefik.http.routers.traefik-dashboard.service=api@internal"
+
+      # Basic auth (admin/admin)
       - "traefik.http.middlewares.dashboard-auth.basicauth.users=admin:$$apr1$$j801xo4j$$psVjjf0i/.qYlEJKtH/yN/"
       - "traefik.http.routers.traefik-dashboard.middlewares=dashboard-auth"
 
