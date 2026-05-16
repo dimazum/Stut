@@ -24,16 +24,11 @@ services:
 
       # Let's Encrypt DNS challenge (Traefik v3 syntax!)
       - "--certificatesresolvers.le.acme.dnsChallenge=true"
-      - "--certificatesresolvers.le.acme.dnsChallenge.provider=duckdns"
       - "--certificatesresolvers.le.acme.email=dimazum@mail.ru"
       - "--certificatesresolvers.le.acme.storage=/letsencrypt/acme.json"
 
       # полезно для отладки
       - "--log.level=INFO"
-
-    environment:
-      - DUCKDNS_TOKEN=94c2bbb8-cccb-4b3a-ac1d-c6075c9a91a6
-      - DUCKDNS_DOMAINS=stut
 
     ports:
       - "80:80"
