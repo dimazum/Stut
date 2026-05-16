@@ -44,3 +44,11 @@ login:
 admin
 pass:
 traefik
+
+
+#Разворачиваение на новой vps
+0. Проверить что порты не заняты вредоносными программами (sudo lsof -i :443)
+1. Установить git, docker (docker compose)
+2. Добавить файл с переменными .env (nano)
+3. Поднять traefik (sh .deploy.traefik.sh)
+4. Поднять основной проект (sh ./deploy.prod.sh)
